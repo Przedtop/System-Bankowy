@@ -29,7 +29,7 @@ public class Logowanie {
 
     public static boolean logowanie(){
         TextEdit.wyczyscKonsole();
-        System.out.println("Witaj w panelu logowania");
+        System.out.println("Witaj w panelu logowania!");
         System.out.println("Podaj swój login lub idKey: ");
         String login = input.nextLine();
         System.out.println("Podaj swoje hasło: ");
