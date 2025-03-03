@@ -1,0 +1,2 @@
+public interface SBRepo extends {
+}
