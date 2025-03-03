@@ -1,2 +1,2 @@
-public interface SBRepo extends {
+public interface SBRepo extends CrudRepository<SB, Long> {
 }
