@@ -26,7 +26,7 @@ public class UserData {
     }
 
     public void searchUser() {
-
+        Users user = new Users();
     }
     
 
