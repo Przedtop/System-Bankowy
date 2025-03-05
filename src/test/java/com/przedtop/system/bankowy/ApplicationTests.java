@@ -17,7 +17,7 @@ class ApplicationTests {
         Users user = new Users();
         user.setNazwisko("Nazwis");
         user.setImie("Imie");
-        user.setPesel(1234);
+        user.setPesel(123124);
         user.setHaslo("Haslo");
         user.setLogin("Login");
         repo.save(user);
