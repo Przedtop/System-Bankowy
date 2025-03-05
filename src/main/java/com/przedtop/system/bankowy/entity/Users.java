@@ -8,7 +8,8 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long Id;
     @Column(name = "imie")
     private String imie;
     @Column(name = "nazwisko")
@@ -23,9 +24,9 @@ public class Users {
     @Override
     public String toString() {
         return "Users{" +
-                "id='" + id + '\'' +
+                "id='" + Id + '\'' +
                 ", imie='" + imie + '\'' +
-                ", nazwiso='" + nazwisko + '\'' +
+                ", nazwisko='" + nazwisko + '\'' +
                 ", pesel='" + pesel + '\'' +
                 ", login='" + login + '\'' +
                 ", haslo='" + haslo + '\'' +
@@ -33,11 +34,11 @@ public class Users {
     }
 
     public Long getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getHaslo() {
