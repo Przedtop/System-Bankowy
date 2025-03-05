@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         var context = SpringApplication.run(Main.class, args);
         UserService userService = context.getBean(UserService.class);
-        Users users = userService.editUserById(1L,"dasd","asd",12,"Assssssss","skibi");
+        Users users = userService.editUserById(1L,"","asd",1234,"Asss","skibi");
     }
 
 }

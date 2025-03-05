@@ -14,6 +14,8 @@ public class Accounts {
     private double saldo;
     @Column(name = "data_zalozenia")
     private String data_utworzenia;
+    @Column(name = "user_id")
+    private long userId;
 
     @Override
     public String toString() {
@@ -21,9 +23,17 @@ public class Accounts {
                 "nrKonta=" + nrKonta +
                 ", saldo=" + saldo +
                 ", data_utworzenia='" + data_utworzenia + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
     public long getNrKonta() {
         return nrKonta;
     }

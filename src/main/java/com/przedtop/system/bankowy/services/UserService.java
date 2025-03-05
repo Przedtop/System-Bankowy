@@ -31,11 +31,11 @@ public class UserService {
 
     public Users editUserById(Long id, String imie, String nazwisko, int pesel, String haslo, String login) {
         Users user = getUserById(id);
-        user.setImie(imie);
-        user.setNazwisko(nazwisko);
-        user.setPesel(pesel);
-        user.setHaslo(haslo);
-        user.setLogin(login);
+        if(!imie.isEmpty()) user.setImie(imie);
+        if(!nazwisko.isEmpty())user.setNazwisko(nazwisko);
+        if(pesel!=0) user.setPesel(pesel);
+        if(!haslo.isEmpty()) user.setHaslo(haslo);
+        if(!login.isEmpty()) user.setLogin(login);
         return repo.save(user);
     }
 }
