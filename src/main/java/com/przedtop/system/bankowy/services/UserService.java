@@ -1,6 +1,7 @@
 package com.przedtop.system.bankowy.services;
 
 import com.przedtop.system.bankowy.controllers.model.UserRequestDataModel;
+import com.przedtop.system.bankowy.controllers.model.UserUpdateDataModel;
 import com.przedtop.system.bankowy.entity.Users;
 import com.przedtop.system.bankowy.repozytoria.SystemBankowyUsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ public class UserService {
         user.setPesel(userRequestDataModel.getPesel());
         user.setHaslo(userRequestDataModel.getHaslo());
         user.setLogin(userRequestDataModel.getLogin());
-        repo.save(user);
-        return user;
+        return repo.save(user);
     }
 
     public Users getUserById(Long id) {
@@ -31,13 +31,13 @@ public class UserService {
         repo.deleteById(id);
     }
 
-    public Users editUserById(Long id, String imie, String nazwisko, int pesel, String haslo, String login) {
-        Users user = getUserById(id);
-        if(!imie.isEmpty()) user.setImie(imie);
-        if(!nazwisko.isEmpty())user.setNazwisko(nazwisko);
-        if(pesel!=0) user.setPesel(pesel);
-        if(!haslo.isEmpty()) user.setHaslo(haslo);
-        if(!login.isEmpty()) user.setLogin(login);
+    public Users editUserById(UserUpdateDataModel userUpdateDataModel) {
+        Users user = getUserById(userUpdateDataModel.getId());
+        user.setNazwisko(userUpdateDataModel.getNazwisko());
+        user.setImie(userUpdateDataModel.getImie());
+        user.setPesel(userUpdateDataModel.getPesel());
+        user.setHaslo(userUpdateDataModel.getHaslo());
+        user.setLogin(userUpdateDataModel.getLogin());
         return repo.save(user);
     }
 }

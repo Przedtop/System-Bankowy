@@ -1,5 +1,6 @@
 package com.przedtop.system.bankowy.services;
 
+import com.przedtop.system.bankowy.controllers.model.AccountRequestDataModel;
 import com.przedtop.system.bankowy.entity.Accounts;
 import com.przedtop.system.bankowy.repozytoria.SystemBankowyAccountsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,13 @@ public class AccountService {
     @Autowired
     private SystemBankowyAccountsRepo repo;
 
-    public void createAccount(long nrKonta, double saldo, String dataZalozenia) {
+    public Accounts createAccount(AccountRequestDataModel accountRequestDataModel) {
         Accounts accounts = new Accounts();
-        accounts.setNrKonta(nrKonta);
-        accounts.setSaldo(saldo);
-        accounts.setData_utworzenia(dataZalozenia);
-        repo.save(accounts);
+        accounts.setNrKonta(accountRequestDataModel.getNrKonta());
+        accounts.setSaldo(accountRequestDataModel.getSaldo());
+        accounts.setData_utworzenia(accountRequestDataModel.getData_zalozenia());
+        accounts.setUserId(accountRequestDataModel.getUserId());
+        return repo.save(accounts);
     }
 
     public Accounts getAccount(Long nrKonta) {
@@ -27,11 +29,11 @@ public class AccountService {
         repo.deleteById(nrKonta);
     }
 
-    public Accounts editAccount(long nrKonta, double saldo, String dataZalozenia) {
-        Accounts accounts = getAccount(nrKonta);
-        accounts.setSaldo(saldo);
-        if(!dataZalozenia.isEmpty()) accounts.setData_utworzenia(dataZalozenia);
-        repo.save(accounts);
+    public Accounts editAccount(AccountRequestDataModel accountRequestDataModel) {
+        Accounts accounts = getAccount(accountRequestDataModel.getNrKonta());
+        accounts.setNrKonta(accountRequestDataModel.getNrKonta());
+        accounts.setSaldo(accountRequestDataModel.getSaldo());
+        accounts.setData_utworzenia(accountRequestDataModel.getData_zalozenia());
         return repo.save(accounts);
     }
 }

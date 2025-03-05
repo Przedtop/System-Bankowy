@@ -1,6 +1,9 @@
 package com.przedtop.system.bankowy;
 
+import com.przedtop.system.bankowy.controllers.model.AccountRequestDataModel;
+import com.przedtop.system.bankowy.entity.Accounts;
 import com.przedtop.system.bankowy.entity.Users;
+import com.przedtop.system.bankowy.repozytoria.SystemBankowyAccountsRepo;
 import com.przedtop.system.bankowy.repozytoria.SystemBankowyUsersRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,22 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ApplicationTests {
 
     @Autowired
-    private SystemBankowyUsersRepo repo;
+    private SystemBankowyAccountsRepo repo;
 
     @Test
-    void createUserTest() {
-        Users user = new Users();
-        user.setNazwisko("Nazwis");
-        user.setImie("Imie");
-        user.setPesel(123124);
-        user.setHaslo("Haslo");
-        user.setLogin("Login");
-        repo.save(user);
-    }
-
-    @Test
-    void getUserTest() {
-        Users users = repo.findById(1L).get();
-        System.out.println(users);
+    public void createAccount() {
+        Accounts accounts = new Accounts();
+        accounts.setNrKonta(9341124);
+        accounts.setSaldo(2123);
+        accounts.setData_utworzenia("accountRequestDataModel.getData_zalozenia()");
+        repo.save(accounts);
     }
 }

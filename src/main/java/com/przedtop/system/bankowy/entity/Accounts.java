@@ -17,6 +17,7 @@ public class Accounts {
     @Column(name = "user_id")
     private long userId;
 
+
     @Override
     public String toString() {
         return "Accounts{" +

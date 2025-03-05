@@ -1,6 +1,7 @@
 package com.przedtop.system.bankowy.controllers;
 
 import com.przedtop.system.bankowy.controllers.model.UserRequestDataModel;
+import com.przedtop.system.bankowy.controllers.model.UserUpdateDataModel;
 import com.przedtop.system.bankowy.entity.Users;
 import com.przedtop.system.bankowy.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create")
+    @PostMapping
     public Users createUser(@RequestBody UserRequestDataModel userRequestDataModel) {
         System.out.println("request data: " + userRequestDataModel);
         return userService.createUser(userRequestDataModel);
@@ -24,14 +25,15 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
     }
 
-    @GetMapping("/update")
-    public void updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
-        System.out.println("request data: " + userRequestDataModel);
+    @PutMapping
+    public Users updateUser(@RequestBody UserUpdateDataModel userUpdateDataModel) {
+        System.out.println("update data: " + userUpdateDataModel);
+        return userService.editUserById(userUpdateDataModel);
     }
 }
 

@@ -1,6 +1,5 @@
 package com.przedtop.system.bankowy.controllers.model;
 
-
 public class UserRequestDataModel {
 
 
