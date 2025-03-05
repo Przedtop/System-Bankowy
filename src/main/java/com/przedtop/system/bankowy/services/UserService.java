@@ -1,4 +1,4 @@
-package com.przedtop.system.bankowy.datamanage;
+package com.przedtop.system.bankowy.services;
 
 import com.przedtop.system.bankowy.entity.Users;
 import com.przedtop.system.bankowy.repozytoria.SystemBankowyUsersRepo;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserData {
+public class UserService {
 
     @Autowired
     private SystemBankowyUsersRepo repo;
@@ -23,5 +23,9 @@ public class UserData {
 
     public Users getUserById(Long id) {
         return repo.findById(id).get();
+    }
+
+    public void deleteUserById(Long id) {
+        repo.deleteById(id);
     }
 }
