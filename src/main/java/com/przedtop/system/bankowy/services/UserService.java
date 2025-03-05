@@ -1,5 +1,6 @@
 package com.przedtop.system.bankowy.services;
 
+import com.przedtop.system.bankowy.controllers.model.UserRequestData;
 import com.przedtop.system.bankowy.entity.Users;
 import com.przedtop.system.bankowy.repozytoria.SystemBankowyUsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,15 @@ public class UserService {
     @Autowired
     private SystemBankowyUsersRepo repo;
 
-    public void createUser(String imie, String nazwisko, int pesel, String haslo, String login) {
+    public Users createUser(UserRequestData userRequestData) {
         Users user = new Users();
-        user.setNazwisko(nazwisko);
-        user.setImie(imie);
-        user.setPesel(pesel);
-        user.setHaslo(haslo);
-        user.setLogin(login);
+        user.setNazwisko(userRequestData.getNazwisko());
+        user.setImie(userRequestData.getImie());
+        user.setPesel(userRequestData.getPesel());
+        user.setHaslo(userRequestData.getHaslo());
+        user.setLogin(userRequestData.getLogin());
         repo.save(user);
+        return user;
     }
 
     public Users getUserById(Long id) {

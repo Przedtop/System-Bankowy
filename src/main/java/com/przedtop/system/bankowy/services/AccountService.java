@@ -20,7 +20,7 @@ public class AccountService {
     }
 
     public Accounts getAccount(Long nrKonta) {
-        return repo.findById(nrKonta).get();
+        return repo.findById(nrKonta).orElseThrow();
     }
 
     public void deleteAccount(Long nrKonta) {
