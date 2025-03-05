@@ -28,4 +28,14 @@ public class UserService {
     public void deleteUserById(Long id) {
         repo.deleteById(id);
     }
+
+    public Users editUserById(Long id, String imie, String nazwisko, int pesel, String haslo, String login) {
+        Users user = getUserById(id);
+        user.setImie(imie);
+        user.setNazwisko(nazwisko);
+        user.setPesel(pesel);
+        user.setHaslo(haslo);
+        user.setLogin(login);
+        return repo.save(user);
+    }
 }
