@@ -1,13 +1,25 @@
 package com.przedtop.system.bankowy.controllers.model;
 
 
-public class UserRequestData {
+public class UserRequestDataModel {
+
 
     private String nazwisko;
     private String imie;
     private int pesel;
     private String haslo;
     private String login;
+
+    @Override
+    public String toString() {
+        return "UserRequestDataModel{" +
+                "nazwisko='" + nazwisko + '\'' +
+                ", imie='" + imie + '\'' +
+                ", pesel=" + pesel +
+                ", haslo='" + haslo + '\'' +
+                ", login='" + login + '\'' +
+                '}';
+    }
 
     public void setNazwisko(String nazwisko) {
         this.nazwisko = nazwisko;
