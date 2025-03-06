@@ -1,5 +1,4 @@
-package com.przedtop.system.bankowy.controllers.model;
-
+package com.przedtop.bank.system.controllers.model;
 
 
 public class AccountRequestDataModel {

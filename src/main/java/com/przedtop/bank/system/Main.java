@@ -1,6 +1,6 @@
-package com.przedtop.system.bankowy;
+package com.przedtop.bank.system;
 
-import com.przedtop.system.bankowy.services.UserService;
+import com.przedtop.bank.system.services.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

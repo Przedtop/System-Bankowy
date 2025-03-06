@@ -1,8 +1,8 @@
-package com.przedtop.system.bankowy.controllers;
+package com.przedtop.bank.system.controllers;
 
-import com.przedtop.system.bankowy.controllers.model.UserRequestDataModel;
-import com.przedtop.system.bankowy.entity.Users;
-import com.przedtop.system.bankowy.services.UserService;
+import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
+import com.przedtop.bank.system.entity.Users;
+import com.przedtop.bank.system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
-package com.przedtop.system.bankowy.controllers;
+package com.przedtop.bank.system.controllers;
 
-import com.przedtop.system.bankowy.controllers.model.MoneyTransferRequestDataModel;
-import com.przedtop.system.bankowy.services.MoneyTransferService;
+import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
+import com.przedtop.bank.system.services.MoneyTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/transfer")
+@RequestMapping("/api/transfer")
 public class MoneyTransferController {
 
     @Autowired
@@ -18,6 +18,8 @@ public class MoneyTransferController {
     @PostMapping
     public void transferMoney(@RequestBody MoneyTransferRequestDataModel moneyTransferRequestDataModel) {
         System.out.println("received request: " + moneyTransferRequestDataModel);
-        moneyTransferService.moneyTransfer(moneyTransferRequestDataModel);
+        if (moneyTransferService.moneyTransfer(moneyTransferRequestDataModel))
+            System.out.println("money transferred successfully");
+        else System.out.println("money transferred failed");
     }
 }

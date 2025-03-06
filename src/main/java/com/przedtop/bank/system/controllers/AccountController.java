@@ -1,8 +1,8 @@
-package com.przedtop.system.bankowy.controllers;
+package com.przedtop.bank.system.controllers;
 
-import com.przedtop.system.bankowy.controllers.model.AccountRequestDataModel;
-import com.przedtop.system.bankowy.entity.Accounts;
-import com.przedtop.system.bankowy.services.AccountService;
+import com.przedtop.bank.system.controllers.model.AccountRequestDataModel;
+import com.przedtop.bank.system.entity.Accounts;
+import com.przedtop.bank.system.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ public class AccountController {
 
     @PostMapping
     public Accounts createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
-        System.out.println("request data: " + accountRequestDataModel);
+        System.out.println("create account data:" + accountRequestDataModel);
         return accountService.createAccount(accountRequestDataModel);
     }
 
