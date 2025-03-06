@@ -24,7 +24,7 @@ public class MoneyTransferService {
         double saldoNadawcy = accountService.getBalanceByNrKonta(nadawca.getNrKonta());
         double saldoOdbiorcy= accountService.getBalanceByNrKonta(odbiorca.getNrKonta());
 
-        if(saldoNadawcy>=moneyTransferRequestDataModel.getNrKontaNadawcy()) {
+        if(saldoNadawcy>=moneyTransferRequestDataModel.getSumaDoPrzelania()){
             odbiorca.setSaldo(saldoOdbiorcy+moneyTransferRequestDataModel.getSumaDoPrzelania());
             nadawca.setSaldo(saldoNadawcy-moneyTransferRequestDataModel.getSumaDoPrzelania());
 
