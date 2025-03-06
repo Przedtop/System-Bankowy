@@ -28,8 +28,12 @@ public class UserService {
         return repo.findById(id).get();
     }
 
-    public void deleteUserById(Long id) {
-        repo.deleteById(id);
+    public boolean deleteUserById(Long id) {
+        if (getUserById(id) != null) {
+            repo.deleteById(id);
+            return true;
+        }
+        else return false;
     }
 
     public Users editUserById(UserRequestDataModel userRequestDataModel) {

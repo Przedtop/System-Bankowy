@@ -51,7 +51,7 @@ public class AccountService {
             account.setCreateDate(data);
         }
 
-        if(accountRequestDataModel.getUserId()!=0)
+        if (accountRequestDataModel.getUserId() != 0)
             account.setUserId(accountRequestDataModel.getUserId());
         else
             account.setUserId(0);
@@ -63,13 +63,13 @@ public class AccountService {
     public Accounts editAccount(AccountRequestDataModel accountRequestDataModel) {
         Accounts account = getAccountById(accountRequestDataModel.getAccountNumber());
 
-        if(accountRequestDataModel.getAccountNumber() != null)
+        if (accountRequestDataModel.getAccountNumber() != null)
             account.setAccountNumber(accountRequestDataModel.getAccountNumber());
 
-        if(accountRequestDataModel.getBalance() != 0)
+        if (accountRequestDataModel.getBalance() != 0)
             account.setBalance(accountRequestDataModel.getBalance());
 
-        if(accountRequestDataModel.getCreateDate() != null)
+        if (accountRequestDataModel.getCreateDate() != null)
             account.setCreateDate(accountRequestDataModel.getCreateDate());
 
         return repo.save(account);
@@ -77,15 +77,18 @@ public class AccountService {
 
 
     public Accounts getAccountById(Long id) {
-        return repo.findById(id).orElseThrow();
+        return repo.findById(id).get();
     }
 
     public Accounts getAccountByAccountNumber(Long accountNumber) {
         return repo.findByAccountNumber(accountNumber);
     }
 
-    public void deleteAccountByIDd(Long id) {
-        repo.deleteById(id);
+    public boolean deleteAccountByIDd(Long id) {
+        if (getAccountById(id) != null) {
+            repo.deleteById(id);
+            return true;
+        } else return false;
     }
 
     public void deleteAccountByAccountNumber(Long accountNumber) {

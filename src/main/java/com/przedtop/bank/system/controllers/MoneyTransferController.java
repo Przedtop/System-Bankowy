@@ -16,10 +16,15 @@ public class MoneyTransferController {
     private MoneyTransferService moneyTransferService;
 
     @PostMapping
-    public void transferMoney(@RequestBody MoneyTransferRequestDataModel moneyTransferRequestDataModel) {
-        System.out.println("received request: " + moneyTransferRequestDataModel);
-        if (moneyTransferService.moneyTransfer(moneyTransferRequestDataModel))
+    public String transferMoney(@RequestBody MoneyTransferRequestDataModel moneyTransferRequestDataModel) {
+        System.out.println("POST(/api/transfer) request data: " + moneyTransferRequestDataModel);
+        if (moneyTransferService.moneyTransfer(moneyTransferRequestDataModel)) {
             System.out.println("money transferred successfully");
-        else System.out.println("money transferred failed");
+            return "money transferred successfully";
+        }
+        else {
+            System.out.println("money transfer failed");
+            return "money transfer failed";
+        }
     }
 }

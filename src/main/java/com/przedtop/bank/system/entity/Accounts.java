@@ -10,13 +10,13 @@ public class Accounts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "accountNumber")
+    @Column(name = "account_number")
     private long accountNumber;
     @Column(name = "balance")
     private double balance;
-    @Column(name = "createDate")
+    @Column(name = "create_date")
     private String createDate;
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private long userId;
 
     @Override

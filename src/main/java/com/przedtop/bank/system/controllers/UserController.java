@@ -15,23 +15,31 @@ public class UserController {
 
     @PostMapping
     public Users createUser(@RequestBody UserRequestDataModel userRequestDataModel) {
-        System.out.println("request data: " + userRequestDataModel);
+        System.out.println("POST(/api/users) request data: " + userRequestDataModel);
         return userService.createUser(userRequestDataModel);
     }
 
     @GetMapping("/{id}")
     public Users getUserById(@PathVariable Long id) {
+        System.out.println("GET(/api/users) request data: " + userService.getUserById(id));
         return userService.getUserById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable Long id) {
-        userService.deleteUserById(id);
+    public String deleteUserById(@PathVariable Long id) {
+        System.out.println("DELETE(/api/users) request data: " + userService.getUserById(id));
+        if(userService.deleteUserById(id)){
+            System.out.println("deleted successfully");
+            return "deleted successfully";
+        } else {
+            System.out.println("delete failed");
+            return "delete failed";
+        }
     }
 
     @PutMapping
     public Users updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
-        System.out.println("update data: " + userRequestDataModel);
+        System.out.println("PUT(/api/users) request data: " + userRequestDataModel);
         return userService.editUserById(userRequestDataModel);
     }
 }
