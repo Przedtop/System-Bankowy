@@ -2,7 +2,7 @@ package com.przedtop.system.bankowy.controllers.model;
 
 public class UserRequestDataModel {
 
-
+    private Long id;
     private String nazwisko;
     private String imie;
     private int pesel;
@@ -11,52 +11,63 @@ public class UserRequestDataModel {
 
     @Override
     public String toString() {
-        return "UserRequestDataModel{" +
-                "nazwisko='" + nazwisko + '\'' +
+        return "UserUpdateDataModel{" +
+                "id='" + id + '\'' +
+                ", nazwisko='" + nazwisko + '\'' +
                 ", imie='" + imie + '\'' +
-                ", pesel=" + pesel +
+                ", pesel='" + pesel + '\'' +
                 ", haslo='" + haslo + '\'' +
                 ", login='" + login + '\'' +
                 '}';
     }
 
-    public void setNazwisko(String nazwisko) {
-        this.nazwisko = nazwisko;
+    public Long getId() {
+        return id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setHaslo(String haslo) {
-        this.haslo = haslo;
-    }
-
-    public void setPesel(int pesel) {
-        this.pesel = pesel;
+    public String getImie() {
+        return imie;
     }
 
     public void setImie(String imie) {
         this.imie = imie;
     }
 
-    public String getNazwisko() {
-        return nazwisko;
-    }
-    public String getImie() {
-        return imie;
+    public String getLogin() {
+        return login;
     }
 
-    public int getPesel() {
-        return pesel;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getHaslo() {
         return haslo;
     }
 
-    public String getLogin() {
-        return login;
+    public void setHaslo(String haslo) {
+        this.haslo = haslo;
     }
+
+    public String getNazwisko() {
+        return nazwisko;
+    }
+
+    public void setNazwisko(String nazwisko) {
+        this.nazwisko = nazwisko;
+    }
+
+    public int getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(int pesel) {
+        this.pesel = pesel;
+    }
+
 
 }

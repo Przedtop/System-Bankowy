@@ -4,19 +4,30 @@ package com.przedtop.system.bankowy.controllers.model;
 
 public class AccountRequestDataModel {
 
+    private String id;
     private Long nrKonta;
     private double saldo;
-    private String data_zalozenia;
+    private String dataUtworzenia;
     private int userId;
+
 
     @Override
     public String toString() {
         return "AccountRequestDataModel{" +
-                "nrKonta=" + nrKonta +
+                "id='" + id + '\'' +
+                ", nrKonta=" + nrKonta +
                 ", saldo=" + saldo +
-                ", data_zalozenia='" + data_zalozenia + '\'' +
+                ", dataUtworzenia='" + dataUtworzenia + '\'' +
                 ", userId=" + userId +
                 '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Long getNrKonta() {
@@ -43,11 +54,11 @@ public class AccountRequestDataModel {
         this.userId = userId;
     }
 
-    public String getData_zalozenia() {
-        return data_zalozenia;
+    public String getDataUtworzenia() {
+        return dataUtworzenia;
     }
 
-    public void setData_zalozenia(String data_zalozenia) {
-        this.data_zalozenia = data_zalozenia;
+    public void setDataUtworzenia(String dataUtworzenia) {
+        this.dataUtworzenia = dataUtworzenia;
     }
 }

@@ -16,7 +16,7 @@ public class AccountService {
         Accounts accounts = new Accounts();
         accounts.setNrKonta(accountRequestDataModel.getNrKonta());
         accounts.setSaldo(accountRequestDataModel.getSaldo());
-        accounts.setData_utworzenia(accountRequestDataModel.getData_zalozenia());
+        accounts.setDataUtworzenia(accountRequestDataModel.getDataUtworzenia());
         accounts.setUserId(accountRequestDataModel.getUserId());
         return repo.save(accounts);
     }
@@ -33,7 +33,7 @@ public class AccountService {
         Accounts accounts = getAccount(accountRequestDataModel.getNrKonta());
         accounts.setNrKonta(accountRequestDataModel.getNrKonta());
         accounts.setSaldo(accountRequestDataModel.getSaldo());
-        accounts.setData_utworzenia(accountRequestDataModel.getData_zalozenia());
+        accounts.setDataUtworzenia(accountRequestDataModel.getDataUtworzenia());
         return repo.save(accounts);
     }
 }

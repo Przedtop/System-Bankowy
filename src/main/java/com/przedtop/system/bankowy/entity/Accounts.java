@@ -8,22 +8,23 @@ public class Accounts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
     @Column(name = "nr_konta")
     private long nrKonta;
     @Column(name="saldo")
     private double saldo;
-    @Column(name = "data_zalozenia")
-    private String data_utworzenia;
+    @Column(name = "data_utworzenia")
+    private String dataUtworzenia;
     @Column(name = "user_id")
     private long userId;
-
 
     @Override
     public String toString() {
         return "Accounts{" +
                 "nrKonta=" + nrKonta +
                 ", saldo=" + saldo +
-                ", data_utworzenia='" + data_utworzenia + '\'' +
+                ", dataUtworzenia='" + dataUtworzenia + '\'' +
                 ", userId=" + userId +
                 '}';
     }
@@ -51,11 +52,11 @@ public class Accounts {
         this.saldo = saldo;
     }
 
-    public String getData_utworzenia() {
-        return data_utworzenia;
+    public String getDataUtworzenia() {
+        return dataUtworzenia;
     }
 
-    public void setData_utworzenia(String data_utworzenia) {
-        this.data_utworzenia = data_utworzenia;
+    public void setDataUtworzenia(String data_utworzenia) {
+        this.dataUtworzenia = data_utworzenia;
     }
 }

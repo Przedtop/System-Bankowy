@@ -24,12 +24,12 @@ public class AccountController {
         return accountService.getAccount(id);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
     }
 
-    @GetMapping("/update")
+    @PutMapping
     public Accounts updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         System.out.println("update data: " + accountRequestDataModel);
         return accountService.editAccount(accountRequestDataModel);

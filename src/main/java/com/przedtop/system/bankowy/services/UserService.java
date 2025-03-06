@@ -1,7 +1,6 @@
 package com.przedtop.system.bankowy.services;
 
 import com.przedtop.system.bankowy.controllers.model.UserRequestDataModel;
-import com.przedtop.system.bankowy.controllers.model.UserUpdateDataModel;
 import com.przedtop.system.bankowy.entity.Users;
 import com.przedtop.system.bankowy.repozytoria.SystemBankowyUsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +30,13 @@ public class UserService {
         repo.deleteById(id);
     }
 
-    public Users editUserById(UserUpdateDataModel userUpdateDataModel) {
-        Users user = getUserById(userUpdateDataModel.getId());
-        user.setNazwisko(userUpdateDataModel.getNazwisko());
-        user.setImie(userUpdateDataModel.getImie());
-        user.setPesel(userUpdateDataModel.getPesel());
-        user.setHaslo(userUpdateDataModel.getHaslo());
-        user.setLogin(userUpdateDataModel.getLogin());
+    public Users editUserById(UserRequestDataModel userRequestDataModel) {
+        Users user = getUserById(userRequestDataModel.getId());
+        user.setNazwisko(userRequestDataModel.getNazwisko());
+        user.setImie(userRequestDataModel.getImie());
+        user.setPesel(userRequestDataModel.getPesel());
+        user.setHaslo(userRequestDataModel.getHaslo());
+        user.setLogin(userRequestDataModel.getLogin());
         return repo.save(user);
     }
 }

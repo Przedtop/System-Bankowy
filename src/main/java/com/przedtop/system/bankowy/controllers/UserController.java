@@ -1,7 +1,6 @@
 package com.przedtop.system.bankowy.controllers;
 
 import com.przedtop.system.bankowy.controllers.model.UserRequestDataModel;
-import com.przedtop.system.bankowy.controllers.model.UserUpdateDataModel;
 import com.przedtop.system.bankowy.entity.Users;
 import com.przedtop.system.bankowy.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,9 @@ public class UserController {
     }
 
     @PutMapping
-    public Users updateUser(@RequestBody UserUpdateDataModel userUpdateDataModel) {
-        System.out.println("update data: " + userUpdateDataModel);
-        return userService.editUserById(userUpdateDataModel);
+    public Users updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
+        System.out.println("update data: " + userRequestDataModel);
+        return userService.editUserById(userRequestDataModel);
     }
 }
 
