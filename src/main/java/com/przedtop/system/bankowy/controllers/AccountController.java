@@ -21,12 +21,12 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public Accounts getAccount(@PathVariable Long id) {
-        return accountService.getAccount(id);
+        return accountService.getAccountById(id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteAccount(@PathVariable Long id) {
-        accountService.deleteAccount(id);
+        accountService.deleteAccountByIDd(id);
     }
 
     @PutMapping

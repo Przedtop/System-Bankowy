@@ -3,37 +3,52 @@ package com.przedtop.system.bankowy.services;
 import com.przedtop.system.bankowy.controllers.model.AccountRequestDataModel;
 import com.przedtop.system.bankowy.entity.Accounts;
 import com.przedtop.system.bankowy.repozytoria.SystemBankowyAccountsRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
 
-    @Autowired
-    private SystemBankowyAccountsRepo repo;
+    private final SystemBankowyAccountsRepo repo;
+
+    public AccountService(SystemBankowyAccountsRepo repo) {
+        this.repo = repo;
+    }
 
     public Accounts createAccount(AccountRequestDataModel accountRequestDataModel) {
-        Accounts accounts = new Accounts();
-        accounts.setNrKonta(accountRequestDataModel.getNrKonta());
-        accounts.setSaldo(accountRequestDataModel.getSaldo());
-        accounts.setDataUtworzenia(accountRequestDataModel.getDataUtworzenia());
-        accounts.setUserId(accountRequestDataModel.getUserId());
-        return repo.save(accounts);
+        Accounts account = new Accounts();
+        account.setNrKonta(accountRequestDataModel.getNrKonta());
+        account.setSaldo(accountRequestDataModel.getSaldo());
+        account.setDataUtworzenia(accountRequestDataModel.getDataUtworzenia());
+        account.setUserId(accountRequestDataModel.getUserId());
+        return repo.save(account);
     }
 
-    public Accounts getAccount(Long nrKonta) {
-        return repo.findById(nrKonta).orElseThrow();
+    public Accounts getAccountById(Long id) {
+        return repo.findById(id).orElseThrow();
     }
 
-    public void deleteAccount(Long nrKonta) {
-        repo.deleteById(nrKonta);
+    public Accounts getAccountByNrKonta(Long nrKonta) {
+        return repo.findByNrKonta(nrKonta);
+    }
+
+    public void deleteAccountByIDd(Long id) {
+        repo.deleteById(id);
+    }
+
+    public void deleteAccountByNrKonta(Long nrKonta) {
+        repo.deleteByNrKonta(nrKonta);
+    }
+
+    public double getBalanceByNrKonta(Long nrKonta) {
+        Accounts account = getAccountByNrKonta(nrKonta);
+        return account.getSaldo();
     }
 
     public Accounts editAccount(AccountRequestDataModel accountRequestDataModel) {
-        Accounts accounts = getAccount(accountRequestDataModel.getNrKonta());
-        accounts.setNrKonta(accountRequestDataModel.getNrKonta());
-        accounts.setSaldo(accountRequestDataModel.getSaldo());
-        accounts.setDataUtworzenia(accountRequestDataModel.getDataUtworzenia());
-        return repo.save(accounts);
+        Accounts account = getAccountById(accountRequestDataModel.getNrKonta());
+        account.setNrKonta(accountRequestDataModel.getNrKonta());
+        account.setSaldo(accountRequestDataModel.getSaldo());
+        account.setDataUtworzenia(accountRequestDataModel.getDataUtworzenia());
+        return repo.save(account);
     }
 }
