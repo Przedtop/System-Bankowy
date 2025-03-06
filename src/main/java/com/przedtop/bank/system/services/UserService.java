@@ -16,10 +16,10 @@ public class UserService {
 
     public Users createUser(UserRequestDataModel userRequestDataModel) {
         Users user = new Users();
-        user.setLastName(userRequestDataModel.getNazwisko());
-        user.setName(userRequestDataModel.getImie());
-        user.setIdentificationNumber(userRequestDataModel.getPesel());
-        user.setPassword(userRequestDataModel.getHaslo());
+        user.setLastName(userRequestDataModel.getLastName());
+        user.setName(userRequestDataModel.getName());
+        user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
+        user.setPassword(userRequestDataModel.getPassword());
         user.setLogin(userRequestDataModel.getLogin());
         return repo.save(user);
     }
@@ -34,10 +34,10 @@ public class UserService {
 
     public Users editUserById(UserRequestDataModel userRequestDataModel) {
         Users user = getUserById(userRequestDataModel.getId());
-        user.setLastName(userRequestDataModel.getNazwisko());
-        user.setName(userRequestDataModel.getImie());
-        user.setIdentificationNumber(userRequestDataModel.getPesel());
-        user.setPassword(userRequestDataModel.getHaslo());
+        user.setLastName(userRequestDataModel.getLastName());
+        user.setName(userRequestDataModel.getName());
+        user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
+        user.setPassword(userRequestDataModel.getPassword());
         user.setLogin(userRequestDataModel.getLogin());
         return repo.save(user);
     }

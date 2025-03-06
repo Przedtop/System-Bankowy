@@ -61,23 +61,23 @@ public class Users {
         return identificationNumber;
     }
 
-    public void setIdentificationNumber(int pesel) {
-        this.identificationNumber = pesel;
+    public void setIdentificationNumber(int identificationNumber) {
+        this.identificationNumber = identificationNumber;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String nazwisko) {
-        this.lastName = nazwisko;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String imie) {
-        this.name = imie;
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.przedtop</groupId>
-    <artifactId>systembankowy</artifactId>
+    <artifactId>bank.system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>System Bankowy 3.0</name>
-    <description>System Bankowy 3.0</description>
+    <name>Bank system 3.0</name>
+    <description>Bank system 3.0</description>
     <url/>
     <licenses>
         <license/>
