@@ -1,22 +1,26 @@
 package com.przedtop.bank.system.controllers.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AccountRequestDataModel {
 
     private String id;
-    private Long nrKonta;
-    private double saldo;
-    private String dataUtworzenia;
+    @JsonProperty("accNo")
+    private Long accountNumber;
+    private double balance;
+    @JsonProperty("cDate")
+    private String createDate;
+    @JsonProperty("uid")
     private int userId;
-
 
     @Override
     public String toString() {
         return "AccountRequestDataModel{" +
                 "id='" + id + '\'' +
-                ", nrKonta=" + nrKonta +
-                ", saldo=" + saldo +
-                ", dataUtworzenia='" + dataUtworzenia + '\'' +
+                ", accountNumber=" + accountNumber +
+                ", balance=" + balance +
+                ", createDate='" + createDate + '\'' +
                 ", userId=" + userId +
                 '}';
     }
@@ -25,39 +29,19 @@ public class AccountRequestDataModel {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Long getAccountNumber() {
+        return accountNumber;
     }
 
-    public Long getNrKonta() {
-        return nrKonta;
-    }
-
-    public void setNrKonta(Long nrKonta) {
-        this.nrKonta = nrKonta;
-    }
-
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public double getBalance() {
+        return balance;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getDataUtworzenia() {
-        return dataUtworzenia;
-    }
-
-    public void setDataUtworzenia(String dataUtworzenia) {
-        this.dataUtworzenia = dataUtworzenia;
+    public String getCreateDate() {
+        return createDate;
     }
 }

@@ -5,6 +5,9 @@ import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.repozytories.AccountsRepo;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service
@@ -23,49 +26,92 @@ public class AccountService {
 
     public Accounts createAccount(AccountRequestDataModel accountRequestDataModel) {
         Accounts account = new Accounts();
-        if (accountRequestDataModel.getNrKonta() != null) {
+
+        if (accountRequestDataModel.getAccountNumber() != null) {
             if (getAccountByAccountNumber(account.getAccountNumber()) != account) {
-                account.setAccountNumber(accountRequestDataModel.getNrKonta());
+                account.setAccountNumber(accountRequestDataModel.getAccountNumber());
             } else {
                 Long newAccountNumber = accountNumberGenerator();
                 System.out.println("account already exists, new generated value: " + newAccountNumber);
                 account.setAccountNumber(newAccountNumber);
             }
-        } else {
+        } else
             account.setAccountNumber(accountNumberGenerator());
+
+        if (accountRequestDataModel.getAccountNumber() != null)
+            account.setBalance(accountRequestDataModel.getBalance());
+        else
+            account.setBalance(1000);
+
+        if (accountRequestDataModel.getCreateDate() != null)
+            account.setCreateDate(accountRequestDataModel.getCreateDate());
+        else {
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            String data = now.format(formatter);
+            account.setCreateDate(data);
         }
-        account.setBalance(accountRequestDataModel.getSaldo());
-        account.setCreateDate(accountRequestDataModel.getDataUtworzenia());
-        account.setUserId(accountRequestDataModel.getUserId());
+
+        if (accountRequestDataModel.getUserId() != 0)
+            account.setUserId(accountRequestDataModel.getUserId());
+        else
+            account.setUserId(0);
+
         return repo.save(account);
     }
 
-    public Accounts getAccountById(Long id) {
-        return repo.findById(id).orElseThrow();
-    }
-
-    public Accounts getAccountByAccountNumber(Long nrKonta) {
-        return repo.findByNrKonta(nrKonta);
-    }
-
-    public void deleteAccountByIDd(Long id) {
-        repo.deleteById(id);
-    }
-
-    public void deleteAccountByAccountNumber(Long nrKonta) {
-        repo.deleteByNrKonta(nrKonta);
-    }
-
-    public double getBalanceByAccountNumber(Long nrKonta) {
-        Accounts account = getAccountByAccountNumber(nrKonta);
-        return account.getBalance();
-    }
 
     public Accounts editAccount(AccountRequestDataModel accountRequestDataModel) {
-        Accounts account = getAccountById(accountRequestDataModel.getNrKonta());
-        account.setAccountNumber(accountRequestDataModel.getNrKonta());
-        account.setBalance(accountRequestDataModel.getSaldo());
-        account.setCreateDate(accountRequestDataModel.getDataUtworzenia());
+        Accounts account = getAccountById(accountRequestDataModel.getAccountNumber());
+
+        if (accountRequestDataModel.getAccountNumber() != null)
+            account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+
+        if (accountRequestDataModel.getBalance() != 0)
+            account.setBalance(accountRequestDataModel.getBalance());
+
+        if (accountRequestDataModel.getCreateDate() != null)
+            account.setCreateDate(accountRequestDataModel.getCreateDate());
+
         return repo.save(account);
+    }
+
+
+    public Accounts getAccountById(Long id) {
+        if (id != null)
+            try {
+                return repo.findById(id).get();
+            } catch (NoSuchElementException e) {
+                return null;
+            }
+        else
+            return null;
+    }
+
+    public Accounts getAccountByAccountNumber(Long accountNumber) {
+        if (accountNumber != null)
+            try {
+                return repo.findByAccountNumber(accountNumber);
+            } catch (NoSuchElementException e) {
+                return null;
+            }
+        else
+            return null;
+    }
+
+    public boolean deleteAccountByIDd(Long id) {
+        if (getAccountById(id) != null) {
+            repo.deleteById(id);
+            return true;
+        } else return false;
+    }
+
+    public void deleteAccountByAccountNumber(Long accountNumber) {
+        repo.deleteByAccountNumber((accountNumber));
+    }
+
+    public double getBalanceByAccountNumber(Long accountNumber) {
+        Accounts account = getAccountByAccountNumber(accountNumber);
+        return account.getBalance();
     }
 }

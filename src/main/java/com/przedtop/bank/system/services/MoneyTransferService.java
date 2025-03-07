@@ -18,22 +18,32 @@ public class MoneyTransferService {
     }
 
     public boolean moneyTransfer(MoneyTransferRequestDataModel moneyTransferRequestDataModel) {
-        Accounts odbiorca = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getNrKontaOdbiorcy());
-        Accounts nadawca = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getNrKontaNadawcy());
+        if(accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber())!=null &&
+                accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber())!=null) {
+            Accounts receiver = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber());
+            Accounts sender = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber());
 
-        double saldoNadawcy = accountService.getBalanceByAccountNumber(nadawca.getAccountNumber());
-        double saldoOdbiorcy = accountService.getBalanceByAccountNumber(odbiorca.getAccountNumber());
+            double senderBalance = accountService.getBalanceByAccountNumber(sender.getAccountNumber());
+            double receiverBalance = accountService.getBalanceByAccountNumber(receiver.getAccountNumber());
 
-        if (saldoNadawcy >= moneyTransferRequestDataModel.getSumaDoPrzelania()) {
-            odbiorca.setBalance(saldoOdbiorcy + moneyTransferRequestDataModel.getSumaDoPrzelania());
-            nadawca.setBalance(saldoNadawcy - moneyTransferRequestDataModel.getSumaDoPrzelania());
+            if (sender.getAccountNumber() != 0) {
+                if (senderBalance >= moneyTransferRequestDataModel.getAmountToTransfer()) {
+                    receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
+                    sender.setBalance(senderBalance - moneyTransferRequestDataModel.getAmountToTransfer());
 
-            repo.save(odbiorca);
-            repo.save(nadawca);
+                    repo.save(receiver);
+                    repo.save(sender);
 
-            return true;
+                    return true;
+                }
+            } else {
+                receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
+
+                repo.save(receiver);
+                return true;
+            }
         }
         return false;
     }
-
 }
+

@@ -1,6 +1,7 @@
 package com.przedtop.bank.system;
 
-import com.przedtop.bank.system.services.UserService;
+import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
+import com.przedtop.bank.system.services.MoneyTransferService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
     public static void main(String[] args) {
         var context = SpringApplication.run(Main.class, args);
-        UserService userService = context.getBean(UserService.class);
+        MoneyTransferService moneyTransferService = context.getBean(MoneyTransferService.class);
+        MoneyTransferRequestDataModel moneyTransferRequestDataModel = new MoneyTransferRequestDataModel();
     }
 }

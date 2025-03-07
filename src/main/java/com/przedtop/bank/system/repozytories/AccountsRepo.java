@@ -4,7 +4,7 @@ import com.przedtop.bank.system.entity.Accounts;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AccountsRepo extends CrudRepository<Accounts, Long> {
-    Accounts findByNrKonta(Long nrKonta);
+    Accounts findByAccountNumber(long accountNumber);
 
-    void deleteByNrKonta(long nrKonta);
+    void deleteByAccountNumber(long accountNumber);
 }
