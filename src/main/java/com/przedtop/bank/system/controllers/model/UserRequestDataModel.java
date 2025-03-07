@@ -1,10 +1,13 @@
 package com.przedtop.bank.system.controllers.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserRequestDataModel {
 
     private Long id;
     private String lastName;
     private String name;
+    @JsonProperty("idNo")
     private int identificationNumber;
     private String password;
     private String login;
