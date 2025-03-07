@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service
@@ -77,11 +78,25 @@ public class AccountService {
 
 
     public Accounts getAccountById(Long id) {
-        return repo.findById(id).get();
+        if (id != null)
+            try {
+                return repo.findById(id).get();
+            } catch (NoSuchElementException e) {
+                return null;
+            }
+        else
+            return null;
     }
 
     public Accounts getAccountByAccountNumber(Long accountNumber) {
-        return repo.findByAccountNumber(accountNumber);
+        if (accountNumber != null)
+            try {
+                return repo.findByAccountNumber(accountNumber);
+            } catch (NoSuchElementException e) {
+                return null;
+            }
+        else
+            return null;
     }
 
     public boolean deleteAccountByIDd(Long id) {
