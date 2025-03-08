@@ -1,22 +1,25 @@
 package com.przedtop.bank.system.controllers.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserRequestDataModel {
 
     private Long id;
-    private String nazwisko;
-    private String imie;
-    private int pesel;
-    private String haslo;
+    private String lastName;
+    private String name;
+    @JsonProperty("idNo")
+    private int identificationNumber;
+    private String password;
     private String login;
 
     @Override
     public String toString() {
         return "UserUpdateDataModel{" +
                 "id='" + id + '\'' +
-                ", nazwisko='" + nazwisko + '\'' +
-                ", imie='" + imie + '\'' +
-                ", pesel='" + pesel + '\'' +
-                ", haslo='" + haslo + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", name='" + name + '\'' +
+                ", identificationNumber='" + identificationNumber + '\'' +
+                ", password='" + password + '\'' +
                 ", login='" + login + '\'' +
                 '}';
     }
@@ -25,49 +28,23 @@ public class UserRequestDataModel {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getImie() {
-        return imie;
-    }
-
-    public void setImie(String imie) {
-        this.imie = imie;
+    public String getName() {
+        return name;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public String getPassword() {
+        return password;
     }
 
-    public String getHaslo() {
-        return haslo;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setHaslo(String haslo) {
-        this.haslo = haslo;
+    public int getIdentificationNumber() {
+        return identificationNumber;
     }
-
-    public String getNazwisko() {
-        return nazwisko;
-    }
-
-    public void setNazwisko(String nazwisko) {
-        this.nazwisko = nazwisko;
-    }
-
-    public int getPesel() {
-        return pesel;
-    }
-
-    public void setPesel(int pesel) {
-        this.pesel = pesel;
-    }
-
-
 }

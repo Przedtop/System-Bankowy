@@ -10,39 +10,40 @@ public class Accounts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "accountNumber")
+    @Column(name = "account_number")
     private long accountNumber;
     @Column(name = "balance")
     private double balance;
-    @Column(name = "createDate")
+    @Column(name = "create_date")
     private String createDate;
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private long userId;
 
     @Override
     public String toString() {
         return "Accounts{" +
-                "nrKonta=" + accountNumber +
+                "id=" + id +
+                ", accountNumber=" + accountNumber +
                 ", balance=" + balance +
                 ", createDate='" + createDate + '\'' +
                 ", userId=" + userId +
                 '}';
     }
 
-    public long getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public long getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(long nrKonta) {
-        this.accountNumber = nrKonta;
+    public void setAccountNumber(long accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public double getBalance() {
@@ -57,7 +58,17 @@ public class Accounts {
         return createDate;
     }
 
-    public void setCreateDate(String data_utworzenia) {
-        this.createDate = data_utworzenia;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+
 }

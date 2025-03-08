@@ -12,9 +12,9 @@ public class Users {
     private Long Id;
     @Column(name = "name")
     private String name;
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
-    @Column(name = "identificationNumber")
+    @Column(name = "identification_number")
     private int identificationNumber;
     @Column(name = "login")
     private String login;
@@ -61,23 +61,23 @@ public class Users {
         return identificationNumber;
     }
 
-    public void setIdentificationNumber(int pesel) {
-        this.identificationNumber = pesel;
+    public void setIdentificationNumber(int identificationNumber) {
+        this.identificationNumber = identificationNumber;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String nazwisko) {
-        this.lastName = nazwisko;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String imie) {
-        this.name = imie;
+    public void setName(String name) {
+        this.name = name;
     }
 }
