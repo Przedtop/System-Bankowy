@@ -2,11 +2,14 @@ package com.przedtop.bank.system.controllers;
 
 import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
+import com.przedtop.bank.system.logs.WriteLog;
 import com.przedtop.bank.system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,12 +21,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequestDataModel userRequestDataModel) {
         System.out.println("POST(/api/users) request data: " + userRequestDataModel);
+        WriteLog.writeLog(userRequestDataModel.toString(), Optional.of("POST(/api/users) request data: "));
         Users user = userService.createUser(userRequestDataModel);
         if (user != null) {
-            System.out.println("User created successfully");
+            WriteLog.writeLogAndPrintMessage("User created successfully", Optional.empty());
             return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
         } else {
-            System.out.println("Failed to create user");
+            WriteLog.writeLogAndPrintMessage("Failed to create user", Optional.empty());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create user");
         }
     }
@@ -31,12 +35,15 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<Users> getUserById(@PathVariable Long id) {
         System.out.println("GET(/api/users) request data: " + userService.getUserById(id));
+        if (userService.getUserById(id) != null)
+            WriteLog.writeLog(userService.getUserById(id).toString(), Optional.of("DELETE(/api/users) request data: "));
+        else WriteLog.writeLog(null, Optional.of("DELETE(/api/users) request data: "));
         Users user = userService.getUserById(id);
         if (user != null) {
-            System.out.println("User found successfully");
-            return ResponseEntity.status(HttpStatus.FOUND).body(user);
+            WriteLog.writeLogAndPrintMessage("User found successfully", Optional.empty());
+            return ResponseEntity.status(HttpStatus.OK).body(user);
         } else {
-            System.out.println("Failed to create user");
+            WriteLog.writeLogAndPrintMessage("User not found", Optional.empty());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -44,23 +51,30 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
         System.out.println("DELETE(/api/users) request data: " + userService.getUserById(id));
+        if (userService.getUserById(id) != null)
+            WriteLog.writeLog(userService.getUserById(id).toString(), Optional.of("DELETE(/api/users) request data: "));
+        else WriteLog.writeLog(null, Optional.of("DELETE(/api/users) request data: "));
         if (userService.deleteUserById(id)) {
-            System.out.println("deleted successfully");
+            WriteLog.writeLogAndPrintMessage("Deleted succesfuly", Optional.empty());
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
-            System.out.println("delete failed");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("delete failed");
+            WriteLog.writeLogAndPrintMessage("Delete failed", Optional.empty());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Delete failed");
         }
     }
 
     @PutMapping
     public ResponseEntity<Users> updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
         System.out.println("PUT(/api/users) request data: " + userRequestDataModel);
+        WriteLog.writeLog(userRequestDataModel.toString(), Optional.of("PUT(/api/users) request data: "));
         Users user = userService.editUserById(userRequestDataModel);
-        if (user != null)
+        if (user != null) {
+            WriteLog.writeLogAndPrintMessage("User updated successfully", Optional.empty());
             return ResponseEntity.status(HttpStatus.OK).body(user);
-        else
+        } else {
+            WriteLog.writeLogAndPrintMessage("User not found", Optional.empty());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
 
