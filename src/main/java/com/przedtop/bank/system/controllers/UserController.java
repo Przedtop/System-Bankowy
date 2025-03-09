@@ -33,8 +33,10 @@ public class UserController {
         System.out.println("GET(/api/users) request data: " + userService.getUserById(id));
         Users user = userService.getUserById(id);
         if (user != null) {
+            System.out.println("User found successfully");
             return ResponseEntity.status(HttpStatus.FOUND).body(user);
         } else {
+            System.out.println("Failed to create user");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -55,7 +57,10 @@ public class UserController {
     public ResponseEntity<Users> updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
         System.out.println("PUT(/api/users) request data: " + userRequestDataModel);
         Users user = userService.editUserById(userRequestDataModel);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        if (user != null)
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 }
 

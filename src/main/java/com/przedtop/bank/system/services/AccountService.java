@@ -80,35 +80,42 @@ public class AccountService {
     public Accounts getAccountById(Long id) {
         if (id != null)
             try {
-                return repo.findById(id).get();
+                if (repo.findById(id).isPresent())
+                    return repo.findById(id).get();
             } catch (NoSuchElementException e) {
                 return null;
             }
-        else
-            return null;
+        return null;
     }
+
 
     public Accounts getAccountByAccountNumber(Long accountNumber) {
         if (accountNumber != null)
             try {
-                return repo.findByAccountNumber(accountNumber);
+                if (repo.findById(accountNumber).isPresent())
+                    return repo.findById(accountNumber).get();
             } catch (NoSuchElementException e) {
                 return null;
             }
-        else
-            return null;
+        return null;
     }
 
-    public boolean deleteAccountByIDd(Long id) {
+
+    public boolean deleteAccountByID(Long id) {
         if (getAccountById(id) != null) {
             repo.deleteById(id);
             return true;
         } else return false;
     }
 
-    public void deleteAccountByAccountNumber(Long accountNumber) {
-        repo.deleteByAccountNumber((accountNumber));
+
+    public boolean deleteAccountByAccountNumber(Long accountNumber) {
+        if (getAccountByAccountNumber(accountNumber) != null) {
+            repo.deleteByAccountNumber((accountNumber));
+            return true;
+        } else return false;
     }
+
 
     public double getBalanceByAccountNumber(Long accountNumber) {
         Accounts account = getAccountByAccountNumber(accountNumber);

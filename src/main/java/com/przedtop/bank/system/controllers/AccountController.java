@@ -2,7 +2,6 @@ package com.przedtop.bank.system.controllers;
 
 import com.przedtop.bank.system.controllers.model.AccountRequestDataModel;
 import com.przedtop.bank.system.entity.Accounts;
-import com.przedtop.bank.system.entity.Users;
 import com.przedtop.bank.system.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,12 +37,24 @@ public class AccountController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
         System.out.println("DELETE(/api/account) request data: " + accountService.getAccountById(id));
-        if (accountService.deleteAccountByIDd(id)) {
+        if (accountService.deleteAccountByID(id)) {
             System.out.println("deleted successfully");
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
             System.out.println("delete failed");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("delete failed");
+        }
+    }
+
+    @DeleteMapping("/accountNumber/{accountNumber}")
+    public ResponseEntity<String> deleteAccountByAccountNumber(@PathVariable Long accountNumber) {
+        System.out.println("DELETE(/api/account/accountNumber) request data: " + accountService.getAccountByAccountNumber(accountNumber));
+        if (accountService.deleteAccountByAccountNumber(accountNumber)) {
+            System.out.println("deleted successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
+        } else {
+            System.out.println("delete failed");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("delete failed");
         }
     }
 
