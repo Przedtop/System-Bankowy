@@ -29,42 +29,46 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Accounts> getAccount(@PathVariable Long id) {
+        logger.info("Executing getAccount");
         if (accountService.getAccountById(id) != null) {
-            System.out.println("GET(/api/accounts) request data: " + accountService.getAccountById(id));
+            logger.debug("GET(/api/accounts) request data: {}", accountService.getAccountById(id));
             return ResponseEntity.status(HttpStatus.OK).body(accountService.getAccountById(id));
         } else {
-            System.out.println("GET(/api/accounts) invalid request");
+            logger.warn("GET(/api/accounts) invalid request");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
-        System.out.println("DELETE(/api/account) request data: " + accountService.getAccountById(id));
+        logger.info("Executing deleteAccount");
+        logger.debug("DELETE(/api/account) request data: " + accountService.getAccountById(id));
         if (accountService.deleteAccountByID(id)) {
-            System.out.println("deleted successfully");
+            logger.info("deleted successfully");
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
-            System.out.println("delete failed");
+            logger.warn("delete failed");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("delete failed");
         }
     }
 
     @DeleteMapping("/accountNumber/{accountNumber}")
     public ResponseEntity<String> deleteAccountByAccountNumber(@PathVariable Long accountNumber) {
-        System.out.println("DELETE(/api/account/accountNumber) request data: " + accountService.getAccountByAccountNumber(accountNumber));
+        logger.info("Executing deleteAccountByAccountNumber");
+        logger.debug("DELETE(/api/account/accountNumber) request data: " + accountService.getAccountByAccountNumber(accountNumber));
         if (accountService.deleteAccountByAccountNumber(accountNumber)) {
-            System.out.println("deleted successfully");
+            logger.info("deleted successfully1");
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
-            System.out.println("delete failed");
+            logger.warn("delete failed1");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("delete failed");
         }
     }
 
     @PutMapping
     public ResponseEntity<Accounts> updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
-        System.out.println("PUT(/api/account) request data: " + accountRequestDataModel);
+        logger.info("Executing updateAccount");
+        logger.debug("PUT(/api/account) request data: {}", accountRequestDataModel);
         Accounts account = accountService.editAccount(accountRequestDataModel);
         return ResponseEntity.status(HttpStatus.OK).body(account);
     }

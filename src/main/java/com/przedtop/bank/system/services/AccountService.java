@@ -94,13 +94,14 @@ public class AccountService {
 
 
     public Accounts getAccountByAccountNumber(Long accountNumber) {
-        if (accountNumber != null)
+        if (accountNumber != null) {
             try {
                 if (repo.findById(accountNumber).isPresent())
                     return repo.findById(accountNumber).get();
             } catch (NoSuchElementException e) {
                 return null;
             }
+        }
         return null;
     }
 
