@@ -3,6 +3,8 @@ package com.przedtop.bank.system.controllers;
 import com.przedtop.bank.system.controllers.model.AccountRequestDataModel;
 import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.services.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
+    private final static Logger logger = LoggerFactory.getLogger(AccountController.class);
     @Autowired
     private AccountService accountService;
 
     @PostMapping
     public ResponseEntity<Accounts> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
-        System.out.println("POST(/api/accounts) request data: " + accountRequestDataModel);
+        logger.info("Executing createAccount");
+        logger.debug("POST(/api/accounts) request data: {}", accountRequestDataModel);
         Accounts account = accountService.createAccount(accountRequestDataModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
