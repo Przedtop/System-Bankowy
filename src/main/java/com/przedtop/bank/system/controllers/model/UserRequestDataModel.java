@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserRequestDataModel {
 
     private Long id;
+
     private String lastName;
     private String name;
     @JsonProperty("idNo")

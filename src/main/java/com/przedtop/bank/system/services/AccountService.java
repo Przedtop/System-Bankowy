@@ -25,39 +25,43 @@ public class AccountService {
     }
 
     public Accounts createAccount(AccountRequestDataModel accountRequestDataModel) {
-        Accounts account = new Accounts();
+        try {
+            Accounts account = new Accounts();
 
-        if (accountRequestDataModel.getAccountNumber() != null) {
-            if (getAccountByAccountNumber(account.getAccountNumber()) != account) {
-                account.setAccountNumber(accountRequestDataModel.getAccountNumber());
-            } else {
-                Long newAccountNumber = accountNumberGenerator();
-                System.out.println("account already exists, new generated value: " + newAccountNumber);
-                account.setAccountNumber(newAccountNumber);
+            if (accountRequestDataModel.getAccountNumber() != null) {
+                if (getAccountByAccountNumber(account.getAccountNumber()) != account) {
+                    account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+                } else {
+                    Long newAccountNumber = accountNumberGenerator();
+                    System.out.println("account already exists, new generated value: " + newAccountNumber);
+                    account.setAccountNumber(newAccountNumber);
+                }
+            } else
+                account.setAccountNumber(accountNumberGenerator());
+
+            if (accountRequestDataModel.getAccountNumber() != null)
+                account.setBalance(accountRequestDataModel.getBalance());
+            else
+                account.setBalance(1000);
+
+            if (accountRequestDataModel.getCreateDate() != null)
+                account.setCreateDate(accountRequestDataModel.getCreateDate());
+            else {
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String data = now.format(formatter);
+                account.setCreateDate(data);
             }
-        } else
-            account.setAccountNumber(accountNumberGenerator());
 
-        if (accountRequestDataModel.getAccountNumber() != null)
-            account.setBalance(accountRequestDataModel.getBalance());
-        else
-            account.setBalance(1000);
+            if (accountRequestDataModel.getUserId() != 0)
+                account.setUserId(accountRequestDataModel.getUserId());
+            else
+                account.setUserId(0);
 
-        if (accountRequestDataModel.getCreateDate() != null)
-            account.setCreateDate(accountRequestDataModel.getCreateDate());
-        else {
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            String data = now.format(formatter);
-            account.setCreateDate(data);
+            return repo.save(account);
+        }catch (Exception e) {
+            return null;
         }
-
-        if (accountRequestDataModel.getUserId() != 0)
-            account.setUserId(accountRequestDataModel.getUserId());
-        else
-            account.setUserId(0);
-
-        return repo.save(account);
     }
 
 
@@ -90,13 +94,14 @@ public class AccountService {
 
 
     public Accounts getAccountByAccountNumber(Long accountNumber) {
-        if (accountNumber != null)
+        if (accountNumber != null) {
             try {
                 if (repo.findById(accountNumber).isPresent())
                     return repo.findById(accountNumber).get();
             } catch (NoSuchElementException e) {
                 return null;
             }
+        }
         return null;
     }
 
