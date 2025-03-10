@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank Account Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .form-container {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="text"], input[type="number"], input[type="email"] {
+      width: 200px;
+      padding: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+    .response {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Bank Account Management</h2>
+
+<!-- Create Account Form -->
+<div class="form-container">
+  <h3>Create Account</h3>
+  <form id="createAccountForm">
+    <label for="accountNumber">Account Number:</label>
+    <input type="number" id="accountNumber" required><br><br>
+
+    <label for="accountHolderName">Account Holder Name:</label>
+    <input type="text" id="accountHolderName" required><br><br>
+
+    <label for="balance">Balance:</label>
+    <input type="number" id="balance" required><br><br>
+
+    <button type="submit">Create Account</button>
+  </form>
+</div>
+
+<!-- Get Account Form -->
+<div class="form-container">
+  <h3>Get Account</h3>
+  <label for="getAccountId">Account ID:</label>
+  <input type="number" id="getAccountId" required>
+  <button onclick="getAccount()">Get Account</button>
+</div>
+
+<!-- Delete Account Form -->
+<div class="form-container">
+  <h3>Delete Account</h3>
+  <label for="deleteAccountId">Account ID:</label>
+  <input type="number" id="deleteAccountId" required>
+  <button onclick="deleteAccount()">Delete Account</button>
+</div>
+
+<!-- Update Account Form -->
+<div class="form-container">
+  <h3>Update Account</h3>
+  <label for="updateAccountId">Account ID:</label>
+  <input type="number" id="updateAccountId" required><br><br>
+
+  <label for="updateBalance">New Balance:</label>
+  <input type="number" id="updateBalance" required><br><br>
+
+  <button onclick="updateAccount()">Update Account</button>
+</div>
+
+<div id="responseMessage" class="response"></div>
+
+<script>
+  // Create Account Handler
+  document.getElementById('createAccountForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const accountNumber = document.getElementById('accountNumber').value;
+    const accountHolderName = document.getElementById('accountHolderName').value;
+    const balance = document.getElementById('balance').value;
+
+    const accountData = {
+      accountNumber: accountNumber,
+      accountHolderName: accountHolderName,
+      balance: balance
+    };
+
+    fetch('http://localhost:8080/api/accounts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(accountData)
+    })
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('responseMessage').innerText = 'Account created successfully: ' + JSON.stringify(data);
+            })
+            .catch(error => {
+              document.getElementById('responseMessage').innerText = 'Error creating account: ' + error.message;
+            });
+  });
+
+  // Get Account Handler
+  function getAccount() {
+    const accountId = document.getElementById('getAccountId').value;
+
+    fetch(`http://localhost:8080/api/accounts/${accountId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+            .then(response => response.json())
+            .then(data => {
+              if (data) {
+                document.getElementById('responseMessage').innerText = 'Account Details: ' + JSON.stringify(data);
+              } else {
+                document.getElementById('responseMessage').innerText = 'Account not found.';
+              }
+            })
+            .catch(error => {
+              document.getElementById('responseMessage').innerText = 'Error fetching account: ' + error.message;
+            });
+  }
+
+  // Delete Account Handler
+  function deleteAccount() {
+    const accountId = document.getElementById('deleteAccountId').value;
+
+    fetch(`http://localhost:8080/api/accounts/${accountId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('responseMessage').innerText = 'Account deleted: ' + JSON.stringify(data);
+            })
+            .catch(error => {
+              document.getElementById('responseMessage').innerText = 'Error deleting account: ' + error.message;
+            });
+  }
+
+  // Update Account Handler
+  function updateAccount() {
+    const accountId = document.getElementById('updateAccountId').value;
+    const balance = document.getElementById('updateBalance').value;
+
+    const updateData = {
+      accountNumber: accountId, // Assuming account number or ID
+      balance: balance
+    };
+
+    fetch('http://localhost:8080/api/accounts', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updateData)
+    })
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('responseMessage').innerText = 'Account updated successfully: ' + JSON.stringify(data);
+            })
+            .catch(error => {
+              document.getElementById('responseMessage').innerText = 'Error updating account: ' + error.message;
+            });
+  }
+</script>
+
+</body>
+</html>
