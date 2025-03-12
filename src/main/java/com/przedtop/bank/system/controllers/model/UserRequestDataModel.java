@@ -1,11 +1,12 @@
 package com.przedtop.bank.system.controllers.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 
 public class UserRequestDataModel {
 
     private Long id;
-
+    @NotNull(message = "")
     private String lastName;
     private String name;
     @JsonProperty("idNo")
