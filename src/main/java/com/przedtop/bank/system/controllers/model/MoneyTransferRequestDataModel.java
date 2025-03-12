@@ -2,26 +2,31 @@ package com.przedtop.bank.system.controllers.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public class MoneyTransferRequestDataModel {
 
     @JsonAlias({"sender", "senderId", "from"})
-    @JsonProperty("sender")
-    @NotNull(message = "Sender account number is required")
+    @JsonProperty("senderAccountNumber")
+    @NotNull(message = "Sender account number is required.")
     private Long senderAccountNumber;
-
     @JsonAlias({"receiver", "receiverId", "to"})
-    @JsonProperty("receiver")
-    @NotNull(message = "Receiver account number is required")
+    @JsonProperty("receiverAccountNumber")
+    @NotNull(message = "Receiver account number is required.")
     private Long receiverAccountNumber;
+    @JsonAlias({"value", "amount"})
+    @JsonProperty("amountToTransfer")
+    @NotNull(message = "Amount to transfer is required.")
+    private double amountToTransfer;
 
-    @JsonAlias({"value"})
-    @JsonProperty("amount")
-    @NotNull(message = "Transfer amount is required")
-    @Min(value = 1, message = "Minimum transfer amount is 1")
-    private Double amountToTransfer;
+
+    public String properUsage(){
+        char separator = '"';
+        return "Proper usage: " +
+                "\n" + separator + "senderAccountNumber" + separator + ": value," +
+                "\n" + separator + "receiverAccountNumber" + separator + ": value," +
+                "\n" + separator + "amountToTransfer" + separator + ": value";
+    }
 
     @Override
     public String toString() {
@@ -36,11 +41,13 @@ public class MoneyTransferRequestDataModel {
         return senderAccountNumber;
     }
 
+    public double getAmountToTransfer() {
+        return amountToTransfer;
+    }
+
     public Long getReceiverAccountNumber() {
         return receiverAccountNumber;
     }
 
-    public Double getAmountToTransfer() {
-        return amountToTransfer;
-    }
+
 }
