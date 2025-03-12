@@ -15,7 +15,6 @@ import java.util.Random;
 @Service
 public class AccountService {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final AccountsRepo repo;
 
     public AccountService(AccountsRepo repo) {

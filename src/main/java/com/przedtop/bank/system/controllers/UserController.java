@@ -3,11 +3,16 @@ package com.przedtop.bank.system.controllers;
 import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
 import com.przedtop.bank.system.services.UserService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -23,12 +28,22 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserRequestDataModel userRequestDataModel) {
+    public ResponseEntity<String> createUser(@RequestBody @Valid UserRequestDataModel userRequestDataModel, BindingResult bindingResult) {
         logger.info("Executing createUser");
+
+        if (bindingResult.hasErrors()) {
+            String errorMessages = bindingResult.getAllErrors().stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.joining(", "));
+
+            logger.warn("Validation failed: {}", errorMessages);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation failed: " + errorMessages + "\n" + userRequestDataModel.properUsage());
+        }
+
         logger.debug("POST(/api/users) request data: {}", userRequestDataModel);
         Users user = userService.createUser(userRequestDataModel);
         if (user != null) {
-            logger.info("User created succesfully");
+            logger.info("User created successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
         } else {
             logger.warn("Failed to create user");
@@ -55,7 +70,7 @@ public class UserController {
         logger.info("Executing deleteUserById");
         logger.debug("DELETE(/api/users) request data: {}", userService.getUserById(id));
         if (userService.deleteUserById(id)) {
-            logger.info("Deleted succesfuly");
+            logger.info("Deleted successfully");
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
             logger.warn("Delete failed");

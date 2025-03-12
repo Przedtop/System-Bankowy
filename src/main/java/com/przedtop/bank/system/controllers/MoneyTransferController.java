@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
@@ -29,6 +26,7 @@ public class MoneyTransferController {
     }
 
     @PostMapping
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> transferMoney(@RequestBody @Valid MoneyTransferRequestDataModel moneyTransferRequestDataModel, BindingResult bindingResult) {
         logger.info("Executing transferMoney");
 
