@@ -1,5 +1,6 @@
 package com.przedtop.bank.system.controllers.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,7 +12,7 @@ public class UserRequestDataModel {
     private String lastName;
     @NotNull(message = "Name is required.")
     private String name;
-    @JsonProperty("idNo")
+    @JsonAlias("idNo")
     @NotNull(message = "Identification number is required.")
     private int identificationNumber;
     @NotNull(message = "Password is required.")
@@ -21,7 +22,7 @@ public class UserRequestDataModel {
     @Size(min = 3, max = 50, message = "Login must be between 3 and 50 characters")
     private String login;
 
-    public String properUsageForUser() {
+    public String properUsage() {
         char separator = '"';
         return "Proper usage: " +
                 "\n" + separator + "lastName" + separator + ": value, " +

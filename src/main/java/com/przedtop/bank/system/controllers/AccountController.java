@@ -5,20 +5,22 @@ import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.services.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//http://localhost:8080/api/accounts
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
 
     private final static Logger logger = LoggerFactory.getLogger(AccountController.class);
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping
     public ResponseEntity<Accounts> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing createAccount");
@@ -27,6 +29,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     public ResponseEntity<Accounts> getAccount(@PathVariable Long id) {
         logger.info("Executing getAccount");
@@ -39,10 +42,11 @@ public class AccountController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
         logger.info("Executing deleteAccount");
-        logger.debug("DELETE(/api/account) request data: " + accountService.getAccountById(id));
+        logger.debug("DELETE(/api/account) request data: {}", accountService.getAccountById(id));
         if (accountService.deleteAccountByID(id)) {
             logger.info("deleted successfully");
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
@@ -52,10 +56,11 @@ public class AccountController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/accountNumber/{accountNumber}")
     public ResponseEntity<String> deleteAccountByAccountNumber(@PathVariable Long accountNumber) {
         logger.info("Executing deleteAccountByAccountNumber");
-        logger.debug("DELETE(/api/account/accountNumber) request data: " + accountService.getAccountByAccountNumber(accountNumber));
+        logger.debug("DELETE(/api/account/accountNumber) request data: {}", accountService.getAccountByAccountNumber(accountNumber));
         if (accountService.deleteAccountByAccountNumber(accountNumber)) {
             logger.info("deleted successfully1");
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
@@ -65,6 +70,7 @@ public class AccountController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping
     public ResponseEntity<Accounts> updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing updateAccount");
