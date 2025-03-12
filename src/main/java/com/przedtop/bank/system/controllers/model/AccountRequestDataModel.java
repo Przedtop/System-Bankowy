@@ -2,9 +2,11 @@ package com.przedtop.bank.system.controllers.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Null;
 
 public class AccountRequestDataModel {
 
+    @Null(message = "Id must be null")
     private String id;
     @JsonProperty("accNo")
     private Long accountNumber;
