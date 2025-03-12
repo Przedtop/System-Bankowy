@@ -25,8 +25,8 @@ public class MoneyTransferService {
         logger.trace("Starting money transfer");
         logger.trace("DATA {}", accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()));
         logger.trace("DATA {}", accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()));
-        if(accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber())!=null &&
-                accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber())!=null){
+        if (accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()) != null &&
+                accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()) != null) {
             logger.trace("1st validation gate passed successfully");
             Accounts receiver = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber());
             Accounts sender = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber());
@@ -42,6 +42,9 @@ public class MoneyTransferService {
                     repo.save(sender);
 
                     return true;
+                } else {
+                    logger.warn("Transfer failed insufficient funds");
+                    return false;
                 }
             } else {
                 receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
