@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
-        var context = SpringApplication.run(Main.class, args);
-        MoneyTransferService moneyTransferService = context.getBean(MoneyTransferService.class);
-        MoneyTransferRequestDataModel moneyTransferRequestDataModel = new MoneyTransferRequestDataModel();
+          SpringApplication.run(Main.class, args);
     }
 }
