@@ -18,21 +18,11 @@ public class UserService {
 
     public Users createUser(UserRequestDataModel userRequestDataModel) {
         Users user = new Users();
-        if (userRequestDataModel.getLastName() != null && !userRequestDataModel.getLastName().isBlank())
-            user.setLastName(userRequestDataModel.getLastName());
-        else return null;
-        if (userRequestDataModel.getName() != null && !userRequestDataModel.getName().isBlank())
-            user.setName(userRequestDataModel.getName());
-        else return null;
-        if (userRequestDataModel.getIdentificationNumber() != 0)
-            user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
-        else return null;
-        if (userRequestDataModel.getPassword() != null && !userRequestDataModel.getPassword().isBlank())
-            user.setPassword(userRequestDataModel.getPassword());
-        else return null;
-        if (userRequestDataModel.getLogin() != null && !userRequestDataModel.getLogin().isBlank())
-            user.setLogin(userRequestDataModel.getLogin());
-        else return null;
+        user.setLastName(userRequestDataModel.getLastName());
+        user.setName(userRequestDataModel.getName());
+        user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
+        user.setPassword(userRequestDataModel.getPassword());
+        user.setLogin(userRequestDataModel.getLogin());
         return repo.save(user);
     }
 

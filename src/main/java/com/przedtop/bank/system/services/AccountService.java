@@ -62,7 +62,7 @@ public class AccountService {
                 account.setUserId(0);
 
             return repo.save(account);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -99,7 +99,7 @@ public class AccountService {
     public Accounts getAccountByAccountNumber(Long accountNumber) {
         if (accountNumber != null) {
             try {
-                if (repo.findByAccountNumber(accountNumber)!=null)
+                if (repo.findByAccountNumber(accountNumber) != null)
                     return repo.findByAccountNumber(accountNumber);
             } catch (NoSuchElementException e) {
                 return null;
