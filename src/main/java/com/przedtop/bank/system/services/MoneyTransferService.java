@@ -21,6 +21,7 @@ public class MoneyTransferService {
         this.repo = repo;
     }
 
+
     public boolean moneyTransfer(MoneyTransferRequestDataModel moneyTransferRequestDataModel) {
         logger.trace("Starting money transfer");
         logger.trace("DATA {}", accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()));
@@ -52,6 +53,8 @@ public class MoneyTransferService {
                 repo.save(receiver);
                 return true;
             }
+        } else {
+            logger.warn("Receiver or sender not found");
         }
         logger.trace("Transfer failed");
         return false;
