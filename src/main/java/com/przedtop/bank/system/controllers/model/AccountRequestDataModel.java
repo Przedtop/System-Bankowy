@@ -3,6 +3,7 @@ package com.przedtop.bank.system.controllers.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class AccountRequestDataModel {
 
     private String id;

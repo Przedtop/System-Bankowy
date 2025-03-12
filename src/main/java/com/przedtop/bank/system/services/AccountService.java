@@ -3,6 +3,8 @@ package com.przedtop.bank.system.services;
 import com.przedtop.bank.system.controllers.model.AccountRequestDataModel;
 import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.repozytories.AccountsRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.util.Random;
 @Service
 public class AccountService {
 
+    private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final AccountsRepo repo;
 
     public AccountService(AccountsRepo repo) {
@@ -96,8 +99,8 @@ public class AccountService {
     public Accounts getAccountByAccountNumber(Long accountNumber) {
         if (accountNumber != null) {
             try {
-                if (repo.findById(accountNumber).isPresent())
-                    return repo.findById(accountNumber).get();
+                if (repo.findByAccountNumber(accountNumber)!=null)
+                    return repo.findByAccountNumber(accountNumber);
             } catch (NoSuchElementException e) {
                 return null;
             }
