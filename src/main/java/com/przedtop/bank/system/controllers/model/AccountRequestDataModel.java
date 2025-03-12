@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Null;
 
 public class AccountRequestDataModel {
 
-    @Null(message = "Id must be null.")
+    @Null(message = "Id must be null")
     private String id;
     @JsonProperty("accNo")
     private Long accountNumber;
