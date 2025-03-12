@@ -2,18 +2,31 @@ package com.przedtop.bank.system.controllers.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 
 public class MoneyTransferRequestDataModel {
 
     @JsonAlias({"sender", "senderId", "from"})
-    @JsonProperty("sender")
+    @JsonProperty("senderAccountNumber")
+    @NotNull(message = "Sender account number is required.")
     private Long senderAccountNumber;
     @JsonAlias({"receiver", "receiverId", "to"})
-    @JsonProperty("receiver")
+    @JsonProperty("receiverAccountNumber")
+    @NotNull(message = "Receiver account number is required.")
     private Long receiverAccountNumber;
-    @JsonAlias({"value"})
-    @JsonProperty("amount")
+    @JsonAlias({"value", "amount"})
+    @JsonProperty("amountToTransfer")
+    @NotNull(message = "Amount to transfer is required.")
     private double amountToTransfer;
+
+
+    public String properUsage(){
+        char separator = '"';
+        return "Proper usage: " +
+                "\n" + separator + "senderAccountNumber" + separator + ": value," +
+                "\n" + separator + "receiverAccountNumber" + separator + ": value," +
+                "\n" + separator + "amountToTransfer" + separator + ": value";
+    }
 
     @Override
     public String toString() {
