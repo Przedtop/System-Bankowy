@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Mar 12, 2025 at 03:11 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -41,16 +32,6 @@ CREATE TABLE `accounts` (
 
 INSERT INTO `accounts` (`id`, `account_number`, `balance`, `create_date`, `user_id`) VALUES
 (0, 0, 0, '', 0),
-(2, 9341124, 2123, 'accountRequestDataModel.getData_zalozenia()', 5),
-(4, 1241, 8000, 'asfd', 7),
-(5, 1241, 8000, 'asfd', 7),
-(6, 100, 7595.8, 'asfd', 7),
-(7, 101, 9105.000000000004, 'asfd', 7),
-(8, 681009124, 0, '1000:10:2025', 12),
-(10, 10, 100, '100-100', 14),
-(14, 223816382, 1000, '2025-03-07 17:56', 0),
-(15, 824687255, 1000, '2025-03-12 13:05', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -71,44 +52,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `last_name`, `identification_number`, `login`, `password`) VALUES
-(1, '123tal', 'nie', 123451, 'klgao', 'juasd'),
-(3, 'Imie', 'Nazwis', 123124, 'Login', 'Haslo'),
-(4, 'Imie', 'Nazwis', 123124, 'Login', 'Haslo'),
-(5, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(6, 'dasd', 'asdasd', 123, 'asdasd', 'aaaaaaaaaa'),
-(7, 'asd', 'asdqa', 1190123, 'login', 'haslo'),
-(8, 'asd', 'asdqa', 1190123, 'login', 'haslo1'),
-(9, 'Jan', 'Kowalski', 0, 'janek', 'password123'),
-(10, 'azsd', 'asd1', 12301, 'niema123mloginu', 'skibi123di'),
-(11, 'Jan', 'Kowalski', 9090123, 'janek', 'password123'),
-(14, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(15, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(16, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(17, 'Jan', 'Kowalski', 0, 'janek', 'mojehaslo'),
-(18, 'Jan', 'Kowalski', 99, 'janek', 'mojehaslo'),
-(19, '123tal', 'nie', 123451, 'klgao', 'juasd'),
-(23, '123tal', 'nie', 123451, 'klgao', 'juasd'),
-(24, '123tal', 'nie', 123451, 'klgao', 'juasd'),
-(25, '123tal', 'nie', 123451, 'klgao', 'juasd'),
-(26, '123tal', 'nie', 123451, 'klgao', 'juasd'),
-(27, '123', '123', 123, '123', '123'),
-(28, '123asd', '123', 123, '123', '123'),
-(29, '123asd', '123', 123, '123', '123'),
-(30, '', '123', 123, '123', '123'),
-(31, '', '12331', 121233, '123123', '121233'),
-(32, 'siema asd', '12331', 121233, '123123', '121233'),
-(33, '', '12331', 121233, '123123', '121233'),
-(34, '', '123', 121233, '123123', '121233'),
-(35, '', '123', 123, '123123', '121233'),
-(36, '', '123', 12, '123123', '121233'),
-(37, 'azsd', 'asd1', 1, 'niemamloginu', 'skibidi'),
-(38, 'azsd', 'asd1', 1, 'niemamloginu', 'skibidi'),
-(39, 'azsd', 'asd1', 1, 'niemamloginu', 'skibidi'),
-(40, 'azsd', 'asd1', 1, 'niemamloginu', 'skibidi'),
-(41, 'azsd', 'asd1', 1, 'niemamloginu', 'skibidi'),
-(42, 'azsd', 'asd1', 1, 'niemamloginu', 'skibidi'),
-(43, 'azsd', 'asd1', 1, 'niemamloginu', 'skibidi'),
-(44, 'azsd', 'asd1', 12301, 'niema123mloginu', 'skibi123di');
 
 --
 -- Indeksy dla zrzutów tabel
