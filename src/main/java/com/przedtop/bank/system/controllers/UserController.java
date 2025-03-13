@@ -3,59 +3,77 @@ package com.przedtop.bank.system.controllers;
 import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
 import com.przedtop.bank.system.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequestDataModel userRequestDataModel) {
-        System.out.println("POST(/api/users) request data: " + userRequestDataModel);
+        logger.info("Executing createUser");
+        logger.debug("POST(/api/users) request data: {}", userRequestDataModel);
         Users user = userService.createUser(userRequestDataModel);
         if (user != null) {
-            System.out.println("User created successfully");
+            logger.info("User created succesfully");
             return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
         } else {
-            System.out.println("Failed to create user");
+            logger.warn("Failed to create user");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create user");
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Users> getUserById(@PathVariable Long id) {
-        System.out.println("GET(/api/users) request data: " + userService.getUserById(id));
+        logger.info("Executing getUserById");
+        logger.debug("GET(/api/users) request data: {}", userService.getUserById(id));
         Users user = userService.getUserById(id);
         if (user != null) {
-            return ResponseEntity.status(HttpStatus.FOUND).body(user);
+            logger.info("User found successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(user);
         } else {
+            logger.warn("User not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
-        System.out.println("DELETE(/api/users) request data: " + userService.getUserById(id));
+        logger.info("Executing deleteUserById");
+        logger.debug("DELETE(/api/users) request data: {}", userService.getUserById(id));
         if (userService.deleteUserById(id)) {
-            System.out.println("deleted successfully");
+            logger.info("Deleted succesfuly");
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
-            System.out.println("delete failed");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("delete failed");
+            logger.warn("Delete failed");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Delete failed");
         }
     }
 
     @PutMapping
     public ResponseEntity<Users> updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
-        System.out.println("PUT(/api/users) request data: " + userRequestDataModel);
+        logger.info("Executing updateUser");
+        logger.debug("PUT(/api/users) request data: {}", userRequestDataModel);
         Users user = userService.editUserById(userRequestDataModel);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        if (user != null) {
+            logger.info("User updated successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        } else {
+            logger.warn("User not found update failed");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
-

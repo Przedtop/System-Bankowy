@@ -39,12 +39,12 @@ public class UserService {
     public Users getUserById(Long id) {
         if (id != null)
             try {
-                return repo.findById(id).get();
+                if (repo.findById(id).isPresent())
+                    return repo.findById(id).get();
             } catch (NoSuchElementException e) {
                 return null;
             }
-        else
-            return null;
+        return null;
     }
 
     public boolean deleteUserById(Long id) {
@@ -55,17 +55,21 @@ public class UserService {
     }
 
     public Users editUserById(UserRequestDataModel userRequestDataModel) {
-        Users user = getUserById(userRequestDataModel.getId());
-        if (userRequestDataModel.getLastName() != null)
-            user.setLastName(userRequestDataModel.getLastName());
-        if (userRequestDataModel.getName() != null)
-            user.setName(userRequestDataModel.getName());
-        if (userRequestDataModel.getIdentificationNumber() != 0)
-            user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
-        if (userRequestDataModel.getPassword() != null)
-            user.setPassword(userRequestDataModel.getPassword());
-        if (userRequestDataModel.getLogin() != null)
-            user.setLogin(userRequestDataModel.getLogin());
-        return repo.save(user);
+        if (getUserById(userRequestDataModel.getId()) != null) {
+            Users user = getUserById(userRequestDataModel.getId());
+
+            if (userRequestDataModel.getLastName() != null)
+                user.setLastName(userRequestDataModel.getLastName());
+            if (userRequestDataModel.getName() != null)
+                user.setName(userRequestDataModel.getName());
+            if (userRequestDataModel.getIdentificationNumber() != 0)
+                user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
+            if (userRequestDataModel.getPassword() != null)
+                user.setPassword(userRequestDataModel.getPassword());
+            if (userRequestDataModel.getLogin() != null)
+                user.setLogin(userRequestDataModel.getLogin());
+            return repo.save(user);
+        }
+        return null;
     }
 }
