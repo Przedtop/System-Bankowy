@@ -1,6 +1,5 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.controllers.AccountController;
 import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
 import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.repozytories.AccountsRepo;
@@ -25,8 +24,8 @@ public class MoneyTransferService {
         logger.trace("Starting money transfer");
         logger.trace("DATA {}", accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()));
         logger.trace("DATA {}", accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()));
-        if(accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber())!=null &&
-                accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber())!=null){
+        if (accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()) != null &&
+                accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()) != null) {
             logger.trace("1st validation gate passed successfully");
             Accounts receiver = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber());
             Accounts sender = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber());
@@ -34,17 +33,27 @@ public class MoneyTransferService {
             double senderBalance = accountService.getBalanceByAccountNumber(sender.getAccountNumber());
             double receiverBalance = accountService.getBalanceByAccountNumber(receiver.getAccountNumber());
             if (sender.getAccountNumber() != 0) {
-                if (senderBalance >= moneyTransferRequestDataModel.getAmountToTransfer()) {
-                    receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
-                    sender.setBalance(senderBalance - moneyTransferRequestDataModel.getAmountToTransfer());
+                if (moneyTransferRequestDataModel.getAmountToTransfer() > 0) {
+                    if (senderBalance >= moneyTransferRequestDataModel.getAmountToTransfer()) {
+                        receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
+                        sender.setBalance(senderBalance - moneyTransferRequestDataModel.getAmountToTransfer());
 
-                    repo.save(receiver);
-                    repo.save(sender);
+                        repo.save(receiver);
+                        repo.save(sender);
 
-                    return true;
+                        return true;
+                    } else {
+                        logger.warn("Insufficient ballance");
+                        return false;
+                    }
+
+                } else {
+                    logger.warn("Amount to transfer is below zero");
+                    return false;
                 }
             } else {
-                receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
+                if (moneyTransferRequestDataModel.getAmountToTransfer() > 0)
+                    receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
 
                 repo.save(receiver);
                 return true;

@@ -1,7 +1,5 @@
 package com.przedtop.bank.system;
 
-import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
-import com.przedtop.bank.system.services.MoneyTransferService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

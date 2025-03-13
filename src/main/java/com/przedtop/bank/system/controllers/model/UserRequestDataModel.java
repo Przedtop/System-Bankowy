@@ -13,6 +13,7 @@ public class UserRequestDataModel {
     @NotNull(message = "Name is required.")
     private String name;
     @JsonAlias("idNo")
+    @JsonProperty("identificationNumber")
     @NotNull(message = "Identification number is required.")
     private int identificationNumber;
     @NotNull(message = "Password is required.")
@@ -66,5 +67,29 @@ public class UserRequestDataModel {
 
     public int getIdentificationNumber() {
         return identificationNumber;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setIdentificationNumber(int identificationNumber) {
+        this.identificationNumber = identificationNumber;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

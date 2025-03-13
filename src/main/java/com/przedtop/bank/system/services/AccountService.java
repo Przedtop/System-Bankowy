@@ -15,16 +15,23 @@ import java.util.Random;
 @Service
 public class AccountService {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final AccountsRepo repo;
+
+    Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     public AccountService(AccountsRepo repo) {
         this.repo = repo;
     }
 
-    private Long accountNumberGenerator() {
+    public Long accountNumberGenerator() {
         Random rand = new Random();
-        return rand.nextLong(1000000000) + 100000000;
+
+        long newNumber;
+        do {
+            newNumber = rand.nextLong(1000000000) + 100000000;
+        } while (getAccountByAccountNumber(newNumber) != null);
+
+        return newNumber;
     }
 
     public Accounts createAccount(AccountRequestDataModel accountRequestDataModel) {
@@ -32,12 +39,11 @@ public class AccountService {
             Accounts account = new Accounts();
 
             if (accountRequestDataModel.getAccountNumber() != null) {
-                if (getAccountByAccountNumber(account.getAccountNumber()) != account) {
+                if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
                     account.setAccountNumber(accountRequestDataModel.getAccountNumber());
                 } else {
-                    Long newAccountNumber = accountNumberGenerator();
-                    System.out.println("account already exists, new generated value: " + newAccountNumber);
-                    account.setAccountNumber(newAccountNumber);
+                    logger.error("Account already exists");
+                    return null;
                 }
             } else
                 account.setAccountNumber(accountNumberGenerator());
@@ -61,26 +67,34 @@ public class AccountService {
             else
                 account.setUserId(0);
 
-            return repo.save(account);
-        }catch (Exception e) {
+            repo.save(account);
+
+            return account;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
             return null;
         }
     }
 
 
     public Accounts editAccount(AccountRequestDataModel accountRequestDataModel) {
-        Accounts account = getAccountById(accountRequestDataModel.getAccountNumber());
+        if (accountRequestDataModel.getId() != null) {
+            if (getAccountById(accountRequestDataModel.getId()) != null) {
+                Accounts account = getAccountById(accountRequestDataModel.getAccountNumber());
 
-        if (accountRequestDataModel.getAccountNumber() != null)
-            account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+                if (accountRequestDataModel.getAccountNumber() != null)
+                    account.setAccountNumber(accountRequestDataModel.getAccountNumber());
 
-        if (accountRequestDataModel.getBalance() != 0)
-            account.setBalance(accountRequestDataModel.getBalance());
+                if (accountRequestDataModel.getBalance() != 0)
+                    account.setBalance(accountRequestDataModel.getBalance());
 
-        if (accountRequestDataModel.getCreateDate() != null)
-            account.setCreateDate(accountRequestDataModel.getCreateDate());
+                if (accountRequestDataModel.getCreateDate() != null)
+                    account.setCreateDate(accountRequestDataModel.getCreateDate());
 
-        return repo.save(account);
+                return repo.save(account);
+            }
+        }
+        return null;
     }
 
 
@@ -99,7 +113,7 @@ public class AccountService {
     public Accounts getAccountByAccountNumber(Long accountNumber) {
         if (accountNumber != null) {
             try {
-                if (repo.findByAccountNumber(accountNumber)!=null)
+                if (repo.findByAccountNumber(accountNumber) != null)
                     return repo.findByAccountNumber(accountNumber);
             } catch (NoSuchElementException e) {
                 return null;
@@ -119,8 +133,7 @@ public class AccountService {
 
     public boolean deleteAccountByAccountNumber(Long accountNumber) {
         if (getAccountByAccountNumber(accountNumber) != null) {
-            repo.deleteByAccountNumber((accountNumber));
-            return true;
+            return deleteAccountByID(getAccountByAccountNumber(accountNumber).getId());
         } else return false;
     }
 

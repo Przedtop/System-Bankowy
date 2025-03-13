@@ -2,6 +2,8 @@ package com.przedtop.bank.system.controllers;
 
 import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
 import com.przedtop.bank.system.services.MoneyTransferService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transfer")
+@Tag(name="Money Transfer", description = "Transfer, withdraw, deposit money")
 public class MoneyTransferController {
 
     private final static Logger logger = LoggerFactory.getLogger(MoneyTransferController.class);
@@ -27,6 +30,7 @@ public class MoneyTransferController {
 
     @PostMapping
     @CrossOrigin(origins = "*")
+    @Operation(summary = "Transfer, withdraw, deposit money", description = "To deposit money set senderAccountNumber to 0, to withdraw money set amountToTransfer to negative value and senderAccountNumber to 0")
     public ResponseEntity<String> transferMoney(@RequestBody @Valid MoneyTransferRequestDataModel moneyTransferRequestDataModel, BindingResult bindingResult) {
         logger.info("Executing transferMoney");
 
@@ -45,7 +49,7 @@ public class MoneyTransferController {
             logger.info("Money transferred successfully");
             return ResponseEntity.status(HttpStatus.OK).body("Money transferred successfully");
         } else {
-            logger.warn("Money transfer failed");
+            logger.error("Money transfer failed");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Money transfer failed");
         }
     }

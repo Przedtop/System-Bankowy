@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
 public class MoneyTransferRequestDataModel {
-
     @JsonAlias({"sender", "senderId", "from"})
     @JsonProperty("senderAccountNumber")
     @NotNull(message = "Sender account number is required.")
@@ -18,6 +17,20 @@ public class MoneyTransferRequestDataModel {
     @JsonProperty("amountToTransfer")
     @NotNull(message = "Amount to transfer is required.")
     private double amountToTransfer;
+
+    public void setSenderAccountNumber(Long senderAccountNumber) {
+        this.senderAccountNumber = senderAccountNumber;
+    }
+
+    public void setReceiverAccountNumber(Long receiverAccountNumber) {
+        this.receiverAccountNumber = receiverAccountNumber;
+    }
+
+    public void setAmountToTransfer(double amountToTransfer) {
+        this.amountToTransfer = amountToTransfer;
+    }
+
+
 
 
     public String properUsage(){
