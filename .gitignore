@@ -2,7 +2,7 @@
 *.class
 .idea/
 systembankowy.iml
-
+target/
 # Log file
 *.log
 
