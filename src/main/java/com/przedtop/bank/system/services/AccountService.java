@@ -39,11 +39,13 @@ public class AccountService {
             Accounts account = new Accounts();
 
             if (accountRequestDataModel.getAccountNumber() != null) {
-                if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
-                    account.setAccountNumber(accountRequestDataModel.getAccountNumber());
-                } else {
-                    logger.error("Account already exists");
-                    return null;
+                if (accountRequestDataModel.getAccountNumber() != 0) {
+                    if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
+                        account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+                    } else {
+                        logger.error("Account already exists");
+                        return null;
+                    }
                 }
             } else
                 account.setAccountNumber(accountNumberGenerator());

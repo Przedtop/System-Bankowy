@@ -52,11 +52,9 @@ public class MoneyTransferService {
                     return false;
                 }
             } else {
-                if (moneyTransferRequestDataModel.getAmountToTransfer() > 0)
                     receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
-
-                repo.save(receiver);
-                return true;
+                    repo.save(receiver);
+                    return true;
             }
         }
         logger.trace("Transfer failed");

@@ -143,16 +143,16 @@ class MoneyTransferServiceTest {
     }
 
     @Test
-    public void transferMoney_DepositFailedAmountBelowZero() {
+    public void transferMoney_WithdrawSuccess(){
         createTestAccounts();
         MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
-        requestDataModel.setAmountToTransfer(-100);
+        requestDataModel.setAmountToTransfer(-100.65);
         requestDataModel.setReceiverAccountNumber(100L);
         requestDataModel.setSenderAccountNumber(0L);
 
         boolean result = moneyTransferService.moneyTransfer(requestDataModel);
 
-        Assertions.assertFalse(result);
+        Assertions.assertTrue(result);
         deleteTestAccounts();
     }
 }
