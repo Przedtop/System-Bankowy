@@ -25,6 +25,7 @@
             text-align: center;
             height: 310px;
         }
+
         .container2 {
             background: #333;
             padding: 20px;
@@ -35,7 +36,7 @@
             height: 310px;
         }
 
-        h2, h1, h4{
+        h2, h1, h4 {
             color: #a2a8a8;
             margin-bottom: 10px;
         }
@@ -100,13 +101,16 @@
 
                 <h2>Get Account</h2>
                 <form id="moneyTransferForm">
-                    <label for="accountNumber"></label>
-                    <input type="number" id="accountNumber" name="accountNumber" required
-                           placeholder="Account number" title="Enter account number here">
+                    <div>
+                        <label for="accountNumber"></label>
+                        <input type="number" id="accountNumber" name="accountNumber"
+                               placeholder="Account number" title="Enter account number here">
+                        <button onclick="getAccountByAccountNumber()">Get</button>
+                    </div>
                     <label for="accountId"></label>
-                    <input type="number" id="accountId" name="accountId" required
+                    <input type="number" id="accountId" name="accountId"
                            placeholder="Account id:" title="Enter account id here">
-                    <button onclick="getAccount()">Get</button>
+                    <button onclick="getAccountById()">Get</button>
                     <div id="response"></div>
                 </form>
             </div>
@@ -115,10 +119,18 @@
             <div class="container2">
                 <h4>Other Actions</h4>
                 <br>
-                <a href="createAccount.html"><button>Create</button></a>
-                <a href="editAccount.html"><button>Edit</button></a>
-                <a href="deleteAccount.html"><button>Delete</button></a>
-                <a href="getAccount.html"><button>Get</button></a>
+                <a href="createAccount.html">
+                    <button>Create</button>
+                </a>
+                <a href="editAccount.html">
+                    <button>Edit</button>
+                </a>
+                <a href="deleteAccount.html">
+                    <button>Delete</button>
+                </a>
+                <a href="getAccount.html">
+                    <button>Get</button>
+                </a>
             </div>
         </td>
     </tr>
