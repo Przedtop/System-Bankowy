@@ -28,6 +28,7 @@ public class UserController {
     }
 
     @PostMapping
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> createUser(@RequestBody @Valid UserRequestDataModel userRequestDataModel, BindingResult bindingResult) {
         logger.info("Executing createUser");
 
@@ -52,6 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Users> getUserById(@PathVariable Long id) {
         logger.info("Executing getUserById");
         logger.debug("GET(/api/users) request data: {}", userService.getUserById(id));
@@ -66,6 +68,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
         logger.info("Executing deleteUserById");
         logger.debug("DELETE(/api/users) request data: {}", userService.getUserById(id));
@@ -79,6 +82,7 @@ public class UserController {
     }
 
     @PutMapping
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Users> updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
         logger.info("Executing updateUser");
         logger.debug("PUT(/api/users) request data: {}", userRequestDataModel);
