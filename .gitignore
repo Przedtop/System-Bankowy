@@ -3,6 +3,7 @@
 .idea/
 systembankowy.iml
 target/
+.tar
 # Log file
 *.log
 
