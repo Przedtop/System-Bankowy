@@ -126,6 +126,7 @@ public class AccountController {
         }
         else{
             logger.error("Account not found");
+            logger.info("1234");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
         }
     }
