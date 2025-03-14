@@ -31,8 +31,6 @@ public class MoneyTransferRequestDataModel {
     }
 
 
-
-
     public String properUsage(){
         char separator = '"';
         return "Proper usage: " +
