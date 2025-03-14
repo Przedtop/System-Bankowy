@@ -50,10 +50,6 @@ public class AccountRequestDataModel {
         return createDate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }

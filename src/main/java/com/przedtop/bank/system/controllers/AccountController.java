@@ -113,5 +113,21 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @CrossOrigin(origins = "*")
+    @PatchMapping("/{oldId}/{newId}")
+    @Operation(summary = "Change account id")
+    public ResponseEntity<String> changeAccountId(@PathVariable Long oldId, @PathVariable Long newId) {
+        logger.info("Executing changeAccountId");
+
+        if(accountService.editAccountId(oldId, newId)) {
+            logger.info("Account id changed successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("Account id changed successfully");
+        }
+        else{
+            logger.error("Account not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        }
+    }
 }
 

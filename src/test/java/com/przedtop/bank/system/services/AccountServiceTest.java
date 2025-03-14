@@ -2,16 +2,12 @@ package com.przedtop.bank.system.services;
 
 import com.przedtop.bank.system.controllers.model.AccountRequestDataModel;
 import com.przedtop.bank.system.entity.Accounts;
-import com.przedtop.bank.system.entity.Users;
-import jakarta.persistence.Column;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AccountServiceTest {
@@ -21,10 +17,8 @@ class AccountServiceTest {
 
     @Test
     void createAccount_success() {
-        Accounts account = new Accounts();
         AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
 
-        accountRequestDataModel.setId(123L);
         accountRequestDataModel.setAccountNumber(88912L);
         accountRequestDataModel.setBalance(1000);
         accountRequestDataModel.setCreateDate(LocalDate.now().toString());
@@ -32,13 +26,25 @@ class AccountServiceTest {
 
         accountService.createAccount(accountRequestDataModel);
 
-        Assertions.assertEquals(account,account);
+        Assertions.assertNotNull(accountService.getAccountByAccountNumber(88912L));
 
         accountService.deleteAccountByAccountNumber(88912L);
     }
 
     @Test
+    void createAccount_automaticSuccess() {
+        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
+
+        Accounts account = accountService.createAccount(accountRequestDataModel);
+
+        Assertions.assertNotNull(account);
+
+        accountService.deleteAccountByAccountNumber(account.getAccountNumber());
+    }
+
+    @Test
     void editAccount() {
+
     }
 
     @Test

@@ -38,40 +38,45 @@ public class AccountService {
         try {
             Accounts account = new Accounts();
 
-            if (accountRequestDataModel.getAccountNumber() != null) {
-                if (accountRequestDataModel.getAccountNumber() != 0) {
-                    if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
-                        account.setAccountNumber(accountRequestDataModel.getAccountNumber());
-                    } else {
-                        logger.error("Account already exists");
-                        return null;
+            if (accountRequestDataModel.getId() == null) {
+                if (accountRequestDataModel.getAccountNumber() != null) {
+                    if (accountRequestDataModel.getAccountNumber() != 0) {
+                        if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
+                            account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+                        } else {
+                            logger.error("Account already exists");
+                            return null;
+                        }
                     }
+                } else
+                    account.setAccountNumber(accountNumberGenerator());
+
+                if (accountRequestDataModel.getAccountNumber() != null)
+                    account.setBalance(accountRequestDataModel.getBalance());
+                else
+                    account.setBalance(1000);
+
+                if (accountRequestDataModel.getCreateDate() != null)
+                    account.setCreateDate(accountRequestDataModel.getCreateDate());
+                else {
+                    LocalDateTime now = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    String data = now.format(formatter);
+                    account.setCreateDate(data);
                 }
-            } else
-                account.setAccountNumber(accountNumberGenerator());
 
-            if (accountRequestDataModel.getAccountNumber() != null)
-                account.setBalance(accountRequestDataModel.getBalance());
-            else
-                account.setBalance(1000);
+                if (accountRequestDataModel.getUserId() != 0)
+                    account.setUserId(accountRequestDataModel.getUserId());
+                else
+                    account.setUserId(0);
 
-            if (accountRequestDataModel.getCreateDate() != null)
-                account.setCreateDate(accountRequestDataModel.getCreateDate());
-            else {
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String data = now.format(formatter);
-                account.setCreateDate(data);
+                repo.save(account);
+
+                return account;
+            } else {
+                logger.error("You can't set id!");
+                return null;
             }
-
-            if (accountRequestDataModel.getUserId() != 0)
-                account.setUserId(accountRequestDataModel.getUserId());
-            else
-                account.setUserId(0);
-
-            repo.save(account);
-
-            return account;
         } catch (Exception e) {
             logger.error(e.getMessage());
             return null;
@@ -143,5 +148,18 @@ public class AccountService {
     public double getBalanceByAccountNumber(Long accountNumber) {
         Accounts account = getAccountByAccountNumber(accountNumber);
         return account.getBalance();
+    }
+
+    public boolean editAccountId(Long oldAccountId, Long newAccountId) {
+        if (getAccountById(oldAccountId) != null) {
+            Accounts account = getAccountById(oldAccountId);
+            account.setId(newAccountId);
+            repo.save(account);
+            return true;
+        }
+        else {
+            logger.error("Account does not exist");
+            return false;
+        }
     }
 }
