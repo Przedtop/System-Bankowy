@@ -10,7 +10,7 @@ FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
 # Kopiowanie gotowego JAR-a do kontenera
-COPY --from=builder /app/target/*.jar /app/app.jar
+COPY --from=builder /app/target/bank.system-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Eksponowanie portu aplikacji
 EXPOSE 8080

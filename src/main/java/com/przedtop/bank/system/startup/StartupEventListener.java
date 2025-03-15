@@ -14,6 +14,6 @@ public class StartupEventListener {
     }
 
     private void performStartupTasks() {
-        System.out.println("📥 Running post-initialization logic...SKIBIDI");
+        System.out.println("📥 Running post-initialization logic...");
     }
 }
