@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.przedtop</groupId>
     <artifactId>bank.system</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>Bank system 3.0</name>
     <description>Bank system 3.0</description>
     <url/>
@@ -82,6 +82,12 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
 
 
         <!--JETTY CONFIG-->
@@ -107,7 +113,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <configuration>
+                    <argLine>-javaagent:"${settings.localRepository}/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar"</argLine>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
 </project>

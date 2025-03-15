@@ -23,42 +23,34 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    //zmienic na stringi <accounts>
-    //zmienic na stringi <accounts>
-    //zmienic na stringi <accounts>
-    //zmienic na stringi <accounts>
-    //zmienic na stringi <accounts>
-    //zmienic na stringi <accounts>
-    //zmienic na stringi <accounts>
-    //zmienic na stringi <accounts>
-
     @CrossOrigin(origins = "*")
     @PostMapping
-    @Operation(summary = "Create account", description = "To generate random value leave it empty, to generate random account use {} i json body")
-    public ResponseEntity<Accounts> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
+    @Operation(summary = "Create account", description = "To generate random value leave it empty, to generate random account use {} i json body.")
+    public ResponseEntity<String> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing createAccount");
         logger.debug("POST(/api/accounts) request data: {}", accountRequestDataModel);
         Accounts account = accountService.createAccount(accountRequestDataModel);
         if (account != null) {
             logger.info("Account created successfully");
-            return ResponseEntity.status(HttpStatus.CREATED).body(account);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully\n" + account);
         } else {
             logger.error("Failed to create account");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create account");
         }
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     @Operation(summary = "Get account by Id", description = "Returns an account by its Id")
-    public ResponseEntity<Accounts> getAccount(@PathVariable Long id) {
+    public ResponseEntity<String> getAccount(@PathVariable Long id) {
         logger.info("Executing getAccount");
+        logger.debug("GET(/api/accounts) request data: {}", accountService.getAccountById(id));
         if (accountService.getAccountById(id) != null) {
-            logger.debug("GET(/api/accounts) request data: {}", accountService.getAccountById(id));
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.getAccountById(id));
+            logger.info("Account found successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("Account found successfully\n" + accountService.getAccountById(id));
         } else {
             logger.error("Invalid request");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid request");
         }
     }
 
@@ -95,7 +87,7 @@ public class AccountController {
     @CrossOrigin(origins = "*")
     @PutMapping
     @Operation(summary = "Update account")
-    public ResponseEntity<Accounts> updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
+    public ResponseEntity<String> updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing updateAccount");
         logger.debug("PUT(/api/account) request data: {}", accountRequestDataModel);
 
@@ -107,7 +99,7 @@ public class AccountController {
         Accounts account = accountService.editAccount(accountRequestDataModel);
         if (account != null) {
             logger.info("Account updated successfully");
-            return ResponseEntity.status(HttpStatus.OK).body(account);
+            return ResponseEntity.status(HttpStatus.OK).body("Account updated successfully\n" + account);
         } else {
             logger.error("Failed to update account");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -120,14 +112,17 @@ public class AccountController {
     public ResponseEntity<String> changeAccountId(@PathVariable Long oldId, @PathVariable Long newId) {
         logger.info("Executing changeAccountId");
 
-        if(accountService.editAccountId(oldId, newId)) {
-            logger.info("Account id changed successfully");
-            return ResponseEntity.status(HttpStatus.OK).body("Account id changed successfully");
-        }
-        else{
-            logger.error("Account not found");
-            logger.info("1234");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        if (newId != 0) {
+            if (accountService.editAccountId(oldId, newId)) {
+                logger.info("Account id changed successfully");
+                return ResponseEntity.status(HttpStatus.OK).body("Account id changed successfully");
+            } else {
+                logger.error("Account not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+            }
+        } else {
+            logger.error("Account id can't be equal 0");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account id can't be equal 0");
         }
     }
 }
