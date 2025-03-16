@@ -65,4 +65,8 @@ public class AccountRequestDataModel {
     public void setAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

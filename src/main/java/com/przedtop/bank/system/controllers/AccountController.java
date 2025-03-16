@@ -93,7 +93,7 @@ public class AccountController {
 
         if (accountRequestDataModel.getId() == null) {
             logger.error("Update account failed because id is null");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Update account failed because id is null");
         }
 
         Accounts account = accountService.editAccount(accountRequestDataModel);
@@ -103,26 +103,6 @@ public class AccountController {
         } else {
             logger.error("Failed to update account");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
-
-    @CrossOrigin(origins = "*")
-    @PatchMapping("/{oldId}/{newId}")
-    @Operation(summary = "Change account id")
-    public ResponseEntity<String> changeAccountId(@PathVariable Long oldId, @PathVariable Long newId) {
-        logger.info("Executing changeAccountId");
-
-        if (newId != 0) {
-            if (accountService.editAccountId(oldId, newId)) {
-                logger.info("Account id changed successfully");
-                return ResponseEntity.status(HttpStatus.OK).body("Account id changed successfully");
-            } else {
-                logger.error("Account not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
-            }
-        } else {
-            logger.error("Account id can't be equal 0");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account id can't be equal 0");
         }
     }
 }
