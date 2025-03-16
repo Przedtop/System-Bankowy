@@ -3,6 +3,8 @@ package com.przedtop.bank.system.services;
 import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
 import com.przedtop.bank.system.repozytories.UsersRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -12,18 +14,27 @@ public class UserService {
 
     private final UsersRepo repo;
 
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     public UserService(UsersRepo repo) {
         this.repo = repo;
     }
 
     public Users createUser(UserRequestDataModel userRequestDataModel) {
-        Users user = new Users();
-        user.setLastName(userRequestDataModel.getLastName());
-        user.setName(userRequestDataModel.getName());
-        user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
-        user.setPassword(userRequestDataModel.getPassword());
-        user.setLogin(userRequestDataModel.getLogin());
-        return repo.save(user);
+        if (userRequestDataModel.getIdentificationNumber() != 0) {
+            if(repo.findByIdentificationNumber(userRequestDataModel.getIdentificationNumber())!=null){
+                logger.error("User with this identification number already exists");
+                return null;
+            }
+            Users user = new Users();
+            user.setLastName(userRequestDataModel.getLastName());
+            user.setName(userRequestDataModel.getName());
+            user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
+            user.setPassword(userRequestDataModel.getPassword());
+            user.setLogin(userRequestDataModel.getLogin());
+            return repo.save(user);
+        }
+        return null;
     }
 
     public Users getUserById(Long id) {
@@ -37,10 +48,28 @@ public class UserService {
         return null;
     }
 
+    public Users getUserByIdentificationNumber(Long identificationNumber) {
+        if (identificationNumber != 0)
+            try {
+                if (repo.findByIdentificationNumber(identificationNumber)!=null)
+                    return repo.findByIdentificationNumber(identificationNumber);
+            } catch (NoSuchElementException e) {
+                logger.error("User not found");
+                return null;
+            }
+        return null;
+    }
+
     public boolean deleteUserById(Long id) {
         if (getUserById(id) != null) {
             repo.deleteById(id);
             return true;
+        } else return false;
+    }
+
+    public boolean deleteUserByIdentificationNumber(Long identificationNumber) {
+        if (getUserByIdentificationNumber(identificationNumber) != null) {
+            return deleteUserById(getUserByIdentificationNumber(identificationNumber).getId());
         } else return false;
     }
 

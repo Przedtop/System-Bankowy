@@ -28,7 +28,7 @@ public class AccountService {
 
         long newNumber;
         do {
-            newNumber = rand.nextLong(1000000000) + 100000000;
+            newNumber = rand.nextInt(1000000000) + 100000000;
         } while (getAccountByAccountNumber(newNumber) != null);
 
         return newNumber;
@@ -129,7 +129,7 @@ public class AccountService {
         } else return false;
     }
     public boolean deleteAccountByAccountNumber(Long accountNumber) {
-        if (accountNumber != null && getAccountByAccountNumber(accountNumber) != null) {
+        if (getAccountByAccountNumber(accountNumber) != null) {
             return deleteAccountByID(getAccountByAccountNumber(accountNumber).getId());
         } else return false;
     }

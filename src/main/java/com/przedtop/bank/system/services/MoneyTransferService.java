@@ -21,17 +21,13 @@ public class MoneyTransferService {
     }
 
     public boolean moneyTransfer(MoneyTransferRequestDataModel moneyTransferRequestDataModel) {
-        logger.trace("Starting money transfer");
-        logger.trace("DATA {}", accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()));
-        logger.trace("DATA {}", accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()));
         if (accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()) != null &&
                 accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()) != null) {
-            logger.trace("1st validation gate passed successfully");
             Accounts receiver = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber());
             Accounts sender = accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber());
-            logger.trace("Sender: {} \nReceiver: {}", sender, receiver);
             double senderBalance = accountService.getBalanceByAccountNumber(sender.getAccountNumber());
             double receiverBalance = accountService.getBalanceByAccountNumber(receiver.getAccountNumber());
+
             if (sender.getAccountNumber() != 0) {
                 if (moneyTransferRequestDataModel.getAmountToTransfer() > 0) {
                     if (senderBalance >= moneyTransferRequestDataModel.getAmountToTransfer()) {
@@ -43,7 +39,7 @@ public class MoneyTransferService {
 
                         return true;
                     } else {
-                        logger.warn("Insufficient ballance");
+                        logger.warn("Insufficient balance, cannot transfer");
                         return false;
                     }
 
@@ -51,10 +47,21 @@ public class MoneyTransferService {
                     logger.warn("Amount to transfer is below zero");
                     return false;
                 }
-            } else {
+            } else if(moneyTransferRequestDataModel.getAmountToTransfer() > 0) {
                     receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
                     repo.save(receiver);
+                    logger.info("Deposited successfully");
                     return true;
+            } else if(moneyTransferRequestDataModel.getAmountToTransfer() < 0){
+                if(0 <= receiverBalance+moneyTransferRequestDataModel.getAmountToTransfer()) {
+                    receiver.setBalance(receiverBalance + moneyTransferRequestDataModel.getAmountToTransfer());
+                    repo.save(receiver);
+                    logger.info("Withdrawn successfully");
+                    return true;
+                } else {
+                    logger.warn("Insufficient balance, cannot withdraw");
+                    return false;
+                }
             }
         }
         logger.trace("Transfer failed");

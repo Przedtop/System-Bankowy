@@ -15,7 +15,7 @@ public class UserRequestDataModel {
     @JsonAlias("idNo")
     @JsonProperty("identificationNumber")
     @NotNull(message = "Identification number is required.")
-    private int identificationNumber;
+    private Long identificationNumber;
     @NotNull(message = "Password is required.")
     @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
     private String password;
@@ -65,7 +65,7 @@ public class UserRequestDataModel {
         return lastName;
     }
 
-    public int getIdentificationNumber() {
+    public Long getIdentificationNumber() {
         return identificationNumber;
     }
 
@@ -81,7 +81,7 @@ public class UserRequestDataModel {
         this.password = password;
     }
 
-    public void setIdentificationNumber(int identificationNumber) {
+    public void setIdentificationNumber(Long identificationNumber) {
         this.identificationNumber = identificationNumber;
     }
 

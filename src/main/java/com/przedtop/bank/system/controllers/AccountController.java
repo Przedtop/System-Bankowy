@@ -25,7 +25,7 @@ public class AccountController {
 
     @CrossOrigin(origins = "*")
     @PostMapping
-    @Operation(summary = "Create account", description = "To generate random value leave it empty, to generate random account use {} i json body.")
+    @Operation(summary = "Create account", description = "To generate random value leave it empty")
     public ResponseEntity<String> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing createAccount");
         logger.debug("POST(/api/accounts) request data: {}", accountRequestDataModel);
@@ -46,11 +46,26 @@ public class AccountController {
         logger.info("Executing getAccount");
         logger.debug("GET(/api/accounts) request data: {}", accountService.getAccountById(id));
         if (accountService.getAccountById(id) != null) {
-            logger.info("Account found successfully");
+            logger.info("Account found successfully id: {}", id);
             return ResponseEntity.status(HttpStatus.OK).body("Account found successfully\n" + accountService.getAccountById(id));
         } else {
-            logger.error("Invalid request");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid request");
+            logger.error("Account not found id: {}", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/accountNumber/{accountNumber}")
+    @Operation(summary = "Get account by account number", description = "Returns an account by its account number")
+    public ResponseEntity<String> getAccountByAccountNumber(@PathVariable Long accountNumber) {
+        logger.info("Executing getAccountByAccountNumber");
+        logger.debug("GET(/api/accounts/accountNumber) request data: {}", accountService.getAccountByAccountNumber(accountNumber));
+        if (accountService.getAccountByAccountNumber(accountNumber) != null) {
+            logger.info("Account found successfully accountNumber: {}", accountNumber);
+            return ResponseEntity.status(HttpStatus.OK).body("Account found successfully\n" + accountService.getAccountByAccountNumber(accountNumber));
+        } else {
+            logger.error("Account not found accountNumber: {}", accountNumber);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
         }
     }
 
@@ -106,4 +121,3 @@ public class AccountController {
         }
     }
 }
-
