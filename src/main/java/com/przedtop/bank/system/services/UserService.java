@@ -21,6 +21,9 @@ public class UserService {
     }
 
     public Users createUser(UserRequestDataModel userRequestDataModel) {
+        if(userRequestDataModel==null) {
+            return null;
+        }
         if (userRequestDataModel.getIdentificationNumber() != 0) {
             if(repo.findByIdentificationNumber(userRequestDataModel.getIdentificationNumber())!=null){
                 logger.error("User with this identification number already exists");
@@ -38,7 +41,9 @@ public class UserService {
     }
 
     public Users getUserById(Long id) {
-        if (id != null)
+        if (id == null){
+            return null;
+        }
             try {
                 if (repo.findById(id).isPresent())
                     return repo.findById(id).get();
@@ -49,6 +54,9 @@ public class UserService {
     }
 
     public Users getUserByIdentificationNumber(Long identificationNumber) {
+        if(identificationNumber==null){
+            return null;
+        }
         if (identificationNumber != 0)
             try {
                 if (repo.findByIdentificationNumber(identificationNumber)!=null)
@@ -61,6 +69,9 @@ public class UserService {
     }
 
     public boolean deleteUserById(Long id) {
+        if(id==null){
+            return false;
+        }
         if (getUserById(id) != null) {
             repo.deleteById(id);
             return true;
@@ -68,6 +79,9 @@ public class UserService {
     }
 
     public boolean deleteUserByIdentificationNumber(Long identificationNumber) {
+        if(identificationNumber==null){
+            return false;
+        }
         if (getUserByIdentificationNumber(identificationNumber) != null) {
             return deleteUserById(getUserByIdentificationNumber(identificationNumber).getId());
         } else return false;

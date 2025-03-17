@@ -9,7 +9,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long Id;
+    private Long Id;
     @Column(name = "name")
     private String name;
     @Column(name = "last_name")
@@ -33,11 +33,14 @@ public class Users {
                 '}';
     }
 
-    public long getId() {
+    public Long getId() {
+        if(Id == null) {
+            return null;
+        }
         return Id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.Id = id;
     }
 
