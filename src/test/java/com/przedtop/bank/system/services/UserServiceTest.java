@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 @ActiveProfiles("test")
 @SpringBootTest
 class UserServiceTest {
@@ -18,6 +16,7 @@ class UserServiceTest {
     private UserService userService;
 
     private void createTestUser() {
+        deleteTestUsers();
         UserRequestDataModel userRequestDataModel = new UserRequestDataModel();
 
         userRequestDataModel.setLastName("Kowalski");
@@ -29,8 +28,9 @@ class UserServiceTest {
         userService.createUser(userRequestDataModel);
     }
 
-    private void deleteTestUser() {
-        userService.deleteUserByIdentificationNumber(100L);
+    private void deleteTestUsers() {
+        if (userService.getUserByIdentificationNumber(100L) != null) userService.deleteUserByIdentificationNumber(100L);
+        if (userService.getUserByIdentificationNumber(101L) != null) userService.deleteUserByIdentificationNumber(101L);
     }
 
     @Test
@@ -58,14 +58,14 @@ class UserServiceTest {
         userRequestDataModel.setLogin("login");
 
         Assertions.assertNull(userService.createUser(userRequestDataModel));
-        deleteTestUser();
+        deleteTestUsers();
     }
 
     @Test
     void getUserByIdentificationNumber_success() {
         createTestUser();
         Assertions.assertNotNull(userService.getUserByIdentificationNumber(100L));
-        deleteTestUser();
+        deleteTestUsers();
     }
 
     @Test
@@ -83,7 +83,7 @@ class UserServiceTest {
         createTestUser();
         Users user = userService.getUserByIdentificationNumber(100L);
         Assertions.assertNotNull(userService.getUserById(user.getId()));
-        deleteTestUser();
+        deleteTestUsers();
     }
 
     @Test
@@ -103,10 +103,12 @@ class UserServiceTest {
         Users user = userService.getUserByIdentificationNumber(100L);
         Assertions.assertTrue(userService.deleteUserById(user.getId()));
     }
+
     @Test
     void deleteUserById_userNotFound() {
         Assertions.assertFalse(userService.deleteUserById(100L));
     }
+
     @Test
     void deleteUserById_null() {
         Assertions.assertFalse(userService.deleteUserById(null));
@@ -117,17 +119,48 @@ class UserServiceTest {
         createTestUser();
         Assertions.assertTrue(userService.deleteUserByIdentificationNumber(100L));
     }
+
     @Test
     void deleteUserByIdentificationNumber_userNotFound() {
-            Users user = userService.getUserByIdentificationNumber(100L);
-            userService.deleteUserById(user.getId());
+        Assertions.assertFalse(userService.deleteUserByIdentificationNumber(100L));
     }
+
     @Test
     void deleteUserByIdentificationNumber_null() {
         Assertions.assertFalse(userService.deleteUserByIdentificationNumber(null));
     }
 
     @Test
-    void editUserById() {
+    void editUserById_success() {
+        createTestUser();
+        Users user = userService.getUserByIdentificationNumber(100L);
+        UserRequestDataModel userRequestDataModel = new UserRequestDataModel();
+        userRequestDataModel.setId(user.getId());
+        userRequestDataModel.setLastName("Kowalski");
+        userRequestDataModel.setName("Jan");
+        userRequestDataModel.setIdentificationNumber(101L);
+        userRequestDataModel.setPassword("password");
+        userRequestDataModel.setLogin("login");
+        Users user2 = userService.editUserById(userRequestDataModel);
+
+        Assertions.assertEquals(userService.getUserByIdentificationNumber(101L).getId(), user2.getId());
+        userService.deleteUserByIdentificationNumber(101L);
+    }
+
+    @Test
+    void editUserById_fail() {
+        createTestUser();
+        Users user = userService.getUserByIdentificationNumber(100L);
+        UserRequestDataModel userRequestDataModel = new UserRequestDataModel();
+
+        userRequestDataModel.setId(user.getId());
+        userRequestDataModel.setLastName(null);
+        userRequestDataModel.setName(null);
+        userRequestDataModel.setIdentificationNumber(null);
+        userRequestDataModel.setPassword(null);
+        userRequestDataModel.setLogin(null);
+
+        Assertions.assertThrows(NullPointerException.class, () -> userService.editUserById(userRequestDataModel));
+        userService.deleteUserByIdentificationNumber(100L);
     }
 }

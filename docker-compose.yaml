@@ -38,18 +38,18 @@ services:
 
 
   phpmyadmin:
-      image: phpmyadmin/phpmyadmin
-      container_name: phpmyadmin
-      restart: always
-      ports:
-        - "3307:80"
-      environment:
-        PMA_HOST: db
-        MYSQL_ROOT_PASSWORD: Asdzxc123!
-      depends_on:
-        - db
-      networks:
-        - mynetwork
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "3307:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: Asdzxc123!
+    depends_on:
+      - db
+    networks:
+      - mynetwork
 
 networks:
   mynetwork:

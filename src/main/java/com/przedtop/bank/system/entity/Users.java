@@ -34,7 +34,7 @@ public class Users {
     }
 
     public Long getId() {
-        if(Id == null) {
+        if (Id == null) {
             return null;
         }
         return Id;

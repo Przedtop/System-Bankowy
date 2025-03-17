@@ -21,11 +21,11 @@ public class UserService {
     }
 
     public Users createUser(UserRequestDataModel userRequestDataModel) {
-        if(userRequestDataModel==null) {
+        if (userRequestDataModel == null) {
             return null;
         }
         if (userRequestDataModel.getIdentificationNumber() != 0) {
-            if(repo.findByIdentificationNumber(userRequestDataModel.getIdentificationNumber())!=null){
+            if (repo.findByIdentificationNumber(userRequestDataModel.getIdentificationNumber()) != null) {
                 logger.error("User with this identification number already exists");
                 return null;
             }
@@ -41,25 +41,25 @@ public class UserService {
     }
 
     public Users getUserById(Long id) {
-        if (id == null){
+        if (id == null) {
             return null;
         }
-            try {
-                if (repo.findById(id).isPresent())
-                    return repo.findById(id).get();
-            } catch (NoSuchElementException e) {
-                return null;
-            }
+        try {
+            if (repo.findById(id).isPresent())
+                return repo.findById(id).get();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
         return null;
     }
 
     public Users getUserByIdentificationNumber(Long identificationNumber) {
-        if(identificationNumber==null){
+        if (identificationNumber == null) {
             return null;
         }
         if (identificationNumber != 0)
             try {
-                if (repo.findByIdentificationNumber(identificationNumber)!=null)
+                if (repo.findByIdentificationNumber(identificationNumber) != null)
                     return repo.findByIdentificationNumber(identificationNumber);
             } catch (NoSuchElementException e) {
                 logger.error("User not found");
@@ -69,7 +69,7 @@ public class UserService {
     }
 
     public boolean deleteUserById(Long id) {
-        if(id==null){
+        if (id == null) {
             return false;
         }
         if (getUserById(id) != null) {
@@ -79,12 +79,13 @@ public class UserService {
     }
 
     public boolean deleteUserByIdentificationNumber(Long identificationNumber) {
-        if(identificationNumber==null){
+        if (identificationNumber == null) {
             return false;
         }
         if (getUserByIdentificationNumber(identificationNumber) != null) {
             return deleteUserById(getUserByIdentificationNumber(identificationNumber).getId());
-        } else return false;
+        }
+        return false;
     }
 
     public Users editUserById(UserRequestDataModel userRequestDataModel) {
