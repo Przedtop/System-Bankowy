@@ -3,6 +3,8 @@ package com.przedtop.bank.system.services;
 import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
 import com.przedtop.bank.system.repozytories.UsersRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -12,60 +14,95 @@ public class UserService {
 
     private final UsersRepo repo;
 
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     public UserService(UsersRepo repo) {
         this.repo = repo;
     }
 
     public Users createUser(UserRequestDataModel userRequestDataModel) {
-        Users user = new Users();
-        if (userRequestDataModel.getLastName() != null && !userRequestDataModel.getLastName().isBlank())
+        if(userRequestDataModel==null) {
+            return null;
+        }
+        if (userRequestDataModel.getIdentificationNumber() != 0) {
+            if(repo.findByIdentificationNumber(userRequestDataModel.getIdentificationNumber())!=null){
+                logger.error("User with this identification number already exists");
+                return null;
+            }
+            Users user = new Users();
             user.setLastName(userRequestDataModel.getLastName());
-        else return null;
-        if (userRequestDataModel.getName() != null && !userRequestDataModel.getName().isBlank())
             user.setName(userRequestDataModel.getName());
-        else return null;
-        if (userRequestDataModel.getIdentificationNumber() != 0)
             user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
-        else return null;
-        if (userRequestDataModel.getPassword() != null && !userRequestDataModel.getPassword().isBlank())
             user.setPassword(userRequestDataModel.getPassword());
-        else return null;
-        if (userRequestDataModel.getLogin() != null && !userRequestDataModel.getLogin().isBlank())
             user.setLogin(userRequestDataModel.getLogin());
-        else return null;
-        return repo.save(user);
+            return repo.save(user);
+        }
+        return null;
     }
 
     public Users getUserById(Long id) {
-        if (id != null)
+        if (id == null){
+            return null;
+        }
             try {
-                return repo.findById(id).get();
+                if (repo.findById(id).isPresent())
+                    return repo.findById(id).get();
             } catch (NoSuchElementException e) {
                 return null;
             }
-        else
+        return null;
+    }
+
+    public Users getUserByIdentificationNumber(Long identificationNumber) {
+        if(identificationNumber==null){
             return null;
+        }
+        if (identificationNumber != 0)
+            try {
+                if (repo.findByIdentificationNumber(identificationNumber)!=null)
+                    return repo.findByIdentificationNumber(identificationNumber);
+            } catch (NoSuchElementException e) {
+                logger.error("User not found");
+                return null;
+            }
+        return null;
     }
 
     public boolean deleteUserById(Long id) {
+        if(id==null){
+            return false;
+        }
         if (getUserById(id) != null) {
             repo.deleteById(id);
             return true;
         } else return false;
     }
 
+    public boolean deleteUserByIdentificationNumber(Long identificationNumber) {
+        if(identificationNumber==null){
+            return false;
+        }
+        if (getUserByIdentificationNumber(identificationNumber) != null) {
+            return deleteUserById(getUserByIdentificationNumber(identificationNumber).getId());
+        } else return false;
+    }
+
     public Users editUserById(UserRequestDataModel userRequestDataModel) {
-        Users user = getUserById(userRequestDataModel.getId());
-        if (userRequestDataModel.getLastName() != null)
-            user.setLastName(userRequestDataModel.getLastName());
-        if (userRequestDataModel.getName() != null)
-            user.setName(userRequestDataModel.getName());
-        if (userRequestDataModel.getIdentificationNumber() != 0)
-            user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
-        if (userRequestDataModel.getPassword() != null)
-            user.setPassword(userRequestDataModel.getPassword());
-        if (userRequestDataModel.getLogin() != null)
-            user.setLogin(userRequestDataModel.getLogin());
-        return repo.save(user);
+        if (getUserById(userRequestDataModel.getId()) != null) {
+            Users user = getUserById(userRequestDataModel.getId());
+
+            if (userRequestDataModel.getLastName() != null)
+                user.setLastName(userRequestDataModel.getLastName());
+            if (userRequestDataModel.getName() != null)
+                user.setName(userRequestDataModel.getName());
+            if (userRequestDataModel.getIdentificationNumber() != 0)
+                user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
+            if (userRequestDataModel.getPassword() != null)
+                user.setPassword(userRequestDataModel.getPassword());
+            if (userRequestDataModel.getLogin() != null)
+                user.setLogin(userRequestDataModel.getLogin());
+            return repo.save(user);
+        }
+        return null;
     }
 }

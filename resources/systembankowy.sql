@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2025 at 06:45 PM
+-- Generation Time: Mar 13, 2025 at 04:17 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -40,16 +40,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `account_number`, `balance`, `create_date`, `user_id`) VALUES
-(2, 9341124, 2123, 'accountRequestDataModel.getData_zalozenia()', 5),
-(4, 1241, 8000, 'asfd', 7),
-(5, 1241, 8000, 'asfd', 7),
-(6, 100, 7500, 'asfd', 7),
-(7, 101, 8500, 'asfd', 7),
-(8, 681009124, 0, '1000:10:2025', 12),
-(10, 10, 400, '100-100', 14),
-(11, 10, 400, '100-100', 14),
-(12, 10, 400, '100-100', 14),
-(13, 10, 400, '100-100', 14);
+(0, 0, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -60,36 +51,11 @@ INSERT INTO `accounts` (`id`, `account_number`, `balance`, `create_date`, `user_
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `lastName` varchar(31) NOT NULL,
-  `identificationNumber` int(11) NOT NULL,
+  `last_name` varchar(31) NOT NULL,
+  `identification_number` int(11) NOT NULL,
   `login` varchar(24) NOT NULL,
   `password` varchar(24) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `lastName`, `identificationNumber`, `login`, `password`) VALUES
-(1, 'dasd', 'asd', 1234, 'skibi', 'Asss'),
-(3, 'Imie', 'Nazwis', 123124, 'Login', 'Haslo'),
-(4, 'Imie', 'Nazwis', 123124, 'Login', 'Haslo'),
-(5, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(6, 'dasd', 'asdasd', 123, 'asdasd', 'aaaaaaaaaa'),
-(7, 'asd', 'asdqa', 1190123, 'login', 'haslo'),
-(8, 'asd', 'asdqa', 1190123, 'login', 'haslo1'),
-(9, 'Jan', 'Kowalski', 0, 'janek', 'password123'),
-(10, 'Jan', 'Kowalski', 9090123, 'janek', 'password123'),
-(11, 'Jan', 'Kowalski', 9090123, 'janek', 'password123'),
-(12, 'Jan', 'Kowalski', 0, 'janek', 'password123'),
-(13, 'Jan', 'Kowalski', 0, 'janek', 'password123'),
-(14, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(15, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(16, 'Jan', 'Kowalski', 123444, 'janek', 'password123'),
-(17, 'Jan', 'Kowalski', 0, 'janek', 'mojehaslo'),
-(18, 'Jan', 'Kowalski', 99, 'janek', 'mojehaslo'),
-(19, 'skibid', 'asfd', 100000, 'logjmn', 'asdhaslo'),
-(20, 'lebisko', 'leb', 12351, 'asd', 'haselisko');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -99,7 +65,8 @@ INSERT INTO `users` (`id`, `name`, `lastName`, `identificationNumber`, `login`, 
 -- Indeksy dla tabeli `accounts`
 --
 ALTER TABLE `accounts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `account_number` (`account_number`);
 
 --
 -- Indeksy dla tabeli `users`
@@ -115,7 +82,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `users`

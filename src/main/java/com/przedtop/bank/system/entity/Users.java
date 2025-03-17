@@ -15,7 +15,7 @@ public class Users {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "identification_number")
-    private int identificationNumber;
+    private Long identificationNumber;
     @Column(name = "login")
     private String login;
     @Column(name = "password")
@@ -34,6 +34,9 @@ public class Users {
     }
 
     public Long getId() {
+        if(Id == null) {
+            return null;
+        }
         return Id;
     }
 
@@ -57,11 +60,11 @@ public class Users {
         this.login = login;
     }
 
-    public int getIdentificationNumber() {
+    public Long getIdentificationNumber() {
         return identificationNumber;
     }
 
-    public void setIdentificationNumber(int identificationNumber) {
+    public void setIdentificationNumber(Long identificationNumber) {
         this.identificationNumber = identificationNumber;
     }
 

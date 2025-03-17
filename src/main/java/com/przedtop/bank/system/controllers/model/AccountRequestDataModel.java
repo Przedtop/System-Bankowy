@@ -1,17 +1,22 @@
 package com.przedtop.bank.system.controllers.model;
 
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class AccountRequestDataModel {
 
-    private String id;
-    @JsonProperty("accNo")
+    private Long id;
+    @JsonAlias("accNo")
+    @JsonProperty("accountNumber")
     private Long accountNumber;
     private double balance;
-    @JsonProperty("cDate")
+    @JsonAlias("cDate")
+    @JsonProperty("createDate")
     private String createDate;
-    @JsonProperty("uid")
+    @JsonAlias("uid")
+    @JsonProperty("userId")
     private int userId;
 
     @Override
@@ -25,7 +30,7 @@ public class AccountRequestDataModel {
                 '}';
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -43,5 +48,25 @@ public class AccountRequestDataModel {
 
     public String getCreateDate() {
         return createDate;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -5,6 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AccountsRepo extends CrudRepository<Accounts, Long> {
     Accounts findByAccountNumber(long accountNumber);
-
-    void deleteByAccountNumber(long accountNumber);
 }
