@@ -16,22 +16,10 @@ public class MoneyTransferRequestDataModel {
     @JsonAlias({"value", "amount"})
     @JsonProperty("amountToTransfer")
     @NotNull(message = "Amount to transfer is required.")
-    private double amountToTransfer;
-
-    public void setSenderAccountNumber(Long senderAccountNumber) {
-        this.senderAccountNumber = senderAccountNumber;
-    }
-
-    public void setReceiverAccountNumber(Long receiverAccountNumber) {
-        this.receiverAccountNumber = receiverAccountNumber;
-    }
-
-    public void setAmountToTransfer(double amountToTransfer) {
-        this.amountToTransfer = amountToTransfer;
-    }
+    private Double amountToTransfer;
 
 
-    public String properUsage(){
+    public String properUsage() {
         char separator = '"';
         return "Proper usage: " +
                 "\n" + separator + "senderAccountNumber" + separator + ": value," +
@@ -52,7 +40,7 @@ public class MoneyTransferRequestDataModel {
         return senderAccountNumber;
     }
 
-    public double getAmountToTransfer() {
+    public Double getAmountToTransfer() {
         return amountToTransfer;
     }
 
@@ -60,5 +48,15 @@ public class MoneyTransferRequestDataModel {
         return receiverAccountNumber;
     }
 
+    public void setSenderAccountNumber(Long senderAccountNumber) {
+        this.senderAccountNumber = senderAccountNumber;
+    }
 
+    public void setReceiverAccountNumber(Long receiverAccountNumber) {
+        this.receiverAccountNumber = receiverAccountNumber;
+    }
+
+    public void setAmountToTransfer(double amountToTransfer) {
+        this.amountToTransfer = amountToTransfer;
+    }
 }

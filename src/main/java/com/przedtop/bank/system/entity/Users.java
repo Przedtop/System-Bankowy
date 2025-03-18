@@ -20,6 +20,8 @@ public class Users {
     private String login;
     @Column(name = "password")
     private String password;
+    @Column(name = "role")
+    private String role;
 
     @Override
     public String toString() {
@@ -30,6 +32,7 @@ public class Users {
                 ", pesel='" + identificationNumber + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 
@@ -38,6 +41,14 @@ public class Users {
             return null;
         }
         return Id;
+    }
+
+    public void getRole(String role) {
+        this.role = role;
+    }
+
+    public void setRole (String role) {
+        this.role = role;
     }
 
     public void setId(Long id) {

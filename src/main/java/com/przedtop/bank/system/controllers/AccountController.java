@@ -26,13 +26,13 @@ public class AccountController {
     @CrossOrigin(origins = "*")
     @PostMapping
     @Operation(summary = "Create account", description = "To generate random value leave it empty")
-    public ResponseEntity<String> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
+    public ResponseEntity<?> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing createAccount");
         logger.debug("POST(/api/accounts) request data: {}", accountRequestDataModel);
         Accounts account = accountService.createAccount(accountRequestDataModel);
         if (account != null) {
             logger.info("Account created successfully");
-            return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully\n" + account);
+            return ResponseEntity.status(HttpStatus.CREATED).body(account);
         } else {
             logger.error("Failed to create account");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create account");
@@ -42,12 +42,12 @@ public class AccountController {
     @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     @Operation(summary = "Get account by Id", description = "Returns an account by its Id")
-    public ResponseEntity<String> getAccount(@PathVariable Long id) {
+    public ResponseEntity<?> getAccount(@PathVariable Long id) {
         logger.info("Executing getAccount");
         logger.debug("GET(/api/accounts) request data: {}", accountService.getAccountById(id));
         if (accountService.getAccountById(id) != null) {
             logger.info("Account found successfully id: {}", id);
-            return ResponseEntity.status(HttpStatus.OK).body("Account found successfully\n" + accountService.getAccountById(id));
+            return ResponseEntity.status(HttpStatus.OK).body(accountService.getAccountById(id));
         } else {
             logger.error("Account not found id: {}", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
@@ -57,12 +57,12 @@ public class AccountController {
     @CrossOrigin(origins = "*")
     @GetMapping("/accountNumber/{accountNumber}")
     @Operation(summary = "Get account by account number", description = "Returns an account by its account number")
-    public ResponseEntity<String> getAccountByAccountNumber(@PathVariable Long accountNumber) {
+    public ResponseEntity<?> getAccountByAccountNumber(@PathVariable Long accountNumber) {
         logger.info("Executing getAccountByAccountNumber");
         logger.debug("GET(/api/accounts/accountNumber) request data: {}", accountService.getAccountByAccountNumber(accountNumber));
         if (accountService.getAccountByAccountNumber(accountNumber) != null) {
             logger.info("Account found successfully accountNumber: {}", accountNumber);
-            return ResponseEntity.status(HttpStatus.OK).body("Account found successfully\n" + accountService.getAccountByAccountNumber(accountNumber));
+            return ResponseEntity.status(HttpStatus.OK).body(accountService.getAccountByAccountNumber(accountNumber));
         } else {
             logger.error("Account not found accountNumber: {}", accountNumber);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
@@ -102,7 +102,7 @@ public class AccountController {
     @CrossOrigin(origins = "*")
     @PutMapping
     @Operation(summary = "Update account")
-    public ResponseEntity<String> updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
+    public ResponseEntity<?> updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing updateAccount");
         logger.debug("PUT(/api/account) request data: {}", accountRequestDataModel);
 
@@ -114,10 +114,10 @@ public class AccountController {
         Accounts account = accountService.editAccount(accountRequestDataModel);
         if (account != null) {
             logger.info("Account updated successfully");
-            return ResponseEntity.status(HttpStatus.OK).body("Account updated successfully\n" + account);
+            return ResponseEntity.status(HttpStatus.OK).body(account);
         } else {
             logger.error("Failed to update account");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to update account");
         }
     }
 }

@@ -63,8 +63,10 @@ public class MoneyTransferService {
                     return false;
                 }
             }
+        }else {
+            logger.warn("Account not found");
+            return false;
         }
-        logger.trace("Transfer failed");
         return false;
     }
 }

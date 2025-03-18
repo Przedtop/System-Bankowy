@@ -35,6 +35,7 @@ public class UserService {
             user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
             user.setPassword(userRequestDataModel.getPassword());
             user.setLogin(userRequestDataModel.getLogin());
+            user.setRole("USER");
             return repo.save(user);
         }
         return null;

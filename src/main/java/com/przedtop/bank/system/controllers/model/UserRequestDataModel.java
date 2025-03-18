@@ -3,6 +3,7 @@ package com.przedtop.bank.system.controllers.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 
 public class UserRequestDataModel {
@@ -22,6 +23,8 @@ public class UserRequestDataModel {
     @NotNull(message = "Login is required.")
     @Size(min = 3, max = 50, message = "Login must be between 3 and 50 characters")
     private String login;
+    @Null(message = "Role is assigned automatically.")
+    private String role;
 
     public String properUsage() {
         char separator = '"';
@@ -42,7 +45,16 @@ public class UserRequestDataModel {
                 ", identificationNumber='" + identificationNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", login='" + login + '\'' +
+                ", role='" + role + '\'' +
                 '}';
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Long getId() {

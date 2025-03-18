@@ -1,6 +1,7 @@
 package com.przedtop.bank.system.controllers;
 
 import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
+import com.przedtop.bank.system.services.AccountService;
 import com.przedtop.bank.system.services.MoneyTransferService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,9 +24,11 @@ public class MoneyTransferController {
     private final static Logger logger = LoggerFactory.getLogger(MoneyTransferController.class);
 
     private final MoneyTransferService moneyTransferService;
+    private final AccountService accountService;
 
-    public MoneyTransferController(MoneyTransferService moneyTransferService) {
+    public MoneyTransferController(MoneyTransferService moneyTransferService, AccountService accountService) {
         this.moneyTransferService = moneyTransferService;
+        this.accountService = accountService;
     }
 
     @PostMapping
@@ -44,6 +47,12 @@ public class MoneyTransferController {
         }
 
         logger.debug("POST(/api/transfer) request data: {}", moneyTransferRequestDataModel);
+
+        if (accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()) == null &&
+                accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()) == null) {
+            logger.error("Account not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        }
 
         if (moneyTransferService.moneyTransfer(moneyTransferRequestDataModel)) {
             logger.info("Money transferred successfully");
