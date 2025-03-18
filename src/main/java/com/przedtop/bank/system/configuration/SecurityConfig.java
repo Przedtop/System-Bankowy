@@ -12,11 +12,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // ✅ Wyłącz CSRF dla REST API
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/transfer").permitAll() // ✅ Każdy może wykonać przelew
-//                        .requestMatchers("/api/users/**").hasRole("ADMIN") // ✅ Tylko ADMIN ma dostęp do /api/users
-                        .anyRequest().permitAll() // ✅ Inne endpointy wymagają logowania
+//                        .requestMatchers("/api/transfer").permitAll()
+//                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

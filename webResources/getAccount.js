@@ -1,9 +1,14 @@
-document.getElementById('getAccountByIdForm').addEventListener('submit', function(event) {
+document.getElementById('getAccountByIdForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const accountId = document.getElementById('accountId').value;
 
-    // Send the GET request using Fetch API
+    if (!accountId) {
+        document.getElementById("response").style.display = 'block';
+        document.getElementById("response").innerText = 'Please enter an account ID';
+        return;
+    }
+
     fetch(`http://localhost:8080/api/accounts/${accountId}`, {
         method: 'GET',
     })
@@ -14,17 +19,53 @@ document.getElementById('getAccountByIdForm').addEventListener('submit', functio
                 displayAccountData(jsonData);
             } catch (error) {
                 console.error('Error parsing JSON:', error);
+                document.getElementById("response").style.display = 'block';
                 document.getElementById("response").innerText = data;
             }
         })
         .catch((error) => {
             console.error('Error:', error);
+            document.getElementById("response").style.display = 'block';
             document.getElementById("response").innerText = error;
         });
 });
 
+
+document.getElementById('getAccountByAccountNumberForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const accountNumber = document.getElementById('accountNumber').value;
+
+    if (!accountNumber) {
+        document.getElementById("response").style.display = 'block';
+        document.getElementById("response").innerText = 'Please enter an account number';
+        return;
+    }
+
+    fetch(`http://localhost:8080/api/accounts/accountNumber/${accountNumber}`, {
+        method: 'GET',
+    })
+        .then(response => response.text())
+        .then(data => {
+            try {
+                const jsonData = JSON.parse(data);
+                displayAccountData(jsonData);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                document.getElementById("response").style.display = 'block';
+                document.getElementById("response").innerText = data;
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            document.getElementById("response").style.display = 'block';
+            document.getElementById("response").innerText = error;
+        });
+});
+
+
 function displayAccountData(account) {
     const responseDiv = document.getElementById("response");
+    responseDiv.style.display = 'block';
     responseDiv.innerHTML = `
         <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
             <tr style="background-color: #444; color: #fff;">
@@ -43,5 +84,4 @@ function displayAccountData(account) {
             </tr>
         </table>
     `;
-    responseDiv.style.display = 'block';
 }

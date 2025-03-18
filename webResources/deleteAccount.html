@@ -2,12 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Money Transfer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Account</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,6 +25,16 @@
             text-align: center;
             height: 310px;
         }
+
+        .response {
+            width: 460px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
         .container2 {
             background: #333;
             padding: 20px;
@@ -39,7 +45,7 @@
             height: 310px;
         }
 
-        h2, h1, h4{
+        h2, h1, h4 {
             color: #a2a8a8;
             margin-bottom: 10px;
         }
@@ -103,34 +109,46 @@
                 <h1>Manage Accounts</h1>
 
                 <h2>Delete Account</h2>
-                <form id="moneyTransferForm">
-                    <label for="senderAccountNumber"></label>
-                    <input type="number" id="senderAccountNumber" name="senderAccountNumber" required
-                           placeholder="Sender Account Number:" title="Enter sender account number here">
-                    <label for="receiverAccountNumber"></label>
-
-                    <input type="number" id="receiverAccountNumber" name="receiverAccountNumber" required
-                           placeholder="Receiver Account Number:" title="Enter receiver account number here">
-                    <label for="amountToTransfer"></label>
-                    <input type="number" id="amountToTransfer" name="amountToTransfer" required
-                           placeholder="Amount to Transfer:" title="Enter amount to transfer here">
-                    <button type="submit">Transfer</button>
-                    <div id="response"></div>
+                <form id="deleteAccountByAccountNumberForm">
+                    <label for="accountNumber"></label>
+                    <input type="number" id="accountNumber" name="accountNumber"
+                           placeholder="Account number" title="Enter account number here">
+                    <button>Get</button>
+                </form>
+                <form id="deleteAccountByIdForm">
+                    <label for="accountId"></label>
+                    <input type="number" id="accountId" name="accountId"
+                           placeholder="Account id:" title="Enter account id here">
+                    <button>Get</button>
                 </form>
             </div>
         </td>
+
         <td>
             <div class="container2">
                 <h4>Other Actions</h4>
                 <br>
-                <a href="createAccount.html"><button>Create</button></a>
-                <a href="editAccount.html"><button>Edit</button></a>
-                <a href="deleteAccount.html"><button>Delete</button></a>
-                <a href="getAccount.html"><button>Get</button></a>
+                <a href="createAccount.html">
+                    <button>Create</button>
+                </a>
+                <a href="editAccount.html">
+                    <button>Edit</button>
+                </a>
+                <a href="deleteAccount.html">
+                    <button>Delete</button>
+                </a>
+                <a href="getAccount.html">
+                    <button>Get</button>
+                </a>
             </div>
         </td>
     </tr>
+    <tr>
+        <td colspan="4">
+            <div id="response" class="response"></div>
+        </td>
+    </tr>
 </table>
-<script src="transfer.js"></script>
+<script src="deleteAccount.js"></script>
 </body>
 </html>
