@@ -25,7 +25,7 @@ class MoneyTransferServiceTest {
             accountService.deleteAccountByAccountNumber(100L);
             accountRequestDataModel.setAccountNumber(100L);
         }
-        accountRequestDataModel.setBalance(1000);
+        accountRequestDataModel.setBalance(1000.0);
         accountService.createAccount(accountRequestDataModel);
 
 
@@ -36,7 +36,7 @@ class MoneyTransferServiceTest {
             accountService.deleteAccountByAccountNumber(101L);
             accountRequestDataModel2.setAccountNumber(101L);
         }
-        accountRequestDataModel2.setBalance(1000);
+        accountRequestDataModel2.setBalance(1000.0);
         accountService.createAccount(accountRequestDataModel2);
     }
 

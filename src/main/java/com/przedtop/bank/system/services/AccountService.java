@@ -28,7 +28,7 @@ public class AccountService {
 
         long newNumber;
         do {
-            newNumber = rand.nextInt(1000000000) + 100000000;
+            newNumber = rand.nextInt(1000000000) + 90000000;
         } while (getAccountByAccountNumber(newNumber) != null);
 
         return newNumber;
@@ -43,14 +43,13 @@ public class AccountService {
                     if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
                         account.setAccountNumber(accountRequestDataModel.getAccountNumber());
                     } else {
-                        logger.error("Account already exists");
-                        return null;
+                        throw new IllegalArgumentException("Account with this account number already exists");
                     }
                 }
             } else
                 account.setAccountNumber(accountNumberGenerator());
 
-            if (accountRequestDataModel.getAccountNumber() != null)
+            if (accountRequestDataModel.getBalance() != null)
                 account.setBalance(accountRequestDataModel.getBalance());
             else
                 account.setBalance(1000);
@@ -81,17 +80,30 @@ public class AccountService {
     public Accounts editAccount(AccountRequestDataModel accountRequestDataModel) {
         if (accountRequestDataModel.getId() != null) {
             if (getAccountById(accountRequestDataModel.getId()) != null) {
-                Accounts account = getAccountById(accountRequestDataModel.getId());
-                if (accountRequestDataModel.getAccountNumber() != null)
-                    account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+                if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
 
-                if (accountRequestDataModel.getBalance() != 0)
-                    account.setBalance(accountRequestDataModel.getBalance());
+                    if (getAccountById(accountRequestDataModel.getId()) != null) {
+                        Accounts account = getAccountById(accountRequestDataModel.getId());
 
-                if (accountRequestDataModel.getCreateDate() != null)
-                    account.setCreateDate(accountRequestDataModel.getCreateDate());
+                        if (accountRequestDataModel.getAccountNumber() != null)
+                            account.setAccountNumber(accountRequestDataModel.getAccountNumber());
 
-                return repo.save(account);
+                        if (accountRequestDataModel.getBalance() != null)
+                            account.setBalance(accountRequestDataModel.getBalance());
+
+                        if (accountRequestDataModel.getCreateDate() != null)
+                            account.setCreateDate(accountRequestDataModel.getCreateDate());
+
+                        if (accountRequestDataModel.getUserId() != 0)
+                            account.setUserId(accountRequestDataModel.getUserId());
+
+                        return repo.save(account);
+                    }
+                } else {
+                    throw new IllegalArgumentException("Account with this account number already exists");
+                }
+            } else {
+                throw new IllegalArgumentException("Account with this id does not exist");
             }
         }
         return null;
@@ -99,7 +111,7 @@ public class AccountService {
 
 
     public Accounts getAccountById(Long id) {
-        if (id != null)
+        if (id != null) {
             try {
                 if (repo.findById(id).isPresent())
                     return repo.findById(id).get();
@@ -107,14 +119,19 @@ public class AccountService {
                 logger.error(e.getMessage());
                 return null;
             }
+        } else {
+            throw new IllegalArgumentException("Id is null");
+        }
         return null;
     }
+
     public Accounts getAccountByAccountNumber(Long accountNumber) {
         if (accountNumber != null) {
             try {
                 if (repo.findByAccountNumber(accountNumber) != null)
                     return repo.findByAccountNumber(accountNumber);
             } catch (NoSuchElementException e) {
+                logger.error(e.getMessage());
                 return null;
             }
         }
@@ -128,6 +145,7 @@ public class AccountService {
             return true;
         } else return false;
     }
+
     public boolean deleteAccountByAccountNumber(Long accountNumber) {
         if (getAccountByAccountNumber(accountNumber) != null) {
             return deleteAccountByID(getAccountByAccountNumber(accountNumber).getId());
@@ -142,6 +160,7 @@ public class AccountService {
         }
         return 0;
     }
+
     public double getBalanceById(Long id) {
         if (id != null && getAccountById(id) != null) {
             Accounts account = getAccountById(id);

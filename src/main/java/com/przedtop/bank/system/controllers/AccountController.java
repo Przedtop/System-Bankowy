@@ -29,13 +29,18 @@ public class AccountController {
     public ResponseEntity<?> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
         logger.info("Executing createAccount");
         logger.debug("POST(/api/accounts) request data: {}", accountRequestDataModel);
-        Accounts account = accountService.createAccount(accountRequestDataModel);
-        if (account != null) {
-            logger.info("Account created successfully");
-            return ResponseEntity.status(HttpStatus.CREATED).body(account);
-        } else {
-            logger.error("Failed to create account");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create account");
+        try {
+            Accounts account = accountService.createAccount(accountRequestDataModel);
+            if (account != null) {
+                logger.info("Account created successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body(account);
+            } else {
+                logger.error("Failed to create account");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create account");
+            }
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -92,10 +97,10 @@ public class AccountController {
         logger.debug("DELETE(/api/account/accountNumber) request data: {}", accountService.getAccountByAccountNumber(accountNumber));
         if (accountService.deleteAccountByAccountNumber(accountNumber)) {
             logger.info("Deleted successfully!");
-            return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully");
         } else {
             logger.error("Delete failed!");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("delete failed");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Delete failed");
         }
     }
 
@@ -111,13 +116,18 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Update account failed because id is null");
         }
 
-        Accounts account = accountService.editAccount(accountRequestDataModel);
-        if (account != null) {
-            logger.info("Account updated successfully");
-            return ResponseEntity.status(HttpStatus.OK).body(account);
-        } else {
-            logger.error("Failed to update account");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to update account");
+        try {
+            Accounts account = accountService.editAccount(accountRequestDataModel);
+            if (account != null) {
+                logger.info("Account updated successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(account);
+            } else {
+                logger.error("Failed to update account");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to update account");
+            }
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

@@ -25,7 +25,7 @@ class AccountServiceTest {
             accountService.deleteAccountByAccountNumber(100L);
             accountRequestDataModel.setAccountNumber(100L);
         }
-        accountRequestDataModel.setBalance(1000);
+        accountRequestDataModel.setBalance(1000.0);
         accountService.createAccount(accountRequestDataModel);
     }
 
@@ -39,7 +39,7 @@ class AccountServiceTest {
         AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
 
         accountRequestDataModel.setAccountNumber(100L);
-        accountRequestDataModel.setBalance(1000);
+        accountRequestDataModel.setBalance(1000.0);
         accountRequestDataModel.setCreateDate(LocalDate.now().toString());
         accountRequestDataModel.setUserId(12);
 
@@ -103,9 +103,8 @@ class AccountServiceTest {
 
         accountRequestDataModel.setId(100L);
 
-        Accounts account = accountService.editAccount(accountRequestDataModel);
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.editAccount(accountRequestDataModel));
 
-        Assertions.assertNull(account);
     }
     @Test
     void editAccount_null() {
@@ -136,9 +135,7 @@ class AccountServiceTest {
     }
     @Test
     void getAccountById_null() {
-        Accounts account = accountService.getAccountById(null);
-
-        Assertions.assertNull(account);
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.getAccountById(null));
     }
 
 
@@ -184,7 +181,7 @@ class AccountServiceTest {
     }
     @Test
     void deleteAccountByID_null() {
-        Assertions.assertFalse(accountService.deleteAccountByID(null));
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.deleteAccountByID(null));
     }
 
 

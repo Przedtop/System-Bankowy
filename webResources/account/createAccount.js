@@ -1,16 +1,50 @@
-document.getElementById('getAccountByIdForm').addEventListener('submit', function (event) {
+document.getElementById('createAccountFrom').addEventListener('submit', function (event) {
     event.preventDefault();
 
-    const accountId = document.getElementById('accountId').value;
+    let accountNumber = document.getElementById('accountNumber').value;
+    let balance = document.getElementById('balance').value;
+    let userId = document.getElementById('userID').value;
+    let createDate = document.getElementById('date').value;
 
-    if (!accountId) {
-        document.getElementById("response").style.display = 'block';
-        document.getElementById("response").innerText = 'Please enter an account ID';
+    const responseDiv = document.getElementById("response");
+    if (accountNumber !== '' && (isNaN(accountNumber) || accountNumber < 0 || accountNumber > 1000000000)) {
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Please enter a valid account number';
         return;
     }
 
-    fetch(`http://localhost:8080/api/accounts/${accountId}`, {
-        method: 'GET',
+    if (balance !== '' && (isNaN(balance) || balance < 0)) {
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Please enter a valid balance';
+        return;
+    }
+
+    if (userId !== '' && (isNaN(userId) || userId < 0)) {
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Please enter a valid user ID';
+        return;
+    }
+
+    if (createDate !== '' && isNaN(Date.parse(createDate))) {
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Please enter a valid date';
+        return;
+    }
+
+    let transferData = {
+        accountNumber: accountNumber === '' ? null : Number(accountNumber),
+        balance: balance === '' ? null : Number(balance),
+        userId: userId === '' ? null : Number(userId),
+        createDate: createDate === '' ? null : createDate
+    };
+
+    document.getElementById("response").style.display = 'block';
+    fetch('http://localhost:8080/api/accounts', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(transferData)
     })
         .then(response => response.text())
         .then(data => {
@@ -18,50 +52,14 @@ document.getElementById('getAccountByIdForm').addEventListener('submit', functio
                 const jsonData = JSON.parse(data);
                 displayAccountData(jsonData);
             } catch (error) {
-                console.error('Error parsing JSON:', error);
-                document.getElementById("response").style.display = 'block';
                 document.getElementById("response").innerText = data;
             }
         })
         .catch((error) => {
             console.error('Error:', error);
-            document.getElementById("response").style.display = 'block';
             document.getElementById("response").innerText = error;
         });
 });
-
-
-document.getElementById('getAccountByAccountNumberForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const accountNumber = document.getElementById('accountNumber').value;
-
-    if (!accountNumber) {
-        document.getElementById("response").style.display = 'block';
-        document.getElementById("response").innerText = 'Please enter an account number';
-        return;
-    }
-
-    fetch(`http://localhost:8080/api/accounts/accountNumber/${accountNumber}`, {
-        method: 'GET',
-    })
-        .then(response => response.text())
-        .then(data => {
-            try {
-                const jsonData = JSON.parse(data);
-                displayAccountData(jsonData);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-                document.getElementById("response").style.display = 'block';
-                document.getElementById("response").innerText = data;
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            document.getElementById("response").style.display = 'block';
-            document.getElementById("response").innerText = error;
-        });
-});
-
 
 function displayAccountData(account) {
     const responseDiv = document.getElementById("response");

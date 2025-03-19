@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 13, 2025 at 04:17 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Host: db
+-- Generation Time: Mar 19, 2025 at 01:11 PM
+-- Wersja serwera: 9.2.0
+-- Wersja PHP: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `systembankowy`
+-- Baza danych: `bank_system`
 --
 
 -- --------------------------------------------------------
@@ -28,15 +28,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `accounts` (
-  `id` int(11) NOT NULL,
-  `account_number` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `account_number` int NOT NULL,
   `balance` double NOT NULL,
-  `create_date` text NOT NULL,
-  `user_id` int(11) NOT NULL
+  `create_date` text COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `accounts`
+-- Zrzut danych tabeli `accounts`
 --
 
 INSERT INTO `accounts` (`id`, `account_number`, `balance`, `create_date`, `user_id`) VALUES
@@ -49,13 +49,13 @@ INSERT INTO `accounts` (`id`, `account_number`, `balance`, `create_date`, `user_
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `last_name` varchar(31) NOT NULL,
-  `identification_number` int(11) NOT NULL,
-  `login` varchar(24) NOT NULL,
-  `password` varchar(24) NOT NULL,
-  `role` varchar(10) NOt NULL
+  `id` int NOT NULL,
+  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `last_name` varchar(31) COLLATE utf8mb4_general_ci NOT NULL,
+  `identification_number` int NOT NULL,
+  `login` varchar(24) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(24) COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -76,20 +76,20 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT dla zrzuconych tabel
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
+-- AUTO_INCREMENT dla tabeli `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=239;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
