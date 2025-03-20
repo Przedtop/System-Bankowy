@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
+import com.przedtop.bank.system.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

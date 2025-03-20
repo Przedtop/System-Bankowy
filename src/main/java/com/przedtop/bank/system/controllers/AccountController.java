@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.controllers;
 
-import com.przedtop.bank.system.controllers.model.AccountRequestDataModel;
+import com.przedtop.bank.system.model.AccountRequestDataModel;
 import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;

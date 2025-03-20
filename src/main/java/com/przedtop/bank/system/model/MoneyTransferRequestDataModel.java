@@ -1,4 +1,4 @@
-package com.przedtop.bank.system.controllers.model;
+package com.przedtop.bank.system.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,7 +1,7 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.controllers.model.AccountRequestDataModel;
-import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
+import com.przedtop.bank.system.model.AccountRequestDataModel;
+import com.przedtop.bank.system.model.MoneyTransferRequestDataModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

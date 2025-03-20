@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.2
--- https://www.phpmyadmin.net/
---
--- Host: db
--- Generation Time: Mar 19, 2025 at 01:11 PM
--- Wersja serwera: 9.2.0
--- Wersja PHP: 8.2.27
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -17,16 +8,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Baza danych: `bank_system`
---
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `accounts`
---
-
 CREATE TABLE `accounts` (
   `id` int NOT NULL,
   `account_number` int NOT NULL,
@@ -35,18 +16,14 @@ CREATE TABLE `accounts` (
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Zrzut danych tabeli `accounts`
---
 
-INSERT INTO `accounts` (`id`, `account_number`, `balance`, `create_date`, `user_id`) VALUES
-(0, 0, 0, '', 0);
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `users`
---
+CREATE TABLE `connections` (
+  `request_id` int NOT NULL,
+  `request_url` text NOT NULL,
+  `sender_ip` text NOT NULL,
+  `date` text NOT NULL,
+  `status` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
@@ -58,36 +35,22 @@ CREATE TABLE `users` (
   `role` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Indeksy dla zrzutów tabel
---
-
---
--- Indeksy dla tabeli `accounts`
---
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `account_number` (`account_number`);
 
---
--- Indeksy dla tabeli `users`
---
+ALTER TABLE `connections`
+  ADD PRIMARY KEY (`request_id`);
+
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
---
--- AUTO_INCREMENT dla zrzuconych tabel
---
-
---
--- AUTO_INCREMENT dla tabeli `accounts`
---
 ALTER TABLE `accounts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=239;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=433;
 
---
--- AUTO_INCREMENT dla tabeli `users`
---
+ALTER TABLE `connections`
+  MODIFY `request_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=408;
+
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;

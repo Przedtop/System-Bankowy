@@ -1,6 +1,8 @@
 document.getElementById('createAccountFrom').addEventListener('submit', function (event) {
     event.preventDefault();
 
+    console.log('Form submitted');
+
     let accountNumber = document.getElementById('accountNumber').value;
     let balance = document.getElementById('balance').value;
     let userId = document.getElementById('userID').value;

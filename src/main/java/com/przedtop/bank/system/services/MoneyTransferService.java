@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.controllers.model.MoneyTransferRequestDataModel;
+import com.przedtop.bank.system.model.MoneyTransferRequestDataModel;
 import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.repozytories.AccountsRepo;
 import org.slf4j.Logger;
@@ -70,4 +70,3 @@ public class MoneyTransferService {
         return false;
     }
 }
-

@@ -1,4 +1,4 @@
-package com.przedtop.bank.system.controllers.model;
+package com.przedtop.bank.system.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,23 +27,43 @@ public class AccountRequestDataModel {
                 '}';
     }
 
-    public Long getId() {return id;}
+    public Long getId() {
+        return id;
+    }
 
-    public Long getAccountNumber() {return accountNumber;}
+    public Long getAccountNumber() {
+        return accountNumber;
+    }
 
-    public Double getBalance() {return balance;}
+    public Double getBalance() {
+        return balance;
+    }
 
-    public int getUserId() {return userId;}
+    public int getUserId() {
+        return userId;
+    }
 
-    public String getCreateDate() {return createDate;}
+    public String getCreateDate() {
+        return createDate;
+    }
 
-    public void setUserId(int userId) {this.userId = userId;}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-    public void setCreateDate(String createDate) {this.createDate = createDate;}
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
 
-    public void setBalance(Double balance) {this.balance = balance;}
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
 
-    public void setAccountNumber(Long accountNumber) {this.accountNumber = accountNumber;}
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
-    public void setId(long id) {this.id = id;}
+    public void setId(long id) {
+        this.id = id;
+    }
 }

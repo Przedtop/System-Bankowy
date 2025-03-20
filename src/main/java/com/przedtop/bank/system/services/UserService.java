@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.controllers.model.UserRequestDataModel;
+import com.przedtop.bank.system.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
 import com.przedtop.bank.system.repozytories.UsersRepo;
 import org.slf4j.Logger;
