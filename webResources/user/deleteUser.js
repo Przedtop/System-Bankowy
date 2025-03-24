@@ -1,17 +1,16 @@
-document.getElementById('deleteAccountByIdForm').addEventListener('submit', function (event) {
+document.getElementById('deleteUserByIdForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
+    const userId = document.getElementById('userId').value;
 
-    const accountId = document.getElementById('accountId').value;
-
-    if (!accountId || isNaN(accountId) || accountId < 0 || accountId > 999999999999999999) {
+    if (!userId || isNaN(userId) || userId < 0 || userId > 999999999999999999) {
         document.getElementById("response").style.display = 'block';
         document.getElementById("response").innerText = 'Please enter a valid account ID';
         return;
     }
 
     document.getElementById("response").style.display = 'block';
-    fetch(`http://${window.location.hostname}:8080/api/accounts/${accountId}`, {
+    fetch(`http://localhost:8080/api/users/${userId}`, {
         method: 'DELETE',
     })
         .then(response => response.text())
@@ -25,19 +24,19 @@ document.getElementById('deleteAccountByIdForm').addEventListener('submit', func
 });
 
 
-document.getElementById('deleteAccountByAccountNumberForm').addEventListener('submit', function (event) {
+document.getElementById('deleteUserByIdentificationNumberForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
-    const accountNumber = document.getElementById('accountNumber').value;
+    const userIdentificationNumber = document.getElementById('userIdentificationNumber').value;
 
-    if (!accountNumber || isNaN(accountNumber) || accountNumber < 0 || accountNumber > 999999999999999999) {
+    if (!userIdentificationNumber || isNaN(userIdentificationNumber) || userIdentificationNumber < 0 || userIdentificationNumber > 999999999999999999) {
         document.getElementById("response").style.display = 'block';
         document.getElementById("response").innerText = 'Please enter a valid account number';
         return;
     }
 
     document.getElementById("response").style.display = 'block';
-    fetch(`http://${window.location.hostname}:8080/api/accounts/accountNumber/${accountNumber}`, {
+    fetch(`http://localhost:8080/api/users/idNumber/${userIdentificationNumber}`, {
         method: 'DELETE',
     })
         .then(response => response.text())

@@ -49,6 +49,18 @@ services:
     networks:
       - mynetwork
 
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    image: node-webserver
+    container_name: node-web
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+
 networks:
   mynetwork:
 

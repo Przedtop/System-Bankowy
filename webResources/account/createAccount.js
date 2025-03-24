@@ -1,8 +1,6 @@
 document.getElementById('createAccountFrom').addEventListener('submit', function (event) {
     event.preventDefault();
 
-    console.log('Form submitted');
-
     let accountNumber = document.getElementById('accountNumber').value;
     let balance = document.getElementById('balance').value;
     let userId = document.getElementById('userID').value;
@@ -41,7 +39,7 @@ document.getElementById('createAccountFrom').addEventListener('submit', function
     };
 
     document.getElementById("response").style.display = 'block';
-    fetch('http://localhost:8080/api/accounts', {
+    fetch(`http://${window.location.hostname}:8080/api/accounts`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #95bbd8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            height: 270px;
+        }
+
+        h1 {
+            color: #a2a8a8;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: block;
+            background-color: #a2a8a8;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        a:hover {
+            background-color: #c3c5c5;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <div class="container">
+                <h1>User Panel</h1>
+                <a href="user/createUser.html">Create User</a>
+                <a href="user/editUser.html">Edit User</a>
+                <a href="user/deleteUser.html">Delete User</a>
+                <a href="user/getUser.html">Get User</a>
+            </div>
+        </td>
+        <td>
+            <div class="container">
+                <h1>Transfer Panel</h1>
+                <a href="transfer/transfer.html">Create Transfer</a>
+            </div>
+        </td>
+        <td>
+            <div class="container">
+                <h1>Account Panel</h1>
+                <a href="account/createAccount.html">Create Account</a>
+                <a href="account/editAccount.html">Edit Account</a>
+                <a href="account/deleteAccount.html">Delete Account</a>
+                <a href="account/getAccount.html">Get Account</a>
+            </div>
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>

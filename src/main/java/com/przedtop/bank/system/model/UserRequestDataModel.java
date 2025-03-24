@@ -3,7 +3,6 @@ package com.przedtop.bank.system.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 
 public class UserRequestDataModel {
@@ -23,7 +22,7 @@ public class UserRequestDataModel {
     @NotNull(message = "Login is required.")
     @Size(min = 3, max = 50, message = "Login must be between 3 and 50 characters")
     private String login;
-    @Null(message = "Role is assigned automatically.")
+    @JsonProperty("role")
     private String role;
 
     public String properUsage() {
@@ -49,59 +48,59 @@ public class UserRequestDataModel {
                 '}';
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Long getIdentificationNumber() {
-        return identificationNumber;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setIdentificationNumber(Long identificationNumber) {
-        this.identificationNumber = identificationNumber;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getIdentificationNumber() {
+        return identificationNumber;
+    }
+
+    public void setIdentificationNumber(Long identificationNumber) {
+        this.identificationNumber = identificationNumber;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -27,7 +27,7 @@ public class UserService {
         if (userRequestDataModel.getIdentificationNumber() != 0) {
             if (repo.findByIdentificationNumber(userRequestDataModel.getIdentificationNumber()) != null) {
                 logger.error("User with this identification number already exists");
-                return null;
+                throw new IllegalArgumentException("User with this identification number already exists");
             }
             Users user = new Users();
             user.setLastName(userRequestDataModel.getLastName());

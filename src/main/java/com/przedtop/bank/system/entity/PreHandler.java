@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "connections")
-public class PreHandleWebInceptor {
+public class PreHandler {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

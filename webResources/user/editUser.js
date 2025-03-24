@@ -47,7 +47,7 @@ document.getElementById('editAccountForm').addEventListener('submit', function (
     };
 
     document.getElementById("response").style.display = 'block';
-    fetch(`http://${window.location.hostname}:8080/api/accounts`, {
+    fetch('http://localhost:8080/api/accounts', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

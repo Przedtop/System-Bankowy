@@ -9,7 +9,7 @@ document.getElementById('getAccountByIdForm').addEventListener('submit', functio
         return;
     }
 
-    fetch(`http://localhost:8080/api/accounts/${accountId}`, {
+    fetch(`http://${window.location.hostname}:8080/api/accounts/${accountId}`, {
         method: 'GET',
     })
         .then(response => response.text())
@@ -39,7 +39,7 @@ document.getElementById('getAccountByAccountNumberForm').addEventListener('submi
         return;
     }
 
-    fetch(`http://localhost:8080/api/accounts/accountNumber/${accountNumber}`, {
+    fetch(`http://${window.location.hostname}:8080/api/accounts/accountNumber/${accountNumber}`, {
         method: 'GET',
     })
         .then(response => response.text())

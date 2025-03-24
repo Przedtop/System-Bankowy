@@ -57,7 +57,8 @@ class UserServiceTest {
         userRequestDataModel.setPassword("password");
         userRequestDataModel.setLogin("login");
 
-        Assertions.assertNull(userService.createUser(userRequestDataModel));
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> userService.createUser(userRequestDataModel));
+
         deleteTestUsers();
     }
 

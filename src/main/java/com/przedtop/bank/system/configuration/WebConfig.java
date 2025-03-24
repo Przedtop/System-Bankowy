@@ -7,9 +7,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final PreHandleWebInceptorConfig preHandleWebInterceptorConfig;
+    private final PreHandlerConfig preHandleWebInterceptorConfig;
 
-    public WebConfig(PreHandleWebInceptorConfig preHandleWebInterceptorConfig) {
+    public WebConfig(PreHandlerConfig preHandleWebInterceptorConfig) {
         this.preHandleWebInterceptorConfig = preHandleWebInterceptorConfig;
     }
 
