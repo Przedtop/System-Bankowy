@@ -1,9 +1,0 @@
-FROM node:18-alpine
-
-WORKDIR /app
-
-COPY webResources/ ./webResources/
-
-EXPOSE 3000
-
-CMD ["node", "webResources/server.mjs"]

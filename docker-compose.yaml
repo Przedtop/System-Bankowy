@@ -1,10 +1,12 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    image: bank-system:latest
-    container_name: spring-app
+  spring-backend:
+    build:
+      context: ./Spring-Backend
+      dockerfile: Dockerfile
+    image: bank-system-backend:latest
+    container_name: spring-backend
     ports:
       - "8080:8080"
     depends_on:
@@ -16,7 +18,20 @@ services:
       SPRING_DEVTOOLS_RESTART_ENABLED: "true"
       SPRING_DEVTOOLS_LIVERELOAD_ENABLED: "true"
     networks:
-      - mynetwork
+      - network1
+
+  spring-frontend:
+      build:
+        context: ./Spring-Frontend
+        dockerfile: Dockerfile
+      image: bank-system-frontend:latest
+      container_name: spring-frontend
+      ports:
+        - "8081:8081"
+      networks:
+        - network1
+      depends_on:
+        - spring-backend
 
   db:
     image: mysql:latest
@@ -32,7 +47,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - mynetwork
+      - network1
 
 
   phpmyadmin:
@@ -47,22 +62,10 @@ services:
     depends_on:
       - db
     networks:
-      - mynetwork
-
-  webserver:
-    build:
-      context: .
-      dockerfile: Dockerfile.node
-    image: node-webserver
-    container_name: node-web
-    ports:
-      - "3000:3000"
-    networks:
-      - mynetwork
-
+      - network1
 
 networks:
-  mynetwork:
+  network1:
 
 volumes:
   mysql_data:

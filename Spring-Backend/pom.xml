@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.przedtop</groupId>
-    <artifactId>bank.system</artifactId>
+    <artifactId>backend</artifactId>
     <version>1.0</version>
     <name>Bank system 3.0</name>
     <description>Bank system 3.0</description>

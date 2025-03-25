@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.przedtop</groupId>
     <artifactId>frontend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>Spring-Frontend</name>
     <description>Spring-Frontend</description>
     <url/>

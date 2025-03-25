@@ -1,7 +1,7 @@
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
-COPY ./target/bank.system-1.0.jar /app/app.jar
+COPY target/backend-1.0.jar /app/app.jar
 
 EXPOSE 8080
 
