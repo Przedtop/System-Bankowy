@@ -1,16 +1,22 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.model.UserRequestDataModel;
 import com.przedtop.bank.system.entity.Users;
+import com.przedtop.bank.system.model.UserRequestDataModel;
 import com.przedtop.bank.system.repozytories.UsersRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UsersRepo repo;
 
@@ -18,6 +24,21 @@ public class UserService {
 
     public UserService(UsersRepo repo) {
         this.repo = repo;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Users user = repo.findByLogin(username);
+        if (user == null) throw new UsernameNotFoundException("User not found");
+        return new org.springframework.security.core.userdetails.User(
+                user.getLogin(),
+                user.getPassword(),
+                getAuthorities(user.getRole())
+        );
+    }
+
+    private Set<SimpleGrantedAuthority> getAuthorities(String role) {
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     public Users createUser(UserRequestDataModel userRequestDataModel) {
@@ -29,13 +50,20 @@ public class UserService {
                 logger.error("User with this identification number already exists");
                 throw new IllegalArgumentException("User with this identification number already exists");
             }
+            if(repo.findByLogin(userRequestDataModel.getLogin()) != null) {
+                logger.error("User with this login already exists");
+                throw new IllegalArgumentException("User with this login already exists");
+            }
             Users user = new Users();
             user.setLastName(userRequestDataModel.getLastName());
             user.setName(userRequestDataModel.getName());
             user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
             user.setPassword(userRequestDataModel.getPassword());
             user.setLogin(userRequestDataModel.getLogin());
-            user.setRole("USER");
+            if (userRequestDataModel.getRole() != null)
+                user.setRole(userRequestDataModel.getRole());
+            else
+                user.setRole("USER");
             return repo.save(user);
         }
         return null;
