@@ -1,4 +1,4 @@
-document.getElementById('login-form').addEventListener('submit', async function(event) {
+ document.getElementById('login-form').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const username = document.getElementById('username').value;
@@ -14,7 +14,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
     if (response.ok) {
         const data = await response.json();
         localStorage.setItem('token', data.token);
-        window.location.href = '/dashboard'; // Redirect to a protected page
+        window.location.href = '/'; // Redirect to a protected page
     } else {
         document.getElementById('error-message').textContent = await response.text();
     }
