@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
-public class MoneyTransferRequestDataModel {
+public class MoneyTransferDTO {
     @JsonAlias({"sender", "senderId", "from"})
     @JsonProperty("senderAccountNumber")
     @NotNull(message = "Sender account number is required.")

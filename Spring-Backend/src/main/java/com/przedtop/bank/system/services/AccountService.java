@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.model.AccountRequestDataModel;
+import com.przedtop.bank.system.model.AccountDTO;
 import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.repozytories.AccountsRepo;
 import org.slf4j.Logger;
@@ -34,14 +34,14 @@ public class AccountService {
         return newNumber;
     }
 
-    public Accounts createAccount(AccountRequestDataModel accountRequestDataModel) {
+    public Accounts createAccount(AccountDTO accountDTO) {
         try {
             Accounts account = new Accounts();
 
-            if (accountRequestDataModel.getAccountNumber() != null) {
-                if (accountRequestDataModel.getAccountNumber() != 0) {
-                    if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
-                        account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+            if (accountDTO.getAccountNumber() != null) {
+                if (accountDTO.getAccountNumber() != 0) {
+                    if (getAccountByAccountNumber(accountDTO.getAccountNumber()) == null) {
+                        account.setAccountNumber(accountDTO.getAccountNumber());
                     } else {
                         throw new IllegalArgumentException("Account with this account number already exists");
                     }
@@ -49,13 +49,13 @@ public class AccountService {
             } else
                 account.setAccountNumber(accountNumberGenerator());
 
-            if (accountRequestDataModel.getBalance() != null)
-                account.setBalance(accountRequestDataModel.getBalance());
+            if (accountDTO.getBalance() != null)
+                account.setBalance(accountDTO.getBalance());
             else
                 account.setBalance(1000);
 
-            if (accountRequestDataModel.getCreateDate() != null)
-                account.setCreateDate(accountRequestDataModel.getCreateDate());
+            if (accountDTO.getCreateDate() != null)
+                account.setCreateDate(accountDTO.getCreateDate());
             else {
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -63,8 +63,8 @@ public class AccountService {
                 account.setCreateDate(data);
             }
 
-            if (accountRequestDataModel.getUserId() != 0)
-                account.setUserId(accountRequestDataModel.getUserId());
+            if (accountDTO.getUserId() != 0)
+                account.setUserId(accountDTO.getUserId());
             else
                 account.setUserId(0);
 
@@ -77,25 +77,25 @@ public class AccountService {
     }
 
 
-    public Accounts editAccount(AccountRequestDataModel accountRequestDataModel) {
-        if (accountRequestDataModel.getId() != null) {
-            if (getAccountById(accountRequestDataModel.getId()) != null) {
-                if (getAccountByAccountNumber(accountRequestDataModel.getAccountNumber()) == null) {
+    public Accounts editAccount(AccountDTO accountDTO) {
+        if (accountDTO.getId() != null) {
+            if (getAccountById(accountDTO.getId()) != null) {
+                if (getAccountByAccountNumber(accountDTO.getAccountNumber()) == null) {
 
-                    if (getAccountById(accountRequestDataModel.getId()) != null) {
-                        Accounts account = getAccountById(accountRequestDataModel.getId());
+                    if (getAccountById(accountDTO.getId()) != null) {
+                        Accounts account = getAccountById(accountDTO.getId());
 
-                        if (accountRequestDataModel.getAccountNumber() != null)
-                            account.setAccountNumber(accountRequestDataModel.getAccountNumber());
+                        if (accountDTO.getAccountNumber() != null)
+                            account.setAccountNumber(accountDTO.getAccountNumber());
 
-                        if (accountRequestDataModel.getBalance() != null)
-                            account.setBalance(accountRequestDataModel.getBalance());
+                        if (accountDTO.getBalance() != null)
+                            account.setBalance(accountDTO.getBalance());
 
-                        if (accountRequestDataModel.getCreateDate() != null)
-                            account.setCreateDate(accountRequestDataModel.getCreateDate());
+                        if (accountDTO.getCreateDate() != null)
+                            account.setCreateDate(accountDTO.getCreateDate());
 
-                        if (accountRequestDataModel.getUserId() != 0)
-                            account.setUserId(accountRequestDataModel.getUserId());
+                        if (accountDTO.getUserId() != 0)
+                            account.setUserId(accountDTO.getUserId());
 
                         return repo.save(account);
                     }

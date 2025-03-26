@@ -9,22 +9,48 @@ document.getElementById('getAccountByIdForm').addEventListener('submit', functio
         return;
     }
 
+    function getTokenFromLocalStorage() {
+        return localStorage.getItem('token');
+    }
+
+    const token = getTokenFromLocalStorage();
+    if (!token) {
+        console.error("Token is missing or invalid");
+        document.getElementById("response").style.display = 'block';
+        document.getElementById("response").innerText = 'Login failed or expired';
+        return;
+    }
+
     fetch(`http://${window.location.hostname}:8080/api/accounts/${accountId}`, {
         method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
     })
-        .then(response => response.text())
+        .then(response => {
+            if (response.status === 401) {
+                throw new Error('Unauthorized');
+            }
+            return response.text();
+        })
         .then(data => {
             try {
                 const jsonData = JSON.parse(data);
                 displayAccountData(jsonData);
             } catch (error) {
-                document.getElementById("response").style.display = 'block';
                 document.getElementById("response").innerText = data;
             }
         })
         .catch((error) => {
-            document.getElementById("response").style.display = 'block';
-            document.getElementById("response").innerText = error;
+            console.error('Error:', error);
+            if (error.message === 'Failed to fetch') {
+                document.getElementById("response").innerText = 'Login failed or expired';
+                setTimeout(function() {
+                    window.location.href = '/login';
+                }, 1500);
+            } else {
+                document.getElementById("response").innerText = error;
+            }
         });
 });
 
@@ -39,22 +65,48 @@ document.getElementById('getAccountByAccountNumberForm').addEventListener('submi
         return;
     }
 
+    function getTokenFromLocalStorage() {
+        return localStorage.getItem('token');
+    }
+
+    const token = getTokenFromLocalStorage();
+    if (!token) {
+        console.error("Token is missing or invalid");
+        document.getElementById("response").style.display = 'block';
+        document.getElementById("response").innerText = 'Login failed or expired';
+        return;
+    }
+
     fetch(`http://${window.location.hostname}:8080/api/accounts/accountNumber/${accountNumber}`, {
         method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
     })
-        .then(response => response.text())
+        .then(response => {
+            if (response.status === 401) {
+                throw new Error('Unauthorized');
+            }
+            return response.text();
+        })
         .then(data => {
             try {
                 const jsonData = JSON.parse(data);
                 displayAccountData(jsonData);
             } catch (error) {
-                document.getElementById("response").style.display = 'block';
                 document.getElementById("response").innerText = data;
             }
         })
         .catch((error) => {
-            document.getElementById("response").style.display = 'block';
-            document.getElementById("response").innerText = error;
+            console.error('Error:', error);
+            if (error.message === 'Failed to fetch') {
+                document.getElementById("response").innerText = 'Login failed or expired';
+                setTimeout(function() {
+                    window.location.href = '/login';
+                }, 1500);
+            } else {
+                document.getElementById("response").innerText = error;
+            }
         });
 });
 

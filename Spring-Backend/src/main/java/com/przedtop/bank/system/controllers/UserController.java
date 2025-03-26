@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/api/users")
 @Tag(name = "User Controller", description = "Manage users in the system")
@@ -31,7 +30,6 @@ public class UserController {
     }
 
     @PostMapping
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Create user")
     public ResponseEntity<?> createUser(@RequestBody @Valid UserRequestDataModel userRequestDataModel, BindingResult bindingResult) {
         logger.info("Executing createUser");
@@ -61,7 +59,6 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Get user by Id", description = "Returns a user by their Id")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         logger.info("Executing getUserById");
@@ -77,7 +74,6 @@ public class UserController {
     }
 
     @GetMapping("/idNumber/{identificationNumber}")
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Get user by identification number", description = "Returns a user by their identification number")
     public ResponseEntity<?> getUserByIdentificationNumber(@PathVariable Long identificationNumber) {
         logger.info("Executing getUserByIdentificationNumber");
@@ -93,7 +89,6 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Delete user by Id")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
         logger.info("Executing deleteUserById");
@@ -108,7 +103,6 @@ public class UserController {
     }
 
     @DeleteMapping("/idNumber/{identificationNumber}")
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Delete user by identification number")
     public ResponseEntity<?> deleteUserByIdentificationNumber(@PathVariable Long identificationNumber) {
         logger.info("Executing deleteUserByIdentificationNumber");
@@ -123,7 +117,6 @@ public class UserController {
     }
 
     @PutMapping
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Update user")
     public ResponseEntity<?> updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
         logger.info("Executing updateUser");

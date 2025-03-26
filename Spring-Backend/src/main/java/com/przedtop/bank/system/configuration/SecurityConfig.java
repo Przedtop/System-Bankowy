@@ -1,5 +1,6 @@
 package com.przedtop.bank.system.configuration;
 
+import com.przedtop.bank.system.auth.AuthFailResponse;
 import com.przedtop.bank.system.auth.JwtRequestFilter;
 import com.przedtop.bank.system.auth.JwtTokenUtil;
 import com.przedtop.bank.system.services.UserService;
@@ -20,6 +21,7 @@ public class SecurityConfig {
 
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
+    private final AuthFailResponse accessDeniedHandler = new AuthFailResponse();
 
     public SecurityConfig(UserService userService, JwtTokenUtil jwtTokenUtil) {
         this.userService = userService;
@@ -34,8 +36,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/api/accounts/**").hasRole("ADMIN")
+                        .requestMatchers("/auth/logout").authenticated()
+                        .requestMatchers("/api/**").hasRole("ADMIN")
+                        .requestMatchers("/api/transactions").authenticated()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(handler -> handler
+                        .accessDeniedHandler(accessDeniedHandler)
+                        .authenticationEntryPoint(accessDeniedHandler)
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.controllers;
 
-import com.przedtop.bank.system.model.MoneyTransferRequestDataModel;
+import com.przedtop.bank.system.model.MoneyTransferDTO;
 import com.przedtop.bank.system.services.AccountService;
 import com.przedtop.bank.system.services.MoneyTransferService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,9 +32,8 @@ public class MoneyTransferController {
     }
 
     @PostMapping
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Transfer, withdraw, deposit money", description = "To deposit money set senderAccountNumber to 0, to withdraw money set amountToTransfer to negative value and senderAccountNumber to 0")
-    public ResponseEntity<String> transferMoney(@RequestBody @Valid MoneyTransferRequestDataModel moneyTransferRequestDataModel, BindingResult bindingResult) {
+    public ResponseEntity<String> transferMoney(@RequestBody @Valid MoneyTransferDTO moneyTransferDTO, BindingResult bindingResult) {
         logger.info("Executing transferMoney");
 
         if (bindingResult.hasErrors()) {
@@ -43,18 +42,18 @@ public class MoneyTransferController {
                     .collect(Collectors.joining(", "));
 
             logger.warn("Validation failed: {}", errorMessages);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation failed: " + errorMessages + "\n" + moneyTransferRequestDataModel.properUsage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation failed: " + errorMessages + "\n" + moneyTransferDTO.properUsage());
         }
 
-        logger.debug("POST(/api/transfer) request data: {}", moneyTransferRequestDataModel);
+        logger.debug("POST(/api/transfer) request data: {}", moneyTransferDTO);
 
-        if (accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getReceiverAccountNumber()) == null &&
-                accountService.getAccountByAccountNumber(moneyTransferRequestDataModel.getSenderAccountNumber()) == null) {
+        if (accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber()) == null &&
+                accountService.getAccountByAccountNumber(moneyTransferDTO.getSenderAccountNumber()) == null) {
             logger.error("Account not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
         }
 
-        if (moneyTransferService.moneyTransfer(moneyTransferRequestDataModel)) {
+        if (moneyTransferService.moneyTransfer(moneyTransferDTO)) {
             logger.info("Money transferred successfully");
             return ResponseEntity.status(HttpStatus.OK).body("Money transferred successfully");
         } else {

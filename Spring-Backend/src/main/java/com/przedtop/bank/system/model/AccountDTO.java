@@ -3,7 +3,7 @@ package com.przedtop.bank.system.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AccountRequestDataModel {
+public class AccountDTO {
     private Long id;
     @JsonAlias("accNo")
     @JsonProperty("accountNumber")

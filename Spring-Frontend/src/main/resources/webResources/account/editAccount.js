@@ -46,15 +46,33 @@ document.getElementById('editAccountForm').addEventListener('submit', function (
         createDate: createDate === '' ? null : createDate
     };
 
+    function getTokenFromLocalStorage() {
+        return localStorage.getItem('token');
+    }
+
+    const token = getTokenFromLocalStorage();
+    if (!token) {
+        console.error("Token is missing or invalid");
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Login failed or expired';
+        return;
+    }
+
     document.getElementById("response").style.display = 'block';
     fetch(`http://${window.location.hostname}:8080/api/accounts`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(transferData)
     })
-        .then(response => response.text())
+        .then(response => {
+            if (response.status === 401) {
+                throw new Error('Unauthorized');
+            }
+            return response.text();
+        })
         .then(data => {
             try {
                 const jsonData = JSON.parse(data);
@@ -65,7 +83,14 @@ document.getElementById('editAccountForm').addEventListener('submit', function (
         })
         .catch((error) => {
             console.error('Error:', error);
-            document.getElementById("response").innerText = error;
+            if (error.message === 'Failed to fetch') {
+                document.getElementById("response").innerText = 'Login failed or expired';
+                setTimeout(function() {
+                    window.location.href = '/login';
+                }, 1500);
+            } else {
+                document.getElementById("response").innerText = error;
+            }
         });
 });
 

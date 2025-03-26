@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.model.AccountRequestDataModel;
+import com.przedtop.bank.system.model.AccountDTO;
 import com.przedtop.bank.system.entity.Accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,15 +18,15 @@ class AccountServiceTest {
     private AccountService accountService;
 
     public void createTestAccount() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
         if (accountService.getAccountByAccountNumber(100L) == null)
-            accountRequestDataModel.setAccountNumber(100L);
+            accountDTO.setAccountNumber(100L);
         else {
             accountService.deleteAccountByAccountNumber(100L);
-            accountRequestDataModel.setAccountNumber(100L);
+            accountDTO.setAccountNumber(100L);
         }
-        accountRequestDataModel.setBalance(1000.0);
-        accountService.createAccount(accountRequestDataModel);
+        accountDTO.setBalance(1000.0);
+        accountService.createAccount(accountDTO);
     }
 
     public void deleteTestAccount() {
@@ -36,14 +36,14 @@ class AccountServiceTest {
     //create account
     @Test
     void createAccount_success() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
 
-        accountRequestDataModel.setAccountNumber(100L);
-        accountRequestDataModel.setBalance(1000.0);
-        accountRequestDataModel.setCreateDate(LocalDate.now().toString());
-        accountRequestDataModel.setUserId(12);
+        accountDTO.setAccountNumber(100L);
+        accountDTO.setBalance(1000.0);
+        accountDTO.setCreateDate(LocalDate.now().toString());
+        accountDTO.setUserId(12);
 
-        accountService.createAccount(accountRequestDataModel);
+        accountService.createAccount(accountDTO);
 
         Assertions.assertNotNull(accountService.getAccountByAccountNumber(100L));
 
@@ -51,9 +51,9 @@ class AccountServiceTest {
     }
     @Test
     void createAccount_automaticSuccess() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
 
-        Accounts account = accountService.createAccount(accountRequestDataModel);
+        Accounts account = accountService.createAccount(accountDTO);
 
         Assertions.assertNotNull(account);
 
@@ -61,14 +61,14 @@ class AccountServiceTest {
     }
     @Test
     void createAccount_accountRepeat() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
-        AccountRequestDataModel accountRequestDataModel2 = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
+        AccountDTO accountDTO2 = new AccountDTO();
 
-        accountRequestDataModel.setAccountNumber(100L);
-        accountRequestDataModel2.setAccountNumber(100L);
+        accountDTO.setAccountNumber(100L);
+        accountDTO2.setAccountNumber(100L);
 
-        Accounts account = accountService.createAccount(accountRequestDataModel);
-        Accounts account2 = accountService.createAccount(accountRequestDataModel2);
+        Accounts account = accountService.createAccount(accountDTO);
+        Accounts account2 = accountService.createAccount(accountDTO2);
 
 
         Assertions.assertNotNull(account);
@@ -81,17 +81,17 @@ class AccountServiceTest {
     //edit account
     @Test
     void editAccount_success() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
-        AccountRequestDataModel accountRequestDataModel2 = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
+        AccountDTO accountDTO2 = new AccountDTO();
 
-        accountRequestDataModel.setAccountNumber(100L);
-        accountRequestDataModel2.setAccountNumber(101L);
+        accountDTO.setAccountNumber(100L);
+        accountDTO2.setAccountNumber(101L);
 
-        Accounts account = accountService.createAccount(accountRequestDataModel);
+        Accounts account = accountService.createAccount(accountDTO);
 
-        accountRequestDataModel2.setId(account.getId());
+        accountDTO2.setId(account.getId());
 
-        Accounts account2 = accountService.editAccount(accountRequestDataModel2);
+        Accounts account2 = accountService.editAccount(accountDTO2);
 
         Assertions.assertNotNull(account2);
 
@@ -99,18 +99,18 @@ class AccountServiceTest {
     }
     @Test
     void editAccount_accountNotFound() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
 
-        accountRequestDataModel.setId(100L);
+        accountDTO.setId(100L);
 
-        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.editAccount(accountRequestDataModel));
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.editAccount(accountDTO));
 
     }
     @Test
     void editAccount_null() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
 
-        Accounts account = accountService.editAccount(accountRequestDataModel);
+        Accounts account = accountService.editAccount(accountDTO);
 
         Assertions.assertNull(account);
     }

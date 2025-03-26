@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class PreHandlerConfig implements HandlerInterceptor {
 
-    private static final int maxRequestsPerSecond = 1;
+    private static final int maxRequestsPerSecond = 5;
 
     private final PreHandlerRepo repo;
     private static final Logger logger = LoggerFactory.getLogger(PreHandlerConfig.class);

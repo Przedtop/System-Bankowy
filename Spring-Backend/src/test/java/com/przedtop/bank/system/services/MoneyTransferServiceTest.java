@@ -1,7 +1,7 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.model.AccountRequestDataModel;
-import com.przedtop.bank.system.model.MoneyTransferRequestDataModel;
+import com.przedtop.bank.system.model.AccountDTO;
+import com.przedtop.bank.system.model.MoneyTransferDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +18,26 @@ class MoneyTransferServiceTest {
     private AccountService accountService;
     
     public void createTestAccounts() {
-        AccountRequestDataModel accountRequestDataModel = new AccountRequestDataModel();
+        AccountDTO accountDTO = new AccountDTO();
         if (accountService.getAccountByAccountNumber(100L) == null)
-            accountRequestDataModel.setAccountNumber(100L);
+            accountDTO.setAccountNumber(100L);
         else {
             accountService.deleteAccountByAccountNumber(100L);
-            accountRequestDataModel.setAccountNumber(100L);
+            accountDTO.setAccountNumber(100L);
         }
-        accountRequestDataModel.setBalance(1000.0);
-        accountService.createAccount(accountRequestDataModel);
+        accountDTO.setBalance(1000.0);
+        accountService.createAccount(accountDTO);
 
 
-        AccountRequestDataModel accountRequestDataModel2 = new AccountRequestDataModel();
+        AccountDTO accountDTO2 = new AccountDTO();
         if (accountService.getAccountByAccountNumber(101L) == null)
-            accountRequestDataModel2.setAccountNumber(101L);
+            accountDTO2.setAccountNumber(101L);
         else {
             accountService.deleteAccountByAccountNumber(101L);
-            accountRequestDataModel2.setAccountNumber(101L);
+            accountDTO2.setAccountNumber(101L);
         }
-        accountRequestDataModel2.setBalance(1000.0);
-        accountService.createAccount(accountRequestDataModel2);
+        accountDTO2.setBalance(1000.0);
+        accountService.createAccount(accountDTO2);
     }
 
     public void deleteTestAccounts() {
@@ -49,7 +49,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_success() {
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(100.2);
         requestDataModel.setReceiverAccountNumber(100L);
         requestDataModel.setSenderAccountNumber(101L);
@@ -63,7 +63,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_SenderAccount_notExist() {
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(100.2);
         requestDataModel.setReceiverAccountNumber(100L);
         requestDataModel.setSenderAccountNumber(null);
@@ -77,7 +77,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_ReceiverAccount_notExist() {
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(100.2);
         requestDataModel.setReceiverAccountNumber(null);
         requestDataModel.setSenderAccountNumber(100L);
@@ -91,7 +91,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_InsufficientBalance() {
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(1000.2);
         requestDataModel.setReceiverAccountNumber(100L);
         requestDataModel.setSenderAccountNumber(101L);
@@ -105,7 +105,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_NullRequest() {
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(0);
         requestDataModel.setReceiverAccountNumber(null);
         requestDataModel.setSenderAccountNumber(null);
@@ -119,7 +119,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_AmountBelowZero() {
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(-20.3);
         requestDataModel.setReceiverAccountNumber(100L);
         requestDataModel.setSenderAccountNumber(101L);
@@ -133,7 +133,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_DepositSuccess() {
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(100.65);
         requestDataModel.setReceiverAccountNumber(100L);
         requestDataModel.setSenderAccountNumber(0L);
@@ -147,7 +147,7 @@ class MoneyTransferServiceTest {
     @Test
     public void transferMoney_WithdrawSuccess(){
         createTestAccounts();
-        MoneyTransferRequestDataModel requestDataModel = new MoneyTransferRequestDataModel();
+        MoneyTransferDTO requestDataModel = new MoneyTransferDTO();
         requestDataModel.setAmountToTransfer(-100.65);
         requestDataModel.setReceiverAccountNumber(100L);
         requestDataModel.setSenderAccountNumber(0L);

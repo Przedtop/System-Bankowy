@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.controllers;
 
-import com.przedtop.bank.system.model.AccountRequestDataModel;
+import com.przedtop.bank.system.model.AccountDTO;
 import com.przedtop.bank.system.entity.Accounts;
 import com.przedtop.bank.system.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,14 +23,13 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping
     @Operation(summary = "Create account", description = "To generate random value leave it empty")
-    public ResponseEntity<?> createAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
+    public ResponseEntity<?> createAccount(@RequestBody AccountDTO accountDTO) {
         logger.info("Executing createAccount");
-        logger.debug("POST(/api/accounts) request data: {}", accountRequestDataModel);
+        logger.debug("POST(/api/accounts) request data: {}", accountDTO);
         try {
-            Accounts account = accountService.createAccount(accountRequestDataModel);
+            Accounts account = accountService.createAccount(accountDTO);
             if (account != null) {
                 logger.info("Account created successfully");
                 return ResponseEntity.status(HttpStatus.CREATED).body(account);
@@ -44,7 +43,7 @@ public class AccountController {
         }
     }
 
-    @CrossOrigin(origins = "*")
+    
     @GetMapping("/{id}")
     @Operation(summary = "Get account by Id", description = "Returns an account by its Id")
     public ResponseEntity<?> getAccount(@PathVariable Long id) {
@@ -59,7 +58,7 @@ public class AccountController {
         }
     }
 
-    @CrossOrigin(origins = "*")
+    
     @GetMapping("/accountNumber/{accountNumber}")
     @Operation(summary = "Get account by account number", description = "Returns an account by its account number")
     public ResponseEntity<?> getAccountByAccountNumber(@PathVariable Long accountNumber) {
@@ -74,7 +73,7 @@ public class AccountController {
         }
     }
 
-    @CrossOrigin(origins = "*")
+    
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete account by Id")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
@@ -89,7 +88,7 @@ public class AccountController {
         }
     }
 
-    @CrossOrigin(origins = "*")
+    
     @DeleteMapping("/accountNumber/{accountNumber}")
     @Operation(summary = "Delete account by account number")
     public ResponseEntity<String> deleteAccountByAccountNumber(@PathVariable Long accountNumber) {
@@ -104,20 +103,20 @@ public class AccountController {
         }
     }
 
-    @CrossOrigin(origins = "*")
+    
     @PutMapping
     @Operation(summary = "Update account")
-    public ResponseEntity<?> updateAccount(@RequestBody AccountRequestDataModel accountRequestDataModel) {
+    public ResponseEntity<?> updateAccount(@RequestBody AccountDTO accountDTO) {
         logger.info("Executing updateAccount");
-        logger.debug("PUT(/api/account) request data: {}", accountRequestDataModel);
+        logger.debug("PUT(/api/account) request data: {}", accountDTO);
 
-        if (accountRequestDataModel.getId() == null) {
+        if (accountDTO.getId() == null) {
             logger.error("Update account failed because id is null");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Update account failed because id is null");
         }
 
         try {
-            Accounts account = accountService.editAccount(accountRequestDataModel);
+            Accounts account = accountService.editAccount(accountDTO);
             if (account != null) {
                 logger.info("Account updated successfully");
                 return ResponseEntity.status(HttpStatus.OK).body(account);
