@@ -1,4 +1,4 @@
-package com.przedtop.bank.system.configuration;
+package com.przedtop.bank.system.services.handlers;
 
 import com.przedtop.bank.system.entity.PreHandler;
 import com.przedtop.bank.system.repozytories.PreHandlerRepo;
@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class PreHandlerConfig implements HandlerInterceptor {
+public class RequestHandler implements HandlerInterceptor {
 
     private static final int maxRequestsPerSecond = 5;
 
     private final PreHandlerRepo repo;
-    private static final Logger logger = LoggerFactory.getLogger(PreHandlerConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
-    public PreHandlerConfig(PreHandlerRepo preHandlerRepo) {
+    public RequestHandler(PreHandlerRepo preHandlerRepo) {
         this.repo = preHandlerRepo;
     }
 

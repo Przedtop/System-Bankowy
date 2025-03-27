@@ -1,0 +1,35 @@
+.header {
+    width: 100%;
+    background-color: rgba(51, 51, 51, 0.34);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 35px;
+}
+
+.header .logo p {
+    font-size: 35px;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.header .logo a {
+    text-decoration: none;
+    color: #a2a8a8;
+}
+
+.header .logo a:hover {
+    color: #c3c5c5;
+}
+
+.header .logo img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    margin-top: 5px;
+}

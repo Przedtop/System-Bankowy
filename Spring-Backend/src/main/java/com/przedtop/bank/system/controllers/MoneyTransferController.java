@@ -12,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.stream.Collectors;
 
@@ -33,7 +36,7 @@ public class MoneyTransferController {
 
     @PostMapping
     @Operation(summary = "Transfer, withdraw, deposit money", description = "To deposit money set senderAccountNumber to 0, to withdraw money set amountToTransfer to negative value and senderAccountNumber to 0")
-    public ResponseEntity<String> transferMoney(@RequestBody @Valid MoneyTransferDTO moneyTransferDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> transferMoney(@RequestBody @Valid MoneyTransferDTO moneyTransferDTO, BindingResult bindingResult){
         logger.info("Executing transferMoney");
 
         if (bindingResult.hasErrors()) {
@@ -47,18 +50,15 @@ public class MoneyTransferController {
 
         logger.debug("POST(/api/transfer) request data: {}", moneyTransferDTO);
 
-        if (accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber()) == null &&
-                accountService.getAccountByAccountNumber(moneyTransferDTO.getSenderAccountNumber()) == null) {
-            logger.error("Account not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
-        }
-
-        if (moneyTransferService.moneyTransfer(moneyTransferDTO)) {
-            logger.info("Money transferred successfully");
-            return ResponseEntity.status(HttpStatus.OK).body("Money transferred successfully");
-        } else {
-            logger.error("Money transfer failed");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Money transfer failed");
+        try{
+            if(moneyTransferService.moneyTransfer(moneyTransferDTO)) {
+                return ResponseEntity.status(HttpStatus.OK).body("Money transfer successful");
+            } else{
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Money transfer failed");
+            }
+        }catch (IllegalArgumentException e){
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

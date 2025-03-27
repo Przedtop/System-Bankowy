@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Money Transfer</title>
+    <title>Deposit Money</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="/webResources/adminHeader.css">
+    <link rel="stylesheet" type="text/css" href="/webResources/adminHeader.css">]
+    <style>
+        .container, .container2{
+            height: 220px;
+        }
+        h4{
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        h2{
+            margin-top: 5px;
+        }
+        input{
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <header class="header">
@@ -19,16 +34,14 @@
         <tr>
             <td>
                 <div class="container">
-                    <h2>Transfer Money</h2>
+                    <h2>Deposit Money</h2>
                     <br>
-                    <form id="moneyTransferForm">
-                        <input type="number" id="senderAccountNumber" name="senderAccountNumber" required
-                               placeholder="Sender Account Number:" title="Enter sender account number here" step="1">
-                        <input type="number" id="receiverAccountNumber" name="receiverAccountNumber" required
-                               placeholder="Receiver Account Number:" title="Enter receiver account number here" step="1">
-                        <input type="number" id="amountToTransfer" name="amountToTransfer" required
-                               placeholder="Amount to Transfer:" title="Enter amount to transfer here" step="0.01">
-                        <button type="submit">Transfer</button>
+                    <form id="depositForm">
+                        <input type="number" id="accountNumber" name="accountNumber" required
+                               placeholder="Account Number:" title="Enter account number here" step="1">
+                        <input type="number" id="amountToDeposit" name="amountToDeposit" required
+                               placeholder="Amount to deposit:" title="Enter amount to deposit here" step="0.01">
+                        <button type="submit">Deposit</button>
                     </form>
                 </div>
             </td>
@@ -55,6 +68,6 @@
         </tr>
     </table>
 </main>
-<script src="transfer.js"></script>
+<script src="moneyOperations.js"></script>
 </body>
 </html>

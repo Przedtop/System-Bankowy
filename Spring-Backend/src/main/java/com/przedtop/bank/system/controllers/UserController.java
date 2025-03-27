@@ -1,6 +1,6 @@
 package com.przedtop.bank.system.controllers;
 
-import com.przedtop.bank.system.model.UserRequestDataModel;
+import com.przedtop.bank.system.model.UserDTO;
 import com.przedtop.bank.system.entity.Users;
 import com.przedtop.bank.system.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,9 +31,9 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "Create user")
-    public ResponseEntity<?> createUser(@RequestBody @Valid UserRequestDataModel userRequestDataModel, BindingResult bindingResult) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         logger.info("Executing createUser");
-        logger.debug("POST(/api/users) request data: {}", userRequestDataModel);
+        logger.debug("POST(/api/users) request data: {}", userDTO);
 
         if (bindingResult.hasErrors()) {
             String errorMessages = bindingResult.getAllErrors().stream()
@@ -41,10 +41,10 @@ public class UserController {
                     .collect(Collectors.joining(", "));
 
             logger.error("Validation failed: {}", errorMessages);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation failed: " + errorMessages + "\n" + userRequestDataModel.properUsage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation failed: " + errorMessages + "\n" + userDTO.properUsage());
         }
         try {
-            Users user = userService.createUser(userRequestDataModel);
+            Users user = userService.createUser(userDTO);
             if (user != null) {
                 logger.info("User created successfully");
                 return ResponseEntity.status(HttpStatus.CREATED).body(user);
@@ -118,15 +118,15 @@ public class UserController {
 
     @PutMapping
     @Operation(summary = "Update user")
-    public ResponseEntity<?> updateUser(@RequestBody UserRequestDataModel userRequestDataModel) {
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
         logger.info("Executing updateUser");
-        logger.debug("PUT(/api/users) request data: {}", userRequestDataModel);
-        if (userRequestDataModel.getId() == null) {
+        logger.debug("PUT(/api/users) request data: {}", userDTO);
+        if (userDTO.getId() == null) {
             logger.error("Update failed because id is null");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Update failed because id is null");
         }
 
-        Users user = userService.editUserById(userRequestDataModel);
+        Users user = userService.editUserById(userDTO);
         if (user != null) {
             logger.info("User updated successfully");
             return ResponseEntity.status(HttpStatus.OK).body(user);

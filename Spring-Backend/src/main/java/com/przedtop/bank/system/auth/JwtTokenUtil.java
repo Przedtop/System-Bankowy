@@ -1,15 +1,20 @@
 package com.przedtop.bank.system.auth;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtTokenUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
     private final String SECRET_KEY_STRING = "12345678901234567890123456789012";
     private final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());
@@ -39,14 +44,19 @@ public class JwtTokenUtil {
     }
 
     public boolean isTokenExpired(String token) {
-        Date expiration = Jwts
-                .parserBuilder()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration();
-
-        return expiration.before(new Date());
+        if(token == null) {
+            return true;
+        }
+        try {
+            Jwts
+                    .parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token);
+            return false;
+        } catch (ExpiredJwtException e) {
+            logger.info("Token expired");
+            return true;
+        }
     }
 }

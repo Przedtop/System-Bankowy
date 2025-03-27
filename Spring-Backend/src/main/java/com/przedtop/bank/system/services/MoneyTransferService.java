@@ -1,7 +1,7 @@
 package com.przedtop.bank.system.services;
 
-import com.przedtop.bank.system.model.MoneyTransferDTO;
 import com.przedtop.bank.system.entity.Accounts;
+import com.przedtop.bank.system.model.MoneyTransferDTO;
 import com.przedtop.bank.system.repozytories.AccountsRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,52 +21,47 @@ public class MoneyTransferService {
     }
 
     public boolean moneyTransfer(MoneyTransferDTO moneyTransferDTO) {
-        if (accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber()) != null &&
-                accountService.getAccountByAccountNumber(moneyTransferDTO.getSenderAccountNumber()) != null) {
-            Accounts receiver = accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber());
-            Accounts sender = accountService.getAccountByAccountNumber(moneyTransferDTO.getSenderAccountNumber());
-            double senderBalance = accountService.getBalanceByAccountNumber(sender.getAccountNumber());
-            double receiverBalance = accountService.getBalanceByAccountNumber(receiver.getAccountNumber());
+        if (moneyTransferDTO.getSenderAccountNumber() != 0) {
+            if (!moneyTransferDTO.getSenderAccountNumber().equals(moneyTransferDTO.getReceiverAccountNumber())) {
+                if (accountService.getAccountByAccountNumber(moneyTransferDTO.getSenderAccountNumber()) != null &&
+                        accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber()) != null) {
 
-            if (sender.getAccountNumber() != 0) {
-                if (moneyTransferDTO.getAmountToTransfer() > 0) {
-                    if (senderBalance >= moneyTransferDTO.getAmountToTransfer()) {
-                        receiver.setBalance(receiverBalance + moneyTransferDTO.getAmountToTransfer());
-                        sender.setBalance(senderBalance - moneyTransferDTO.getAmountToTransfer());
-
-                        repo.save(receiver);
-                        repo.save(sender);
-
-                        return true;
-                    } else {
-                        logger.warn("Insufficient balance, cannot transfer");
-                        return false;
+                    if(moneyTransferDTO.getAmountToTransfer() == 0) {
+                        throw new IllegalArgumentException("Amount to transfer can't be equal to 0");
                     }
 
+                    Accounts sender = accountService.getAccountByAccountNumber(moneyTransferDTO.getSenderAccountNumber());
+                    Accounts receiver = accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber());
+
+                    if (sender.getBalance() >= moneyTransferDTO.getAmountToTransfer()) {
+                        sender.setBalance(sender.getBalance() - moneyTransferDTO.getAmountToTransfer());
+                        receiver.setBalance(receiver.getBalance() + moneyTransferDTO.getAmountToTransfer());
+                        repo.save(sender);
+                        repo.save(receiver);
+                        return true;
+                    } else {
+                        throw new IllegalArgumentException("Not enough money on sender account");
+                    }
                 } else {
-                    logger.warn("Amount to transfer is below zero");
-                    return false;
+                    throw new IllegalArgumentException("Account not found");
                 }
-            } else if(moneyTransferDTO.getAmountToTransfer() > 0) {
-                    receiver.setBalance(receiverBalance + moneyTransferDTO.getAmountToTransfer());
-                    repo.save(receiver);
-                    logger.info("Deposited successfully");
-                    return true;
-            } else if(moneyTransferDTO.getAmountToTransfer() < 0){
-                if(0 <= receiverBalance+ moneyTransferDTO.getAmountToTransfer()) {
-                    receiver.setBalance(receiverBalance + moneyTransferDTO.getAmountToTransfer());
-                    repo.save(receiver);
-                    logger.info("Withdrawn successfully");
-                    return true;
-                } else {
-                    logger.warn("Insufficient balance, cannot withdraw");
-                    return false;
-                }
+            } else {
+                throw new IllegalArgumentException("You can't transfer money to yourself");
             }
-        }else {
-            logger.warn("Account not found");
-            return false;
+        } else {
+            if (moneyTransferDTO.getAmountToTransfer() > 0 || moneyTransferDTO.getAmountToTransfer() < 0) {
+                if (accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber()) != null) {
+                    Accounts receiver = accountService.getAccountByAccountNumber(moneyTransferDTO.getReceiverAccountNumber());
+
+                    receiver.setBalance(receiver.getBalance() + moneyTransferDTO.getAmountToTransfer());
+                    repo.save(receiver);
+                    return true;
+                } else {
+                    throw new IllegalArgumentException("Account not found");
+                }
+            } else{
+                throw new IllegalArgumentException("Amount can't be equal to 0");
+            }
         }
-        return false;
     }
 }

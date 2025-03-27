@@ -1,7 +1,7 @@
 package com.przedtop.bank.system.services;
 
 import com.przedtop.bank.system.entity.Users;
-import com.przedtop.bank.system.model.UserRequestDataModel;
+import com.przedtop.bank.system.model.UserDTO;
 import com.przedtop.bank.system.repozytories.UsersRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
@@ -41,27 +40,27 @@ public class UserService implements UserDetailsService {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
-    public Users createUser(UserRequestDataModel userRequestDataModel) {
-        if (userRequestDataModel == null) {
+    public Users createUser(UserDTO userDTO) {
+        if (userDTO == null) {
             return null;
         }
-        if (userRequestDataModel.getIdentificationNumber() != 0) {
-            if (repo.findByIdentificationNumber(userRequestDataModel.getIdentificationNumber()) != null) {
+        if (userDTO.getIdentificationNumber() != 0) {
+            if (repo.findByIdentificationNumber(userDTO.getIdentificationNumber()) != null) {
                 logger.error("User with this identification number already exists");
                 throw new IllegalArgumentException("User with this identification number already exists");
             }
-            if(repo.findByLogin(userRequestDataModel.getLogin()) != null) {
+            if (repo.findByLogin(userDTO.getLogin()) != null) {
                 logger.error("User with this login already exists");
                 throw new IllegalArgumentException("User with this login already exists");
             }
             Users user = new Users();
-            user.setLastName(userRequestDataModel.getLastName());
-            user.setName(userRequestDataModel.getName());
-            user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
-            user.setPassword(userRequestDataModel.getPassword());
-            user.setLogin(userRequestDataModel.getLogin());
-            if (userRequestDataModel.getRole() != null)
-                user.setRole(userRequestDataModel.getRole());
+            user.setLastName(userDTO.getLastName());
+            user.setName(userDTO.getName());
+            user.setIdentificationNumber(userDTO.getIdentificationNumber());
+            user.setPassword(userDTO.getPassword());
+            user.setLogin(userDTO.getLogin());
+            if (userDTO.getRole() != null)
+                user.setRole(userDTO.getRole());
             else
                 user.setRole("USER");
             return repo.save(user);
@@ -73,12 +72,8 @@ public class UserService implements UserDetailsService {
         if (id == null) {
             return null;
         }
-        try {
-            if (repo.findById(id).isPresent())
-                return repo.findById(id).get();
-        } catch (NoSuchElementException e) {
-            return null;
-        }
+        if (repo.findById(id).isPresent())
+            return repo.findById(id).get();
         return null;
     }
 
@@ -87,13 +82,8 @@ public class UserService implements UserDetailsService {
             return null;
         }
         if (identificationNumber != 0)
-            try {
-                if (repo.findByIdentificationNumber(identificationNumber) != null)
-                    return repo.findByIdentificationNumber(identificationNumber);
-            } catch (NoSuchElementException e) {
-                logger.error("User not found");
-                return null;
-            }
+            if (repo.findByIdentificationNumber(identificationNumber) != null)
+                return repo.findByIdentificationNumber(identificationNumber);
         return null;
     }
 
@@ -117,20 +107,25 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public Users editUserById(UserRequestDataModel userRequestDataModel) {
-        if (getUserById(userRequestDataModel.getId()) != null) {
-            Users user = getUserById(userRequestDataModel.getId());
+    public Users editUserById(UserDTO userDTO) {
+        if(userDTO == null) {
+            return null;
+        }
+        if (getUserById(userDTO.getId()) != null) {
+            Users user = getUserById(userDTO.getId());
 
-            if (userRequestDataModel.getLastName() != null)
-                user.setLastName(userRequestDataModel.getLastName());
-            if (userRequestDataModel.getName() != null)
-                user.setName(userRequestDataModel.getName());
-            if (userRequestDataModel.getIdentificationNumber() != 0)
-                user.setIdentificationNumber(userRequestDataModel.getIdentificationNumber());
-            if (userRequestDataModel.getPassword() != null)
-                user.setPassword(userRequestDataModel.getPassword());
-            if (userRequestDataModel.getLogin() != null)
-                user.setLogin(userRequestDataModel.getLogin());
+            if (userDTO.getLastName() != null)
+                user.setLastName(userDTO.getLastName());
+            if (userDTO.getName() != null)
+                user.setName(userDTO.getName());
+            if (userDTO.getIdentificationNumber() != 0)
+                user.setIdentificationNumber(userDTO.getIdentificationNumber());
+            if (userDTO.getPassword() != null)
+                user.setPassword(userDTO.getPassword());
+            if (userDTO.getLogin() != null)
+                user.setLogin(userDTO.getLogin());
+            if (userDTO.getRole() != null)
+                user.setRole(userDTO.getRole());
             return repo.save(user);
         }
         return null;

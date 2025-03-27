@@ -3,6 +3,7 @@ package com.przedtop.bank.system.controllers;
 import com.przedtop.bank.system.auth.JwtTokenUtil;
 import com.przedtop.bank.system.model.JwtResponse;
 import com.przedtop.bank.system.model.LoginRequestDTO;
+import com.przedtop.bank.system.model.TokenCheckDTO;
 import com.przedtop.bank.system.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,9 +52,9 @@ public class AuthController {
         return ResponseEntity.ok("Logged out");
     }
 
-    @GetMapping("/tokenCheck/{token}")
-    public ResponseEntity<?> tokenCheck(@PathVariable String token) {
-        if(jwtTokenUtil.isTokenExpired(token)){
+    @PostMapping("/tokenCheck")
+    public ResponseEntity<?> tokenCheck(@RequestBody TokenCheckDTO tokenCheckDTO) {
+        if(jwtTokenUtil.isTokenExpired(tokenCheckDTO.getToken())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expired");
         }
         return ResponseEntity.ok("Token is valid");

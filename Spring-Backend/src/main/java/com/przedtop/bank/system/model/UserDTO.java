@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class UserRequestDataModel {
+public class UserDTO {
 
     private Long id;
     @NotNull(message = "Last name is required.")

@@ -1,5 +1,6 @@
 package com.przedtop.bank.system.configuration;
 
+import com.przedtop.bank.system.services.handlers.RequestHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -8,9 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final PreHandlerConfig preHandleWebInterceptorConfig;
+    private final RequestHandler preHandleWebInterceptorConfig;
 
-    public WebConfig(PreHandlerConfig preHandleWebInterceptorConfig) {
+    public WebConfig(RequestHandler preHandleWebInterceptorConfig) {
         this.preHandleWebInterceptorConfig = preHandleWebInterceptorConfig;
     }
 
