@@ -3,160 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit User</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/webResources/adminHeader.css">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #222;
-            color: #95bbd8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
         .container {
-            background: #333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 350px;
-            text-align: center;
             height: 390px;
         }
-
-        .response {
-            width: 460px;
-            background-color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: none;
-        }
-
         .container2 {
-            background: #333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 65px;
-            text-align: center;
             height: 390px;
-        }
-
-        h2, h1, h6, h4 {
-            color: #a2a8a8;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            margin-top: 5px;
-        }
-
-        input {
-            width: 324px;
-            padding: 10px;
-            margin-top: 5px;
-            margin-left: 2px;
-            border: 1px solid #777;
-            border-radius: 5px;
-            display: block;
-            background: #555;
-            color: white;
-        }
-
-        button {
-            background-color: #a2a8a8;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 99%;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #c3c5c5;
-        }
-
-        #response {
-            margin-top: 15px;
-            color: white;
-            font-weight: bold;
-        }
-
-
-        input::placeholder {
-            color: #a2a8a8;
-        }
-
-        input[type="number"]::-webkit-inner-spin-button {
-            visibility: hidden;
         }
     </style>
-    <link rel="stylesheet" href="/adminFooter.css">
 </head>
 <body>
-<div class="footer">
+<header class="header">
     <div class="logo">
-        <p style="font-size: 25px; margin-left: 25px">
-            <a href="/adminDashboard.html">Dashboard</a>
-        </p>
+        <p><a href="/adminDashboard"><img src="/minilogo.png" alt="Logo">Dashboard</a></p>
     </div>
-</div>
-<table>
-    <tr>
-        <td>
-            <div class="container">
-                <h1>Manage Users</h1>
+</header>
+<main>
+    <table>
+        <tr>
+            <td>
+                <div class="container">
+                    <h1>Manage Users</h1>
 
-                <h2>Edit User</h2>
-                <form id="createUserFrom">
-                    <input type="number" id="id" name="id"
-                           placeholder="Id" title="Enter id here" required>
-                    <input type="text" id="firstName" name="firstName"
-                           placeholder="First name" title="Enter first name here">
-                    <input type="text" id="lastName" name="lastName"
-                           placeholder="Last name" title="Enter last name here">
-                    <input type="number" id="identificationNumber" name="identificationNumber"
-                           placeholder="Identification number" title="Enter identification number here">
-                    <input type="text" id="login" name="login"
-                           placeholder="Login" title="Enter login here">
-                    <input type="password" id="password" name="password"
-                           placeholder="Password" title="Enter password here">
-                    <button type="submit">Edit</button>
-                </form>
-            </div>
-        </td>
-
-        <td>
-            <div class="container2">
-                <h4>Other Actions</h4>
-                <br>
-                <a href="createUser.html">
-                    <button>Create</button>
-                </a>
-                <a href="editUser.html">
-                    <button>Edit</button>
-                </a>
-                <a href="deleteUser.html">
-                    <button>Delete</button>
-                </a>
-                <a href="getUser.html">
-                    <button>Get</button>
-                </a>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4">
-            <div id="response" class="response"></div>
-        </td>
-    </tr>
-</table>
+                    <h2>Edit User</h2>
+                    <form id="editUserForm">
+                        <input type="number" id="userId" name="userId"
+                               placeholder="User ID" title="Enter user ID here" required>
+                        <input type="text" id="firstName" name="firstName"
+                               placeholder="First name" title="Enter first name here" required>
+                        <input type="text" id="lastName" name="lastName"
+                               placeholder="Last name" title="Enter last name here" required>
+                        <input type="number" id="identificationNumber" name="identificationNumber"
+                               placeholder="Identification number" title="Enter identification number here" required>
+                        <input type="text" id="login" name="login"
+                               placeholder="Login" title="Enter login here" required>
+                        <input type="password" id="password" name="password"
+                               placeholder="Password" title="Enter password here" required>
+                        <button type="submit">Edit</button>
+                    </form>
+                </div>
+            </td>
+            <td>
+                <div class="container2">
+                    <h4>Other Actions</h4>
+                    <br>
+                    <a href="createUser.html">
+                        <button>Create</button>
+                    </a>
+                    <a href="editUser.html">
+                        <button>Edit</button>
+                    </a>
+                    <a href="deleteUser.html">
+                        <button>Delete</button>
+                    </a>
+                    <a href="getUser.html">
+                        <button>Get</button>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div id="response" class="response"></div>
+            </td>
+        </tr>
+    </table>
+</main>
 <script src="editUser.js"></script>
 </body>
 </html>

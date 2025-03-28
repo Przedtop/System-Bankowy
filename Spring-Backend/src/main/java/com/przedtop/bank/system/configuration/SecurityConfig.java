@@ -35,11 +35,12 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/logout").authenticated()
+                        .requestMatchers("/auth/tokenCheck").permitAll()
                         .requestMatchers("/api/**").hasRole("ADMIN")
-                        .requestMatchers("/api/transactions").authenticated()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/transfer").authenticated()
+                        .anyRequest().denyAll()
                 )
                 .exceptionHandling(handler -> handler
                         .accessDeniedHandler(accessDeniedHandler)

@@ -1,3 +1,5 @@
+import {serverConfig} from "../scripts/serverConfig.js";
+
 document.getElementById('getAccountByIdForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -9,19 +11,18 @@ document.getElementById('getAccountByIdForm').addEventListener('submit', functio
         return;
     }
 
-    function getTokenFromLocalStorage() {
-        return localStorage.getItem('token');
-    }
-
-    const token = getTokenFromLocalStorage();
+    const token = localStorage.getItem('token');
     if (!token) {
         console.error("Token is missing or invalid");
-        document.getElementById("response").style.display = 'block';
-        document.getElementById("response").innerText = 'Login failed or expired';
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Login failed or expired';
+        setTimeout(function() {
+            window.location.href = '/login';
+        }, 1500);
         return;
     }
 
-    fetch(`http://${window.location.hostname}:8080/api/accounts/${accountId}`, {
+    fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/api/accounts/${accountId}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -65,19 +66,18 @@ document.getElementById('getAccountByAccountNumberForm').addEventListener('submi
         return;
     }
 
-    function getTokenFromLocalStorage() {
-        return localStorage.getItem('token');
-    }
-
-    const token = getTokenFromLocalStorage();
+    const token = localStorage.getItem('token');
     if (!token) {
         console.error("Token is missing or invalid");
-        document.getElementById("response").style.display = 'block';
-        document.getElementById("response").innerText = 'Login failed or expired';
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Login failed or expired';
+        setTimeout(function() {
+            window.location.href = '/login';
+        }, 1500);
         return;
     }
 
-    fetch(`http://${window.location.hostname}:8080/api/accounts/accountNumber/${accountNumber}`, {
+    fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/api/accounts/accountNumber/${accountNumber}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,

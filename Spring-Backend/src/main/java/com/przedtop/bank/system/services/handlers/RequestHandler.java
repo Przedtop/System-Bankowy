@@ -64,7 +64,7 @@ public class RequestHandler implements HandlerInterceptor {
         return true;
     }
 
-    private String getClientIp(HttpServletRequest request) {
+    public String getClientIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
 
         if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {

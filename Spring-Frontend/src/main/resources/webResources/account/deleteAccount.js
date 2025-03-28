@@ -1,3 +1,5 @@
+import {serverConfig} from "../scripts/serverConfig.js";
+
 document.getElementById('deleteAccountByIdForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -9,20 +11,19 @@ document.getElementById('deleteAccountByIdForm').addEventListener('submit', func
         return;
     }
 
-    function getTokenFromLocalStorage() {
-        return localStorage.getItem('token');
-    }
-
-    const token = getTokenFromLocalStorage();
+    const token = localStorage.getItem('token');
     if (!token) {
         console.error("Token is missing or invalid");
-        document.getElementById("response").style.display = 'block';
-        document.getElementById("response").innerText = 'Login failed or expired';
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Login failed or expired';
+        setTimeout(function() {
+            window.location.href = '/login';
+        }, 1500);
         return;
     }
 
     document.getElementById("response").style.display = 'block';
-    fetch(`http://${window.location.hostname}:8080/api/accounts/${accountId}`, {
+    fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/api/accounts/${accountId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -59,20 +60,19 @@ document.getElementById('deleteAccountByAccountNumberForm').addEventListener('su
         return;
     }
 
-    function getTokenFromLocalStorage() {
-        return localStorage.getItem('token');
-    }
-
-    const token = getTokenFromLocalStorage();
+    const token = localStorage.getItem('token');
     if (!token) {
         console.error("Token is missing or invalid");
-        document.getElementById("response").style.display = 'block';
-        document.getElementById("response").innerText = 'Login failed or expired';
+        responseDiv.style.display = 'block';
+        responseDiv.innerText = 'Login failed or expired';
+        setTimeout(function() {
+            window.location.href = '/login';
+        }, 1500);
         return;
     }
 
     document.getElementById("response").style.display = 'block';
-    fetch(`http://${window.location.hostname}:8080/api/accounts/accountNumber/${accountNumber}`, {
+    fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/api/accounts/accountNumber/${accountNumber}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

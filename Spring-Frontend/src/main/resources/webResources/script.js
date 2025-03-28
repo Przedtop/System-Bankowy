@@ -1,10 +1,12 @@
+import {serverConfig} from "/scripts/serverConfig.js";
+
 const token = localStorage.getItem('token');
 
 const transferData = {
     token: token
 };
 
-fetch(`http://${window.location.hostname}:8080/auth/tokenCheck`, {
+fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/auth/tokenCheck`, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -28,7 +30,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch(`http://localhost:8080/auth/login`, {
+    const response = await fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/auth/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

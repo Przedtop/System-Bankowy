@@ -1,3 +1,7 @@
+import {authenticationCheck, serverConfig} from "../scripts/serverConfig.js";
+
+authenticationCheck();
+
 document.getElementById('createAccountFrom').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -38,20 +42,19 @@ document.getElementById('createAccountFrom').addEventListener('submit', function
         createDate: createDate === '' ? null : createDate
     };
 
-    function getTokenFromLocalStorage() {
-        return localStorage.getItem('token');
-    }
-
-    const token = getTokenFromLocalStorage();
+    const token = localStorage.getItem('token');
     if (!token) {
         console.error("Token is missing or invalid");
         responseDiv.style.display = 'block';
         responseDiv.innerText = 'Login failed or expired';
+        setTimeout(function() {
+            window.location.href = '/login';
+        }, 1500);
         return;
     }
 
     document.getElementById("response").style.display = 'block';
-    fetch(`http://${window.location.hostname}:8080/api/accounts`, {
+    fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/api/accounts`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

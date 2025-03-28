@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.exceptions.TemplateInputException;
 
 @Controller
@@ -18,12 +17,12 @@ public class DefaultViewController implements ErrorController {
     private final static Logger logger = LoggerFactory.getLogger(DefaultViewController.class);
 
     @GetMapping("/error")
-    public RedirectView handleError() {
+    public String handleError() {
         try {
-            return new RedirectView("/");
+            return "errorPage";
         } catch (TemplateInputException e) {
             logger.debug("Template not found: errorPage", e);
-            return new RedirectView("/");
+            return "errorPage";
         }
     }
 
@@ -40,7 +39,7 @@ public class DefaultViewController implements ErrorController {
 
     @GetMapping("/{page}")
     public String dynamicPage(@PathVariable String page) {
-        if (page.endsWith(".png") || page.endsWith(".jpg")) {
+        if (page.endsWith(".png") || page.endsWith(".jpg") || page.endsWith(".ico")) {
             return "forward:/static/" + page;
         }
         try {

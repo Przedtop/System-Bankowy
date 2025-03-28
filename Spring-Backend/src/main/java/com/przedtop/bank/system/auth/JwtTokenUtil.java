@@ -13,17 +13,18 @@ import java.util.Date;
 
 @Component
 public class JwtTokenUtil {
-
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
     private final String SECRET_KEY_STRING = "12345678901234567890123456789012";
     private final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());
 
     public String generateToken(UserDetails userDetails) {
+        //1000*seconds*minutes*hours
+        int expirationTime = 1000 * 60 * 60;
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 /* * 60 * 10*/))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }

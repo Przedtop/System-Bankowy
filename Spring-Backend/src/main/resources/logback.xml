@@ -10,7 +10,7 @@
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>Spring-Backend/logs/bankSystem %d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/logs/bankSystem %d{yyyy-MM-dd}.log</fileNamePattern>
 
             <maxHistory>7</maxHistory>
 

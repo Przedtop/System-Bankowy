@@ -5,4 +5,6 @@ COPY target/backend-1.0.jar /app/app.jar
 
 EXPOSE 8080
 
+ENV SPRING_PROFILES_ACTIVE=docker
+
 CMD ["java", "-jar", "/app/app.jar"]
