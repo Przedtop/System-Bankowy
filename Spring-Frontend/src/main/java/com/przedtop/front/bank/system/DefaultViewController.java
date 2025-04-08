@@ -1,4 +1,4 @@
-package com.przedtop.front.bank.system.controllers;
+package com.przedtop.front.bank.system;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class DefaultViewController implements ErrorController {
     }
 
     @GetMapping("/{page}")
-    public String dynamicPage(@PathVariable String page) {
+    public String dynamicPageStage1(@PathVariable String page) {
         if (page.endsWith(".png") || page.endsWith(".jpg") || page.endsWith(".ico")) {
             return "forward:/static/" + page;
         }

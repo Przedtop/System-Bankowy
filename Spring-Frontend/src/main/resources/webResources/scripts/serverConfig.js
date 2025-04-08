@@ -1,14 +1,14 @@
 export const serverConfig = {
-    serverAddress: '192.168.1.112',
+    serverAddress: '192.168.8.133',
     serverPort: 8080,
 };
 
 export function authenticationCheck() {
     let token = localStorage.getItem('token');
-    if(!token){
+    if (!token) {
         window.location.href = '/login';
     }
-    if(token){
+    if (token) {
         token = {token: token};
         fetch(`http://${serverConfig.serverAddress}:${serverConfig.serverPort}/auth/tokenCheck`, {
             method: 'POST',
